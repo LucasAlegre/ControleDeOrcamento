@@ -1,0 +1,4 @@
+Log de alterações do UML:
+
+1. Alteração no nome de algumas classes - Lucas
+2.
