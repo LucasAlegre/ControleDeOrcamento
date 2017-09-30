@@ -2,8 +2,6 @@ package negocios;
 
 public interface Gerenciador {
 	
-	public void execute();
-	
-	public void atualizaPlanoDeContas();
+	public void execute(String filename);
 
 }
