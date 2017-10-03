@@ -18,11 +18,11 @@ public class LeitorCSV {
 		file = new File(filename);
 	}
 
-	private LinkedHashMap<Integer, Rubrica> ler(){
+	private LinkedHashMap<Integer, Rubrica> lerPlanoBase(){
 	
 		LinkedHashMap<Integer, Rubrica> map = new LinkedHashMap<>();
 		
-		List<Rubrica> base= new ArrayList<>();
+		//Lista de pais para a estruturação da linhagem hierárquica
 		List<Rubrica> pais= new ArrayList<>();
 		Rubrica buf = null;
 		int pontoBuf = 0;
@@ -31,6 +31,7 @@ public class LeitorCSV {
 			while(scan.hasNext()) {
 				Rubrica rubrica;
 				
+				// INTERPRETAÇÃO DA LINHA
 				String line = scan.nextLine();
 				
 				int pos1 = line.indexOf(';');
@@ -41,25 +42,37 @@ public class LeitorCSV {
 				String nome = line.substring(pos1+1, pos2);
 				String cod = line.substring(pos2+1, pos3);
 				String total = line.substring(pos3+1);
+				//
 				
+				
+				//Caso a rúbrica for classificável
 				if(0 != pos1 && pos1 != pos2-1 && pos2 != pos3-1) {
-					//System.out.println(classe + "    " + nome + "    " + cod + "     " + total);
 					
+					//Instanciar o número de pontos de classificação da rúbrica,
+					//ou seja, verificar em que nível a rúbrica está
 					int pontos = classe.length() - classe.replace(".", "").length();
-						
+					
+					//Caso o número de pontos seja zero, ou seja, a rubrica lida não possui pai
+					//limpa-se os pais registrados e inicializa a rubrica com pai=null
 					if(pontos == 0) {
 						pais.clear();
 						rubrica = new Rubrica(null, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA);
-						base.add(rubrica);
+					
+					//Caso a rubrica esteja classificada ao mesmo nível de sua antecessora, 
+					//possui o mesmo pai que ela
 					}else if(pontos == pontoBuf) {
 						rubrica = new Rubrica(buf.getPai(), nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA);
 						buf.getPai().addSubRubrica(rubrica);
 						
+					//Caso a rubrica esteja em um nível mais profundo que a outra, adicionamos a rubrica
+					//anterior na lista de pais a adicionamos como pai da rubrica atual
 					}else if(pontos > pontoBuf){
 						pais.add(buf);
 						rubrica = new Rubrica(buf, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA);
 						buf.addSubRubrica(rubrica);
-						
+					
+					//Caso tenhamos voltado um nível, deletamos a diferença de níveis da rubrica atual e da anterior,
+					//assim como retomamos a posição da rubrica antes de intanciarmos ela
 					}else {
 						Rubrica pai = pais.get(pontos-1);
 						rubrica = new Rubrica(pai, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA);
@@ -68,10 +81,13 @@ public class LeitorCSV {
 							pais.remove(i);
 						}
 					}
-						buf = rubrica;
-						pontoBuf = pontos;
+					
+					//set final
+					buf = rubrica;
+					pontoBuf = pontos;
 						
-						map.put(Integer.valueOf(cod), rubrica);
+					//coloca no mapa
+					map.put(Integer.valueOf(cod), rubrica);
 				}
 			}
 			
@@ -82,19 +98,29 @@ public class LeitorCSV {
 		return map;
 	}
 	
-	public void printInfo(Rubrica r, int tab) {
+	public void printPlanoBase(LinkedHashMap<Integer, Rubrica> map) {
+		Rubrica rubrica;
+		for(Integer cod : map.keySet()) {
+			rubrica = map.get(cod);
+			if(rubrica.getPai().equals(null)) {
+				this.getPlanoBaseInfo(rubrica, 0);
+			}
+		}
+	}
+	
+	private void getPlanoBaseInfo(Rubrica r, int tab) {
 		for(Rubrica ru : r.getSubRubricas()) {
 			for(int i = 0; i<tab; i++) {
 				System.out.print("    ");
 			}
 			System.out.print(ru.toString() + '\n');
-			this.printInfo(ru, tab+1);
+			this.getPlanoBaseInfo(ru, tab+1);
 		}
 	}
 
 	public static void main(String[] args) {
-		LeitorCSV le = new LeitorCSV("PlanoBase.csv");
-		LinkedHashMap<Integer, Rubrica> ru = le.ler();
-		System.out.println(ru);
+		LeitorCSV ler = new LeitorCSV("PlanoBase.csv");
+		LinkedHashMap<Integer, Rubrica> map = ler.lerPlanoBase();
+		ler.printPlanoBase(map);
 	}
 }
