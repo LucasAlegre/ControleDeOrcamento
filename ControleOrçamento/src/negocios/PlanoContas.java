@@ -3,23 +3,23 @@ package negocios;
 import java.util.*;
 
 /**
- * 
- * 
- * @author lucas
+ *  Classe que representa um Plano de Contas de uma empresa.
  *
  */
 public class PlanoContas {
 	
-	private List<Rubrica> rubricas;
+	private Map<Integer, Rubrica> rubricas;
 	private Date dataCongelamento;
 	
 	public PlanoContas(){
-		rubricas = new ArrayList<Rubrica>();
-		
+		rubricas = new LinkedHashMap<Integer, Rubrica>();
 	}
 	
-	public void geraPrevisao() {
-		
+	public void setRubricas(Map<Integer, Rubrica> map) {
+		this.rubricas = map;
 	}
-
+	
+	public void setDataCongelamento(Date date) {
+		this.dataCongelamento = date;
+	}
 }

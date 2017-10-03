@@ -18,7 +18,7 @@ public class LeitorCSV {
 		file = new File(filename);
 	}
 
-	private LinkedHashMap<Integer, Rubrica> lerPlanoBase(){
+	public LinkedHashMap<Integer, Rubrica> lerPlanoBase(){
 	
 		LinkedHashMap<Integer, Rubrica> map = new LinkedHashMap<>();
 		
@@ -102,7 +102,7 @@ public class LeitorCSV {
 		Rubrica rubrica;
 		for(Integer cod : map.keySet()) {
 			rubrica = map.get(cod);
-			if(rubrica.getPai()==null) {
+			if(rubrica.getPai() == null) {
 				this.getPlanoBaseInfo(rubrica, 0);
 			}
 		}
@@ -110,7 +110,7 @@ public class LeitorCSV {
 	
 	private void getPlanoBaseInfo(Rubrica r, int tab) {
 		for(Rubrica ru : r.getSubRubricas()) {
-			for(int i = 0; i<tab; i++) {
+			for(int i = 0; i < tab; i++) {
 				System.out.print("    ");
 			}
 			System.out.print(ru.toString() + '\n');

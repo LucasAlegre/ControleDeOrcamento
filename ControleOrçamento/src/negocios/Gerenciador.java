@@ -2,6 +2,6 @@ package negocios;
 
 public interface Gerenciador {
 	
-	public void execute(String filename);
+	public void execute(String filename, PlanoContas planoContas);
 
 }
