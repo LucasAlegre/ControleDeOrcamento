@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import negocios.CategoriaRubrica;
 import negocios.Rubrica;
 
 public class LeitorCSV {
@@ -19,11 +20,13 @@ public class LeitorCSV {
 	private List<Rubrica> ler(){
 
 		List<Rubrica> base= new ArrayList<>();
-		Rubrica buff;
+		List<Rubrica> pais= new ArrayList<>();
+		Rubrica buf = null;
 		int pontoBuf = 0;
 		try {
 			Scanner scan = new Scanner(file);
 			while(scan.hasNext()) {
+				Rubrica rubrica;
 				
 				String line = scan.nextLine();
 				
@@ -37,11 +40,34 @@ public class LeitorCSV {
 				String total = line.substring(pos3+1);
 				
 				if(0 != pos1 && pos1 != pos2-1 && pos2 != pos3-1) {
-					System.out.println(classe + "    " + nome + "    " + cod + "     " + total);
+					//System.out.println(classe + "    " + nome + "    " + cod + "     " + total);
 					
 					int pontos = classe.length() - classe.replace(".", "").length();
-					
-					
+						
+					if(pontos == 0) {
+						pais.clear();
+						rubrica = new Rubrica(null, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA);
+						base.add(rubrica);
+					}else if(pontos == pontoBuf) {
+						rubrica = new Rubrica(buf.getPai(), nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA);
+						buf.getPai().addSubRubrica(rubrica);
+						
+					}else if(pontos > pontoBuf){
+						pais.add(buf);
+						rubrica = new Rubrica(buf, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA);
+						buf.addSubRubrica(rubrica);
+						
+					}else {
+						Rubrica pai = pais.get(pontos-1);
+						rubrica = new Rubrica(pai, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA);
+						pai.addSubRubrica(rubrica);
+						for(int i = pontos; i<pais.size();i++) {
+							pais.remove(i);
+						}
+					}
+						buf = rubrica;
+						pontoBuf = pontos;
+						
 				}
 			}
 			
@@ -52,8 +78,21 @@ public class LeitorCSV {
 		return base;
 	}
 	
+	public void printInfo(Rubrica r, int tab) {
+		for(Rubrica ru : r.getSubRubricas()) {
+			for(int i = 0; i<tab; i++) {
+				System.out.print("    ");
+			}
+			System.out.print(ru.toString() + '\n');
+			this.printInfo(ru, tab+1);
+		}
+	}
+
 	public static void main(String[] args) {
 		LeitorCSV le = new LeitorCSV("PlanoBase.csv");
 		List<Rubrica> ru = le.ler();
+		System.out.println(ru.get(0).getSubRubricas().size());
+		System.out.println(ru.get(0).toString());
+		le.printInfo(ru.get(0), 1);
 	}
 }
