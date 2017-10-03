@@ -102,7 +102,7 @@ public class LeitorCSV {
 		Rubrica rubrica;
 		for(Integer cod : map.keySet()) {
 			rubrica = map.get(cod);
-			if(rubrica.getPai().equals(null)) {
+			if(rubrica.getPai()==null) {
 				this.getPlanoBaseInfo(rubrica, 0);
 			}
 		}
