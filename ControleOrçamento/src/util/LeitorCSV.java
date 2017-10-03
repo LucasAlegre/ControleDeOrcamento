@@ -3,6 +3,7 @@ package util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,8 +18,10 @@ public class LeitorCSV {
 		file = new File(filename);
 	}
 
-	private List<Rubrica> ler(){
-
+	private LinkedHashMap<Integer, Rubrica> ler(){
+	
+		LinkedHashMap<Integer, Rubrica> map = new LinkedHashMap<>();
+		
 		List<Rubrica> base= new ArrayList<>();
 		List<Rubrica> pais= new ArrayList<>();
 		Rubrica buf = null;
@@ -68,6 +71,7 @@ public class LeitorCSV {
 						buf = rubrica;
 						pontoBuf = pontos;
 						
+						map.put(Integer.valueOf(cod), rubrica);
 				}
 			}
 			
@@ -75,7 +79,7 @@ public class LeitorCSV {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return base;
+		return map;
 	}
 	
 	public void printInfo(Rubrica r, int tab) {
@@ -90,9 +94,7 @@ public class LeitorCSV {
 
 	public static void main(String[] args) {
 		LeitorCSV le = new LeitorCSV("PlanoBase.csv");
-		List<Rubrica> ru = le.ler();
-		System.out.println(ru.get(0).getSubRubricas().size());
-		System.out.println(ru.get(0).toString());
-		le.printInfo(ru.get(0), 1);
+		LinkedHashMap<Integer, Rubrica> ru = le.ler();
+		System.out.println(ru);
 	}
 }

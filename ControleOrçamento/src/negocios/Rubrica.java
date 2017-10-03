@@ -25,5 +25,5 @@ public class Rubrica {
 	public Rubrica getPai() {return this.pai;}
 	public List<Rubrica> getSubRubricas(){return this.subRubricas;}
 	public void addSubRubrica(Rubrica subRubrica) {this.subRubricas.add(subRubrica);}
-	public String toString() {return this.nome + "  " +  String.valueOf(this.codigo);}
+	public String toString() {return this.nome + "  " +  String.valueOf(this.codigo) + '\n';}
 }
