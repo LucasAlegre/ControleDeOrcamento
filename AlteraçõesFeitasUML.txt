@@ -1,4 +1,4 @@
-Log de alterações do UML:
+Log de alterações a serem feitas no UML:
 
 1. Alteração no nome de algumas classes - Lucas
-2.
+2. Criação Gerenciador PlanoBase
