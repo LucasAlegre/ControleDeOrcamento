@@ -18,7 +18,7 @@ public class LeitorCSV {
 		file = new File(filename);
 	}
 
-	public LinkedHashMap<Integer, Rubrica> lerPlanoBase(){
+	public LinkedHashMap<Integer, Rubrica> lerOrcamentoInicial(){
 	
 		LinkedHashMap<Integer, Rubrica> map = new LinkedHashMap<>();
 		
@@ -116,30 +116,9 @@ public class LeitorCSV {
 		return map;
 	}
 	
-	public void printPlanoBase(LinkedHashMap<Integer, Rubrica> map) {
-		Rubrica rubrica;
-		for(Integer cod : map.keySet()) {
-			rubrica = map.get(cod);
-			if(rubrica.getPai() == null) {
-				System.out.println(rubrica.toString());
-				this.getPlanoBaseInfo(rubrica, 1);
-			}
-		}
-	}
 	
-	private void getPlanoBaseInfo(Rubrica r, int tab) {
-		for(Rubrica ru : r.getSubRubricas()) {
-			for(int i = 0; i < tab; i++) {
-				System.out.print("    ");
-			}
-			System.out.print(ru.toString() + '\n');
-			this.getPlanoBaseInfo(ru, tab+1);
-		}
-	}
-
 	public static void main(String[] args) {
 		LeitorCSV ler = new LeitorCSV("Modelo_Controle_Orcamentario_Completo.csv");
-		LinkedHashMap<Integer, Rubrica> map = ler.lerPlanoBase();
-		ler.printPlanoBase(map);
+		LinkedHashMap<Integer, Rubrica> map = ler.lerOrcamentoInicial();
 	}
 }

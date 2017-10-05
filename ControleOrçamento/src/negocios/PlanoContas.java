@@ -29,10 +29,33 @@ public class PlanoContas {
 		this.dataCongelamento = date;
 	}
 	
-	public void lePlanoBase(String filename) {
+	
+	public void setOrcamentoAnterior(String filename) {
 		
 		LeitorCSV ler = new LeitorCSV(filename);
-		LinkedHashMap<Integer, Rubrica> map = ler.lerPlanoBase();
+		LinkedHashMap<Integer, Rubrica> map = ler.lerOrcamentoInicial();
 		this.setRubricas(map);
+	}
+	
+	
+	public void printPlanoBase() {
+		Rubrica rubrica;
+		for(Integer cod : rubricas.keySet()) {
+			rubrica = rubricas.get(cod);
+			if(rubrica.getPai() == null) {
+				System.out.println(rubrica.toString());
+				this.getPlanoBaseInfo(rubrica, 1);
+			}
+		}
+	}
+	
+	private void getPlanoBaseInfo(Rubrica r, int tab) {
+		for(Rubrica ru : r.getSubRubricas()) {
+			for(int i = 0; i < tab; i++) {
+				System.out.print("    ");
+			}
+			System.out.print(ru.toString() + '\n');
+			this.getPlanoBaseInfo(ru, tab+1);
+		}
 	}
 }

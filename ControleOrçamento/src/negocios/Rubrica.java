@@ -39,12 +39,23 @@ public class Rubrica {
 	public void addSubRubrica(Rubrica subRubrica) {
 		this.subRubricas.add(subRubrica);
 	}
+	
+	public void setValorRealizado(int mes, double valor) {
+		this.valoresRealizados[mes] = valor;
+	}
+	
+	public void setValorPrevisto(int mes, double valor) {
+		this.valoresPrevistos[mes] = valor;
+	}
 
 	public String toString() {
 		String out = this.nome + "  " +  String.valueOf(this.codigo);
-		for(int i = 0; i<12; i++) {
-			out+="    " + String.valueOf(this.valoresAnoPassado[i]);
+		double total = 0;
+		for(int i = 0; i < 12; i++) {
+			//out+="    " + String.valueOf(this.valoresAnoPassado[i]);
+			total += this.valoresAnoPassado[i];
 		}
+		out += "  " + Double.toString(total);
 		return out + '\n';
 	}
 }

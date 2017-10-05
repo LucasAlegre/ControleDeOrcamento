@@ -15,5 +15,12 @@ public class GerenciadorAnaliseComparativa implements Gerenciador{
 	
 	public void execute(String filename, PlanoContas planoContas) {
 		
+		
 	}
+	
+	public void geraAnaliseComparativa(PlanoContas planoContas, int mesInicio, int mesFim) {
+		//TODO:
+	}
+	
+	
 }
