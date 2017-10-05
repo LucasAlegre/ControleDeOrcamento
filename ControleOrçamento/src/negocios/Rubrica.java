@@ -16,13 +16,13 @@ public class Rubrica {
 	private Double[] valoresRealizados;
 	private CategoriaRubrica categoria;
 	
-	public Rubrica(Rubrica pai, String nome, int codigo, CategoriaRubrica categoria) {
+	public Rubrica(Rubrica pai, String nome, int codigo, CategoriaRubrica categoria, Double[] valoresAnoPassado) {
 		this.pai = pai;
 		this.nome = nome;
 		this.codigo = codigo;
 		this.categoria = categoria;
 		this.subRubricas = new ArrayList<>();
-		this.valoresAnoPassado = new Double[12]; 
+		this.valoresAnoPassado = valoresAnoPassado; 
 		this.valoresPrevistos = new Double[12]; 
 		this.valoresRealizados = new Double[12]; 
 	}
@@ -41,6 +41,10 @@ public class Rubrica {
 	}
 
 	public String toString() {
-		return this.nome + "  " +  String.valueOf(this.codigo) + '\n';
+		String out = this.nome + "  " +  String.valueOf(this.codigo);
+		for(int i = 0; i<12; i++) {
+			out+="    " + String.valueOf(this.valoresAnoPassado[i]);
+		}
+		return out + '\n';
 	}
 }
