@@ -47,12 +47,18 @@ public class Rubrica {
 	public void setValorPrevisto(int mes, double valor) {
 		this.valoresPrevistos[mes] = valor;
 	}
+	public String getValorPrevisto(int mes, int codigo) {
+		String out = this.nome + "  " +  String.valueOf(this.codigo) +" "+this.valoresPrevistos[mes];
+		return out;
+	}
+	public double getvalorAnoPassado(int mes) {
+		return this.valoresAnoPassado[mes];
+	}
 
 	public String toString() {
 		String out = this.nome + "  " +  String.valueOf(this.codigo);
 		double total = 0;
 		for(int i = 0; i < 12; i++) {
-			//out+="    " + String.valueOf(this.valoresAnoPassado[i]);
 			total += this.valoresAnoPassado[i];
 		}
 		out += "  " + Double.toString(total);

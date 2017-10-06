@@ -1,5 +1,6 @@
 package negocios;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import util.LeitorCSV;
@@ -11,13 +12,13 @@ import util.LeitorCSV;
 public class PlanoContas {
 	
 	private Map<Integer, Rubrica> rubricas;
-	private Date dataCongelamento;
+	private LocalDate dataCongelamento;
 	
 	public PlanoContas(){
 		rubricas = new LinkedHashMap<Integer, Rubrica>();
 	}
 	
-	public void setRubricas(Map<Integer, Rubrica> map) {
+	private void setRubricas(Map<Integer, Rubrica> map) {
 		this.rubricas = map;
 	}
 	
@@ -25,11 +26,12 @@ public class PlanoContas {
 		return rubricas;
 	}
 	
-	public void setDataCongelamento(Date date) {
+	public void setDataCongelamento(LocalDate date) {
 		this.dataCongelamento = date;
 	}
-	
-	
+	public LocalDate getDataCongelamento() {
+		return this.dataCongelamento;
+	}
 	public void setOrcamentoAnterior(String filename) {
 		
 		LeitorCSV ler = new LeitorCSV(filename);
@@ -58,4 +60,5 @@ public class PlanoContas {
 			this.getPlanoBaseInfo(ru, tab+1);
 		}
 	}
+
 }
