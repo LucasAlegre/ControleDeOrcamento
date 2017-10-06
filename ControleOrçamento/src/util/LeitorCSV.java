@@ -12,24 +12,27 @@ import negocios.Rubrica;
 
 public class LeitorCSV {
 
-	private File file;
+	private String filename;
 	
 	public LeitorCSV(String filename) {
-		file = new File(filename);
+		this.filename = filename; 
 	}
 
 	public LinkedHashMap<Integer, Rubrica> lerOrcamentoInicial(){
 	
 		LinkedHashMap<Integer, Rubrica> map = new LinkedHashMap<>();
-		
+			
 		//Lista de pais para a estruturação da linhagem hierárquica
-		List<Rubrica> pais= new ArrayList<>();
+		List<Rubrica> pais = new ArrayList<>();
 		Rubrica buf = null;
 		int pontoBuf = 0;
 		try {
 			String[] valorPassadoMensal;
 			Double[] valoresPassadosMensal;
+			
+			File file = new File(this.filename);
 			Scanner scan = new Scanner(file);
+			
 			while(scan.hasNext()) {
 				Rubrica rubrica;
 				
@@ -43,9 +46,6 @@ public class LeitorCSV {
 				String classe = line.substring(0, pos1);
 				String cod = line.substring(pos1+1, pos2);
 				String nome = line.substring(pos2+1, pos3);
-				
-				//
-				
 				
 				//Caso a rúbrica for classificável
 				if(0 != pos1) {
@@ -107,7 +107,9 @@ public class LeitorCSV {
 					//coloca no mapa
 					map.put(Integer.valueOf(cod), rubrica);
 				}
+				
 			}
+			scan.close();
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

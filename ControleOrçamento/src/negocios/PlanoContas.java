@@ -18,7 +18,7 @@ public class PlanoContas {
 		rubricas = new LinkedHashMap<Integer, Rubrica>();
 	}
 	
-	private void setRubricas(Map<Integer, Rubrica> map) {
+	public void setRubricas(Map<Integer, Rubrica> map) {
 		this.rubricas = map;
 	}
 	
@@ -29,16 +29,11 @@ public class PlanoContas {
 	public void setDataCongelamento(LocalDate date) {
 		this.dataCongelamento = date;
 	}
+	
 	public LocalDate getDataCongelamento() {
 		return this.dataCongelamento;
 	}
-	public void setOrcamentoAnterior(String filename) {
-		
-		LeitorCSV ler = new LeitorCSV(filename);
-		LinkedHashMap<Integer, Rubrica> map = ler.lerOrcamentoInicial();
-		this.setRubricas(map);
-	}
-	
+
 	
 	public void printPlanoBase() {
 		Rubrica rubrica;

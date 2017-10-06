@@ -28,7 +28,7 @@ public class GerenciadorPrevisao implements Gerenciador {
 				}
 				break;
 				case 03:{
-					previsaoManterAnoAnteior(planoContas, codigo, planoContas.getRubricas().get(codigo).getvalorAnoPassado(mes), mes);
+					previsaoManterAnoAnterior(planoContas, codigo, planoContas.getRubricas().get(codigo).getvalorAnoPassado(mes), mes);
 				}
 				break;
 				default: {
@@ -40,6 +40,7 @@ public class GerenciadorPrevisao implements Gerenciador {
 			System.out.println("Data de congelamento atingida, desculpe, mas alterações nas previsões não podem mais ser feitas");
 		}
 	}
+	
 	private void previsaoPorcentagem(PlanoContas planoContas, int codigo, double valor, int mes) {
 		try {
 			planoContas.getRubricas().get(codigo).setValorPrevisto(mes, planoContas.getRubricas().get(codigo).getvalorAnoPassado(mes)*valor);
@@ -57,7 +58,7 @@ public class GerenciadorPrevisao implements Gerenciador {
 			 System.out.println("O código digitado não existe!");
 		}
 	}
-	private void previsaoManterAnoAnteior(PlanoContas planoContas, int codigo, double valor, int mes) {
+	private void previsaoManterAnoAnterior(PlanoContas planoContas, int codigo, double valor, int mes) {
 		try {
 			planoContas.getRubricas().get(codigo).setValorPrevisto(mes,valor);
 		}
@@ -71,13 +72,14 @@ public class GerenciadorPrevisao implements Gerenciador {
 
 		// Chamar o tipo de previsao pra cada rubrica
 	}
+	
 	public String toString(PlanoContas planoContas, int codigo, int mes) {
 		return planoContas.getRubricas().get(codigo).getValorPrevisto(mes, codigo) + " mes: " + mes;
 	}
 	
 	public void geraArquivoPrevisao(PlanoContas planoContas) {
-		GeradorCSV orcamentoMensal = new GeradorCSV(planoContas, "OrcamentoMensal");
-		orcamentoMensal.geraArquivoPrevisoes();
+		GeradorCSV orcamentoMensal = new GeradorCSV(planoContas);
+		orcamentoMensal.geraArquivoPrevisoes("Previsoes.xls");
 	}
 
 }

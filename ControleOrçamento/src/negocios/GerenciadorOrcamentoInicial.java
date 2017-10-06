@@ -13,18 +13,16 @@ public class GerenciadorOrcamentoInicial implements Gerenciador {
 	
 	public void execute(String filename, PlanoContas planoContas) {
 		
-		planoContas.setOrcamentoAnterior(filename);
+		
+		lerOrcamentoAnterior(planoContas, filename);
 
 	}
 	
-
-	public static void main(String[] args) {
+	private void lerOrcamentoAnterior(PlanoContas plano, String filename) {
 		
-		PlanoContas planoContas = new PlanoContas();
-		GerenciadorOrcamentoInicial g = new GerenciadorOrcamentoInicial();
-		g.execute("Modelo_Controle_Orcamentario_Completo.csv", planoContas);
-		
-		planoContas.printPlanoBase();
+		LeitorCSV ler = new LeitorCSV(filename);
+		LinkedHashMap<Integer, Rubrica> map = ler.lerOrcamentoInicial();
+		plano.setRubricas(map);
 	}
 	
 }
