@@ -7,6 +7,7 @@ import negocios.GerenciadorOrcamentoInicial;
 import negocios.GerenciadorPrevisao;
 import negocios.GerenciadorRealizadoMensal;
 import negocios.PlanoContas;
+import util.GeradorCSV;
 
 public class UI {
 	
@@ -22,10 +23,10 @@ public class UI {
 		//==========================================================//
 		
 		//====================Requisitos: 02 e 03========================//
-		//Aqui, o gestou pode informar o código da rúbrica, que então será buscada da memória, uma vez que já foi lida e processada pelo requisito um e então setar um valor de previsão para ela 
+		//Aqui, o gestou pode informar o cï¿½digo da rï¿½brica, que entï¿½o serï¿½ buscada da memï¿½ria, uma vez que jï¿½ foi lida e processada pelo requisito um e entï¿½o setar um valor de previsï¿½o para ela 
 		GerenciadorPrevisao gerenciadorPrevisao = new GerenciadorPrevisao();
 		
-		//Executando previsão por porcentagem  e printando resultado, importante notar que como o foco é com os dados mockados, já estamos mandando o aumento certinho, por exemplo, se queremos aumento de 20%, já estamos mandando 1,20 para a função
+		//Executando previsï¿½o por porcentagem  e printando resultado, importante notar que como o foco ï¿½ com os dados mockados, jï¿½ estamos mandando o aumento certinho, por exemplo, se queremos aumento de 20%, jï¿½ estamos mandando 1,20 para a funï¿½ï¿½o
 		gerenciadorPrevisao.execute(planoContas, 1, 104, 1.2, 0);
 		
 		System.out.println(gerenciadorPrevisao.toString(planoContas, 104, 0));
@@ -33,13 +34,20 @@ public class UI {
 		gerenciadorPrevisao.execute(planoContas, 2, 104, 200, 0);
 		System.out.println(gerenciadorPrevisao.toString(planoContas, 104, 0));
 		
-		//exceutando previsão deixando a do ano anterior  e printando resultado
+		//exceutando previsï¿½o deixando a do ano anterior  e printando resultado
 		gerenciadorPrevisao.execute(planoContas, 3, 104, 200, 0);
 		System.out.println(gerenciadorPrevisao.toString(planoContas, 104, 0));
+		
+		
+		gerenciadorPrevisao.execute(planoContas, 3, 109, 900, 7);
+
 		
 		//Gera arquivo das previsoes
 		gerenciadorPrevisao.geraArquivoPrevisao(planoContas);
 		//==========================================================//
+		GeradorCSV orcamentoMensal = new GeradorCSV(planoContas);
+		orcamentoMensal.geraArquivoPrevisoes("resultadoPrevisao.xls");
+		
 	}
 
 	

@@ -52,9 +52,16 @@ public class Rubrica {
 		String out = this.nome + "  " +  String.valueOf(this.codigo) +" "+this.valoresPrevistos[mes];
 		return out;
 	}
+	public Double getValorPrevisto(int mes) {
+		return this.valoresPrevistos[mes];
+	}
+	
 	
 	public double getvalorAnoPassado(int mes) {
 		return this.valoresAnoPassado[mes];
+	}
+	public String getNome() {
+		return this.nome;
 	}
 
 	public String toString() {
