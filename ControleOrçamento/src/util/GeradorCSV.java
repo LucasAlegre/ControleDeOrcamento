@@ -18,31 +18,46 @@ import negocios.Rubrica;
 public class GeradorCSV {
 
 	private PlanoContas planoContas;
+	private static String[] months = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
+			                          "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
 	
 	public GeradorCSV(PlanoContas planoContas) {
 		this.planoContas = planoContas;
 	}
 	
-	public void geraTemplateRealizadoMensal(String filename, String mes) {
+	public void geraTemplateRealizadoMensal(int mes) {
 		
 		 try {
 	           
 	            HSSFWorkbook workbook = new HSSFWorkbook();
 	            HSSFSheet sheet = workbook.createSheet("FirstSheet");  
+	            sheet.setColumnWidth(0, 10000);
 
-	            HSSFRow rowhead = sheet.createRow((short)0);
-	            rowhead.createCell(0).setCellValue("Descri��o da conta");
-	            rowhead.createCell(1).setCellValue("C�digo");
-	            rowhead.createCell(2).setCellValue("D�bito");
-	            rowhead.createCell(3).setCellValue("Cr�dito");
+	            HSSFRow mesRelizado = sheet.createRow((short)0);
+	            mesRelizado.createCell(0).setCellValue(months[mes]);
+	            
+	            
+	            HSSFRow rowhead = sheet.createRow((short)1);
+	            rowhead.createCell(0).setCellValue("Descrição da conta");
+	            rowhead.createCell(1).setCellValue("Código");
+	            rowhead.createCell(2).setCellValue("Débito");
+	            rowhead.createCell(3).setCellValue("Crédito");
+	            
+	            int cont = 2;
+	            for (Integer key : this.planoContas.getRubricas().keySet()) {
+	            	
+            		HSSFRow newRubricaRow = sheet.createRow((short)cont);
+            
+            		HSSFCell rubricaNameCell = newRubricaRow.createCell(0);
+            		rubricaNameCell.setCellValue(this.planoContas.getRubricas().get(key).getNome());
+           
+        			newRubricaRow.createCell(1).setCellValue(key);
+        			
+		            cont++;
+	            }
 
-	            HSSFRow row = sheet.createRow((short)1);
-	            row.createCell(0).setCellValue("nome rubrica");
-	            row.createCell(1).setCellValue("C�digo");
-	            row.createCell(2).setCellValue("d�bito");
-	            row.createCell(3).setCellValue("cr�dito");
-
-	            FileOutputStream fileOut = new FileOutputStream(filename);
+	      
+	            FileOutputStream fileOut = new FileOutputStream(months[mes] + ".xls");
 	            workbook.write(fileOut);
 	            fileOut.close();
 	            System.out.println("Arquivo gerado!");
@@ -59,7 +74,7 @@ public class GeradorCSV {
 	//uma ideia que eu tive � tipo, faz o janeiro funcionar, se ele funcionar s� mete um for fora de tudo dando append de um contador nos nomes dos arquivos, dai 
 	//ele gera os 12 meses!
 	public void geraArquivoPrevisoes(String filename) {
-		 String[] months = {"jan", "fev", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
+		 
 		 
 		 try {
 	           
@@ -84,7 +99,7 @@ public class GeradorCSV {
 	            newcell.setCellStyle(cellHeaderStyle);
 	            newcell.setCellValue("Codigo");
     
-	            for (int cont=0; cont < 12; cont ++) {
+	            for (int cont = 0; cont < 12; cont ++) {
 	            		newcell = rowhead.createCell(cont + 2);
 	            		newcell.setCellStyle(cellHeaderStyle);
 		            newcell.setCellValue(months[cont]);	

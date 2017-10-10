@@ -20,7 +20,7 @@ public class LeitorCSV {
 
 	public LinkedHashMap<Integer, Rubrica> lerOrcamentoInicial(){
 	
-		LinkedHashMap<Integer, Rubrica> map = new LinkedHashMap<>();
+		LinkedHashMap<Integer, Rubrica> map = new LinkedHashMap<Integer, Rubrica>();
 			
 		//Lista de pais para a estruturação da linhagem hierárquica
 		List<Rubrica> pais = new ArrayList<>();

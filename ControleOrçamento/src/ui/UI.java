@@ -45,8 +45,9 @@ public class UI {
 		//Gera arquivo das previsoes
 		gerenciadorPrevisao.geraArquivoPrevisao(planoContas);
 		//==========================================================//
-		GeradorCSV orcamentoMensal = new GeradorCSV(planoContas);
-		orcamentoMensal.geraArquivoPrevisoes("resultadoPrevisao.xls");
+		
+		GerenciadorRealizadoMensal realizadoMensal = new GerenciadorRealizadoMensal();
+		realizadoMensal.geraTemplateOrcamentoMensal(planoContas, 0);
 		
 	}
 
