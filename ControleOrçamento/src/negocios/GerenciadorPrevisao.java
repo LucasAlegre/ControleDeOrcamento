@@ -1,8 +1,7 @@
 package negocios;
 import java.time.LocalDate;
 
-import util.GeradorCSV;
-import util.LeitorCSV;
+import util.GeradorArquivo;
 
 /**
  *   Classe que gerencia a previs�o para o pr�ximo ano do 
@@ -12,10 +11,17 @@ public class GerenciadorPrevisao extends Gerenciador {
 
 	
 	public GerenciadorPrevisao(PlanoContas planoContas) {
-		super("", planoContas);
+		super("Previsoes.xls", planoContas);
 	}
 
-	//esse excecute foi a maneira que encontramos de colocar o padr�o de projeto "Fachada", pois ele � o p�blico que cmaha cada uma das diferentes previs�es
+	/**
+	 * Esse excecute foi a maneira que encontramos de colocar o padr�o de projeto "Fachada", pois ele � o p�blico que chama cada uma das diferentes previs�es
+	 * 
+	 * @param option 1 - Porcentagem 2 - Valor fixo 3  - Manter valor anterior 
+	 * @param codigo Codigo da Rubrica
+	 * @param valor 
+	 * @param mes
+	 */
 	public void execute(int option, int codigo, double valor, int mes) {
 		if(LocalDate.now().isBefore(super.getPlanoContas().getDataCongelamento())) {
 			switch(option) {
@@ -42,6 +48,7 @@ public class GerenciadorPrevisao extends Gerenciador {
 	}
 	
 	private void previsaoPorcentagem(int codigo, double valor, int mes) {
+		
 		try {
 			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes)*valor);
 		}
@@ -51,6 +58,7 @@ public class GerenciadorPrevisao extends Gerenciador {
 	}
 
 	private void previsaoValorFixo(int codigo, double valor, int mes) {
+		
 		try {
 			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes,valor);
 		}
@@ -58,7 +66,9 @@ public class GerenciadorPrevisao extends Gerenciador {
 			 System.out.println("O c�digo digitado n�o existe!");
 		}
 	}
+	
 	private void previsaoManterAnoAnterior(int codigo, double valor, int mes) {
+		
 		try {
 			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes,valor);
 		}
@@ -69,12 +79,13 @@ public class GerenciadorPrevisao extends Gerenciador {
 	
 	
 	public String toString(int codigo, int mes) {
+		
 		return super.getPlanoContas().getRubricas().get(codigo).getValorPrevisto(mes, codigo) + " mes: " + mes;
 	}
 	
 	public void geraArquivoPrevisao() {
-		GeradorCSV orcamentoMensal = new GeradorCSV(super.getPlanoContas());
-		orcamentoMensal.geraArquivoPrevisoes("Previsoes.xls");
+		GeradorArquivo orcamentoMensal = new GeradorArquivo();
+		orcamentoMensal.geraArquivoPrevisoes(getPlanoContas(), "Previsoes.xls");
 	}
 
 }

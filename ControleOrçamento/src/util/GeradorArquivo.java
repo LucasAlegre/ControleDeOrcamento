@@ -15,17 +15,22 @@ import org.apache.poi.hssf.usermodel.HSSFFont;
 import negocios.PlanoContas;
 import negocios.Rubrica;
 
-public class GeradorCSV {
+public class GeradorArquivo {
 
-	private PlanoContas planoContas;
-	private static String[] months = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
+	private final static String[] months = {"Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", 
 			                          "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"};
 	
-	public GeradorCSV(PlanoContas planoContas) {
-		this.planoContas = planoContas;
+	public GeradorArquivo() {
+		
 	}
 	
-	public void geraTemplateRealizadoMensal(int mes) {
+	/**
+	 * Dado um plano de contas e um mes, gera um tamplate de arquivo .xls para o realizado mensal
+	 * 
+	 * @param planoContas
+	 * @param mes
+	 */
+	public void geraTemplateRealizadoMensal(PlanoContas planoContas, int mes) {
 		
 		 try {
 	           
@@ -44,23 +49,23 @@ public class GeradorCSV {
 	            rowhead.createCell(3).setCellValue("Crédito");
 	            
 	            int cont = 2;
-	            for (Integer key : this.planoContas.getRubricas().keySet()) {
+	            for (Integer key : planoContas.getRubricas().keySet()) {
 	            	
             		HSSFRow newRubricaRow = sheet.createRow((short)cont);
             
             		HSSFCell rubricaNameCell = newRubricaRow.createCell(0);
-            		rubricaNameCell.setCellValue(this.planoContas.getRubricas().get(key).getNome());
+            		rubricaNameCell.setCellValue(planoContas.getRubricas().get(key).getNome());
            
         			newRubricaRow.createCell(1).setCellValue(key);
         			
 		            cont++;
 	            }
 
-	      
-	            FileOutputStream fileOut = new FileOutputStream(months[mes] + ".xls");
+	            String outputFileName = "Template" + months[mes] + ".xls";
+	            FileOutputStream fileOut = new FileOutputStream(outputFileName);
 	            workbook.write(fileOut);
 	            fileOut.close();
-	            System.out.println("Arquivo gerado!");
+	            System.out.println("Arquivo " + outputFileName + " gerado!");
 	            workbook.close();
 
 	        } catch ( Exception ex ) {
@@ -73,7 +78,7 @@ public class GeradorCSV {
 	//� �timo pra testar pq n fica mil arquivos, mas qnd for pra finalizar o trabalho vamos ter de ter um controle de cada arquivo ter um nome diferente
 	//uma ideia que eu tive � tipo, faz o janeiro funcionar, se ele funcionar s� mete um for fora de tudo dando append de um contador nos nomes dos arquivos, dai 
 	//ele gera os 12 meses!
-	public void geraArquivoPrevisoes(String filename) {
+	public void geraArquivoPrevisoes(PlanoContas planoContas, String filename) {
 		 
 		 
 		 try {
@@ -106,27 +111,27 @@ public class GeradorCSV {
 	            }
     
 	            int cont = 0;
-	            for (Integer key : this.planoContas.getRubricas().keySet()) {
+	            for (Integer key : planoContas.getRubricas().keySet()) {
 	            		HSSFRow newRubricaRow = sheet.createRow((short)cont+1);
 	            		HSSFCell rubricaNameCell = newRubricaRow.createCell(0);
-	            		rubricaNameCell.setCellValue(this.planoContas.getRubricas().get(key).getNome());
+	            		rubricaNameCell.setCellValue(planoContas.getRubricas().get(key).getNome());
 	            		rubricaNameCell.setCellStyle(cellStyle);
             			newRubricaRow.createCell(1).setCellValue(key);
-		            this.fillRubricasMonths(this.planoContas.getRubricas().get(key), newRubricaRow);
+		            this.fillRubricasMonths(planoContas.getRubricas().get(key), newRubricaRow);
 		            cont ++;
 	            }
 	            
 	            FileOutputStream fileOut = new FileOutputStream(filename);
 	            workbook.write(fileOut);
 	            fileOut.close();
-	            System.out.println("Arquivo gerado!");
+	            System.out.println("Arquivo " + filename +  " gerado!");
 	            workbook.close();
 	        } catch ( Exception ex ) {
 	            System.out.println(ex);
 	        }    
 	}
 	
-	public void fillRubricasMonths (Rubrica rubrica, HSSFRow rubricaRow) {
+	private void fillRubricasMonths (Rubrica rubrica, HSSFRow rubricaRow) {
 		for (int cont = 0; cont < 12; cont ++) {
 			try {
 			//if (rubrica.getValorPrevisto(cont) != null) {
@@ -138,7 +143,5 @@ public class GeradorCSV {
         }
 		
 	}
-	
-	
 	
 }

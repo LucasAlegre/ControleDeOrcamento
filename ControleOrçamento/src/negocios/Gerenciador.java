@@ -1,5 +1,9 @@
 package negocios;
 
+/**
+ *  Classe pai dos Gerenciadores
+ *
+ */
 public abstract class Gerenciador {
 	
 	private String filename;
@@ -10,7 +14,12 @@ public abstract class Gerenciador {
 		this.planoContas = planoContas;
 	}
 	
-	public String getFileName() {return this.filename;}
-	public PlanoContas getPlanoContas() {return this.planoContas;}
+	public String getFileName() {
+		return this.filename;
+	}
+	
+	public PlanoContas getPlanoContas() {
+		return this.planoContas;
+	}
 	
 }

@@ -2,8 +2,8 @@ package negocios;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import util.GeradorCSV;
-import util.LeitorCSV;;
+import util.GeradorArquivo;
+import util.LeitorArquivo;;
 
 /**
  * Classe respons�vel por controlar o que foi realmente realizado de gastos
@@ -17,42 +17,36 @@ public class GerenciadorRealizadoMensal extends Gerenciador {
 		super(filename, planoContas);
 	}
 	
-	public void execute() {
-		
-		//Se comunica com a UI de alguma forma pra ver a op��o
-		//Se opcao == gerar template:
-	    geraTemplateOrcamentoMensal(0);
-		//Se opcao == ler orcamento mensal;
-		//    leRealizadoMensal()
-		
-	}
-
+	/**
+	 * Dado um plano de contas e um mes, gera um tamplate de arquivo .xls para o realizado mensal
+	 * @param mes
+	 */
 	public void geraTemplateOrcamentoMensal(int mes) {
 		
-		GeradorCSV gerador = new GeradorCSV(super.getPlanoContas());
-		gerador.geraTemplateRealizadoMensal(0);
+		GeradorArquivo gerador = new GeradorArquivo();
+		gerador.geraTemplateRealizadoMensal(getPlanoContas(), mes);
 	}
 	
-	
+	/**
+	 * Le o realizado mensal de um respectivo mes e atualiza as rubricas
+	 * @param mes
+	 */
 	public void leRealizadoMensal(int mes) {
 		
-		LeitorCSV leitor = new LeitorCSV(super.getFileName());
+		LeitorArquivo leitor = new LeitorArquivo(getFileName());
+		
+		// Codigo para Valor realizado de cada rubrica
 		LinkedHashMap<Integer, Double> realizado = leitor.lerRealizadoMensal();
 		
-		if(mes < 0 || mes > 12) {
-			// throw exception
-		}
-
-		if(super.getPlanoContas().getRubricas().keySet().size() != realizado.keySet().size()) {
+		if(getPlanoContas().getRubricas().keySet().size() != realizado.keySet().size()) {
 			System.out.println("Falta rúbrica no realizado mensal!");
 		}
 		
-		for(Integer cod : super.getPlanoContas().getRubricas().keySet()) {
+		for(Integer cod : getPlanoContas().getRubricas().keySet()) {
 			
-			Rubrica r = super.getPlanoContas().getRubricas().get(cod);
+			Rubrica rubrica = getPlanoContas().getRubricas().get(cod);
 			
-			r.setValorRealizado(mes, realizado.get(cod));
-	
+			rubrica.setValorRealizado(mes, realizado.get(cod));
 		}
 		
 		

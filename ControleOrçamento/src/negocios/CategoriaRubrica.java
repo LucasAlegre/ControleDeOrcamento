@@ -8,3 +8,4 @@ public enum CategoriaRubrica {
 
 	DESPESA, RECEITA;
 }
+

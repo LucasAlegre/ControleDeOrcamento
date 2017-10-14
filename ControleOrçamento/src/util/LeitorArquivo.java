@@ -22,11 +22,11 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import negocios.CategoriaRubrica;
 import negocios.Rubrica;
 
-public class LeitorCSV {
+public class LeitorArquivo {
 
 	private String filename;
 	
-	public LeitorCSV(String filename) {
+	public LeitorArquivo(String filename) {
 		this.filename = filename; 
 	}
 
@@ -127,6 +127,7 @@ public class LeitorCSV {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return map;
 	}
 	
