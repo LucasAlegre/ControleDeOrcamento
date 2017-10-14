@@ -38,12 +38,12 @@ public class GerenciadorPrevisao extends Gerenciador {
 				}
 				break;
 				default: {
-					System.out.println("Op��o n�o existente!");
+					System.out.println("Opção não existente!");
 				}
 			}
 		}
 		else {
-			System.out.println("Data de congelamento atingida, desculpe, mas altera��es nas previs�es n�o podem mais ser feitas");
+			System.out.println("Data de congelamento atingida, desculpe, mas alterações nas previs�es n�o podem mais ser feitas");
 		}
 	}
 	
@@ -53,7 +53,7 @@ public class GerenciadorPrevisao extends Gerenciador {
 			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes)*valor);
 		}
 		catch (NullPointerException npe) {
-			 System.out.println("O c�digo digitado n�o existe!");
+			 System.out.println("O código digitado não existe!");
 		}
 	}
 
@@ -63,7 +63,7 @@ public class GerenciadorPrevisao extends Gerenciador {
 			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes,valor);
 		}
 		catch (NullPointerException npe) {
-			 System.out.println("O c�digo digitado n�o existe!");
+			 System.out.println("O código digitado não existe!");
 		}
 	}
 	
@@ -73,7 +73,7 @@ public class GerenciadorPrevisao extends Gerenciador {
 			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes,valor);
 		}
 		catch (NullPointerException npe) {
-			 System.out.println("O c�digo digitado n�o existe!");
+			 System.out.println("O código digitado não existe!");
 		}
 	}
 	

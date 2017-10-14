@@ -8,7 +8,7 @@ import negocios.GerenciadorPrevisao;
 import negocios.GerenciadorRealizadoMensal;
 import negocios.PlanoContas;
 import util.GeradorArquivo;
-import util.Mes;
+import util.CategoriaMes;
 
 public class UI {
 	
@@ -28,28 +28,28 @@ public class UI {
 		GerenciadorPrevisao gerenciadorPrevisao = new GerenciadorPrevisao(planoContas);
 		
 		// Previsão Porcentagem
-		gerenciadorPrevisao.execute(1, 104, 1.2, Mes.JANEIRO.toInt());
-		System.out.println(gerenciadorPrevisao.toString(104, Mes.JANEIRO.toInt()));
+		gerenciadorPrevisao.execute(1, 104, 1.2, CategoriaMes.JANEIRO.toInt());
+		System.out.println(gerenciadorPrevisao.toString(104, CategoriaMes.JANEIRO.toInt()));
 		
 		// Previsão Valor Fixo
-		gerenciadorPrevisao.execute(2, 104, 200, Mes.JANEIRO.toInt());
-		System.out.println(gerenciadorPrevisao.toString(104, Mes.JANEIRO.toInt()));
+		gerenciadorPrevisao.execute(2, 104, 200, CategoriaMes.JANEIRO.toInt());
+		System.out.println(gerenciadorPrevisao.toString(104, CategoriaMes.JANEIRO.toInt()));
 		
 		// Previsao mantendo valor do ano anterior
-		gerenciadorPrevisao.execute(3, 104, 200, Mes.JANEIRO.toInt());
-		System.out.println(gerenciadorPrevisao.toString(104, Mes.JANEIRO.toInt()));
+		gerenciadorPrevisao.execute(3, 104, 200, CategoriaMes.JANEIRO.toInt());
+		System.out.println(gerenciadorPrevisao.toString(104, CategoriaMes.JANEIRO.toInt()));
 		
-		gerenciadorPrevisao.execute(3, 109, 900, Mes.AGOSTO.toInt());
+		gerenciadorPrevisao.execute(3, 109, 900, CategoriaMes.AGOSTO.toInt());
 
 		// Gera arquivo das previsoes
 		gerenciadorPrevisao.geraArquivoPrevisao();
 		
 		// Gera arquivo para usuario completar o realizado mensal
 		GerenciadorRealizadoMensal realizadoMensal = new GerenciadorRealizadoMensal("TemplateJaneiroCompletado.xls", planoContas);
-		realizadoMensal.geraTemplateOrcamentoMensal(Mes.JANEIRO.toInt());
+		realizadoMensal.geraTemplateOrcamentoMensal(CategoriaMes.JANEIRO.toInt());
 		
 		// Le realizadoMensal
-		realizadoMensal.leRealizadoMensal(Mes.JANEIRO.toInt());
+		realizadoMensal.leRealizadoMensal(CategoriaMes.JANEIRO.toInt());
 		
 	
 	}
