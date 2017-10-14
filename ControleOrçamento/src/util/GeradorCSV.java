@@ -30,7 +30,7 @@ public class GeradorCSV {
 		 try {
 	           
 	            HSSFWorkbook workbook = new HSSFWorkbook();
-	            HSSFSheet sheet = workbook.createSheet("FirstSheet");  
+	            HSSFSheet sheet = workbook.createSheet("FirstSheet"); 
 	            sheet.setColumnWidth(0, 10000);
 
 	            HSSFRow mesRelizado = sheet.createRow((short)0);
@@ -127,7 +127,7 @@ public class GeradorCSV {
 	}
 	
 	public void fillRubricasMonths (Rubrica rubrica, HSSFRow rubricaRow) {
-		for (int cont=0; cont < 12; cont ++) {
+		for (int cont = 0; cont < 12; cont ++) {
 			try {
 			//if (rubrica.getValorPrevisto(cont) != null) {
 	            rubricaRow.createCell(cont + 2).setCellValue(rubrica.getValorPrevisto(cont));	

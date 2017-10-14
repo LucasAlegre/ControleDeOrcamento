@@ -1,11 +1,23 @@
 package util;
-
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.hssf.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import negocios.CategoriaRubrica;
 import negocios.Rubrica;
@@ -40,17 +52,17 @@ public class LeitorCSV {
 				String line = scan.nextLine();
 				
 				int pos1 = line.indexOf(',');
-				int pos2 = line.indexOf(',', pos1+1);
-				int pos3 = line.indexOf(',', pos2+1); 
+				int pos2 = line.indexOf(',', pos1 + 1);
+				int pos3 = line.indexOf(',', pos2 + 1); 
 				
 				String classe = line.substring(0, pos1);
-				String cod = line.substring(pos1+1, pos2);
-				String nome = line.substring(pos2+1, pos3);
+				String cod = line.substring(pos1 + 1, pos2);
+				String nome = line.substring(pos2 + 1, pos3);
 				
 				//Caso a rúbrica for classificável
 				if(0 != pos1) {
 
-					String valorPassado = line.substring(pos3+1);
+					String valorPassado = line.substring(pos3 + 1);
 					
 					valorPassadoMensal = valorPassado.split(",");
 					valoresPassadosMensal = new Double[valorPassadoMensal.length];
@@ -89,14 +101,14 @@ public class LeitorCSV {
 					}else {
 						Rubrica pai;
 						try{
-							pai = pais.get(pontos-1);
+							pai = pais.get(pontos - 1);
 						}catch(IndexOutOfBoundsException e){
 							pai =  null;
 							pais.clear();
 						}
 						rubrica = new Rubrica(pai, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, valoresPassadosMensal);
 						if(pai != null)pai.addSubRubrica(rubrica);
-						for(int i = pontos; i<pais.size();i++) {
+						for(int i = pontos; i < pais.size(); i++) {
 							pais.remove(i);
 						}
 					}
@@ -118,9 +130,40 @@ public class LeitorCSV {
 		return map;
 	}
 	
+	public LinkedHashMap<Integer, Double> lerRealizadoMensal(){
+		
+		LinkedHashMap<Integer, Double> realizados = new LinkedHashMap<Integer, Double>();
+		
+		try {
+			InputStream inp = new FileInputStream(this.filename);
+			Workbook wb = WorkbookFactory.create(inp);
+			Sheet sheet = wb.getSheetAt(0);
+			
+			int row = 2;
+			while(sheet.getRow(row) != null) {
+				
+				Row linha = sheet.getRow(row);
+				int codigo = (int) linha.getCell(1).getNumericCellValue();
+				double debito = linha.getCell(2).getNumericCellValue();
+				double credito = linha.getCell(3).getNumericCellValue();
+				
+				realizados.put(codigo, credito - debito);
+				
+				row++;
+			}
+			
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}catch(InvalidFormatException e) {
+			e.printStackTrace();
+		} catch (EncryptedDocumentException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	
-	public static void main(String[] args) {
-		LeitorCSV ler = new LeitorCSV("Modelo_Controle_Orcamentario_Completo.csv");
-		LinkedHashMap<Integer, Rubrica> map = ler.lerOrcamentoInicial();
+		return realizados;
 	}
+	
 }

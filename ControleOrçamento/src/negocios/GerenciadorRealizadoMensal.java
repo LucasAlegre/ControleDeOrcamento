@@ -1,5 +1,9 @@
 package negocios;
-import util.GeradorCSV;;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+
+import util.GeradorCSV;
+import util.LeitorCSV;;
 
 /**
  * Classe respons�vel por controlar o que foi realmente realizado de gastos
@@ -24,14 +28,34 @@ public class GerenciadorRealizadoMensal implements Gerenciador {
 	}
 
 	public void geraTemplateOrcamentoMensal(PlanoContas planoContas, int mes) {
-		//TODO: Chama uma classe que gera cvs maybe, percorre as rubricas do plano e imprimi no arquivo
+		
 		GeradorCSV gerador = new GeradorCSV(planoContas);
 		gerador.geraTemplateRealizadoMensal(0);
 	}
 	
 	
-	public void leRealizadoMensal(PlanoContas planoContas, String filename) {
-		//TODO: Chama metodo do planoContas que atualiza rubrica
+	public void leRealizadoMensal(PlanoContas planoContas, String filename, int mes) {
+		
+		LeitorCSV leitor = new LeitorCSV(filename);
+		LinkedHashMap<Integer, Double> realizado = leitor.lerRealizadoMensal();
+		
+		if(mes < 0 || mes > 12) {
+			// throw exception
+		}
+
+		if(planoContas.getRubricas().keySet().size() != realizado.keySet().size()) {
+			System.out.println("Falta rúbrica no realizado mensal!");
+		}
+		
+		for(Integer cod : planoContas.getRubricas().keySet()) {
+			
+			Rubrica r = planoContas.getRubricas().get(cod);
+			
+			r.setValorRealizado(mes, realizado.get(cod));
+	
+		}
+		
+		
 	}
 	
 }

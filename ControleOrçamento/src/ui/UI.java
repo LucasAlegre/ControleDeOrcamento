@@ -48,6 +48,9 @@ public class UI {
 		
 		GerenciadorRealizadoMensal realizadoMensal = new GerenciadorRealizadoMensal();
 		realizadoMensal.geraTemplateOrcamentoMensal(planoContas, 0);
+		realizadoMensal.leRealizadoMensal(planoContas, "janeiro.xls", 0);
+		
+		
 		
 	}
 
