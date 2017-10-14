@@ -10,46 +10,46 @@ import util.LeitorCSV;;
  * na empresa.
  *
  */
-public class GerenciadorRealizadoMensal implements Gerenciador {
+public class GerenciadorRealizadoMensal extends Gerenciador {
 
 
-	public GerenciadorRealizadoMensal() {
-
+	public GerenciadorRealizadoMensal(String filename, PlanoContas planoContas) {
+		super(filename, planoContas);
 	}
 	
-	public void execute(String filename, PlanoContas planoContas) {
+	public void execute() {
 		
 		//Se comunica com a UI de alguma forma pra ver a op��o
 		//Se opcao == gerar template:
-	    geraTemplateOrcamentoMensal(planoContas, 0);
+	    geraTemplateOrcamentoMensal(0);
 		//Se opcao == ler orcamento mensal;
 		//    leRealizadoMensal()
 		
 	}
 
-	public void geraTemplateOrcamentoMensal(PlanoContas planoContas, int mes) {
+	public void geraTemplateOrcamentoMensal(int mes) {
 		
-		GeradorCSV gerador = new GeradorCSV(planoContas);
+		GeradorCSV gerador = new GeradorCSV(super.getPlanoContas());
 		gerador.geraTemplateRealizadoMensal(0);
 	}
 	
 	
-	public void leRealizadoMensal(PlanoContas planoContas, String filename, int mes) {
+	public void leRealizadoMensal(int mes) {
 		
-		LeitorCSV leitor = new LeitorCSV(filename);
+		LeitorCSV leitor = new LeitorCSV(super.getFileName());
 		LinkedHashMap<Integer, Double> realizado = leitor.lerRealizadoMensal();
 		
 		if(mes < 0 || mes > 12) {
 			// throw exception
 		}
 
-		if(planoContas.getRubricas().keySet().size() != realizado.keySet().size()) {
+		if(super.getPlanoContas().getRubricas().keySet().size() != realizado.keySet().size()) {
 			System.out.println("Falta rúbrica no realizado mensal!");
 		}
 		
-		for(Integer cod : planoContas.getRubricas().keySet()) {
+		for(Integer cod : super.getPlanoContas().getRubricas().keySet()) {
 			
-			Rubrica r = planoContas.getRubricas().get(cod);
+			Rubrica r = super.getPlanoContas().getRubricas().get(cod);
 			
 			r.setValorRealizado(mes, realizado.get(cod));
 	

@@ -5,80 +5,75 @@ import util.GeradorCSV;
 import util.LeitorCSV;
 
 /**
- *   Classe que gerencia a previsão para o próximo ano do 
+ *   Classe que gerencia a previsï¿½o para o prï¿½ximo ano do 
  *   plano de contas.
  */
-public class GerenciadorPrevisao implements Gerenciador {
+public class GerenciadorPrevisao extends Gerenciador {
 
 	
-	public GerenciadorPrevisao() {
-		
+	public GerenciadorPrevisao(PlanoContas planoContas) {
+		super("", planoContas);
 	}
 
-	//esse excecute foi a maneira que encontramos de colocar o padrão de projeto "Fachada", pois ele é o público que cmaha cada uma das diferentes previsões
-	public void execute(PlanoContas planoContas, int option, int codigo, double valor, int mes) {
-		if(LocalDate.now().isBefore(planoContas.getDataCongelamento())) {
+	//esse excecute foi a maneira que encontramos de colocar o padrï¿½o de projeto "Fachada", pois ele ï¿½ o pï¿½blico que cmaha cada uma das diferentes previsï¿½es
+	public void execute(int option, int codigo, double valor, int mes) {
+		if(LocalDate.now().isBefore(super.getPlanoContas().getDataCongelamento())) {
 			switch(option) {
 				case 01:{
-					previsaoPorcentagem(planoContas, codigo, valor, mes);
+					previsaoPorcentagem(codigo, valor, mes);
 				}
 				break;
 				case 02:{
-					previsaoValorFixo(planoContas, codigo, valor, mes);
+					previsaoValorFixo(codigo, valor, mes);
 				}
 				break;
 				case 03:{
-					previsaoManterAnoAnterior(planoContas, codigo, planoContas.getRubricas().get(codigo).getvalorAnoPassado(mes), mes);
+					previsaoManterAnoAnterior(codigo, super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes), mes);
 				}
 				break;
 				default: {
-					System.out.println("Opção não existente!");
+					System.out.println("Opï¿½ï¿½o nï¿½o existente!");
 				}
 			}
 		}
 		else {
-			System.out.println("Data de congelamento atingida, desculpe, mas alterações nas previsões não podem mais ser feitas");
+			System.out.println("Data de congelamento atingida, desculpe, mas alteraï¿½ï¿½es nas previsï¿½es nï¿½o podem mais ser feitas");
 		}
 	}
 	
-	private void previsaoPorcentagem(PlanoContas planoContas, int codigo, double valor, int mes) {
+	private void previsaoPorcentagem(int codigo, double valor, int mes) {
 		try {
-			planoContas.getRubricas().get(codigo).setValorPrevisto(mes, planoContas.getRubricas().get(codigo).getvalorAnoPassado(mes)*valor);
+			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes)*valor);
 		}
 		catch (NullPointerException npe) {
-			 System.out.println("O código digitado não existe!");
+			 System.out.println("O cï¿½digo digitado nï¿½o existe!");
 		}
 	}
 
-	private void previsaoValorFixo(PlanoContas planoContas, int codigo, double valor, int mes) {
+	private void previsaoValorFixo(int codigo, double valor, int mes) {
 		try {
-			planoContas.getRubricas().get(codigo).setValorPrevisto(mes,valor);
+			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes,valor);
 		}
 		catch (NullPointerException npe) {
-			 System.out.println("O código digitado não existe!");
+			 System.out.println("O cï¿½digo digitado nï¿½o existe!");
 		}
 	}
-	private void previsaoManterAnoAnterior(PlanoContas planoContas, int codigo, double valor, int mes) {
+	private void previsaoManterAnoAnterior(int codigo, double valor, int mes) {
 		try {
-			planoContas.getRubricas().get(codigo).setValorPrevisto(mes,valor);
+			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes,valor);
 		}
 		catch (NullPointerException npe) {
-			 System.out.println("O código digitado não existe!");
+			 System.out.println("O cï¿½digo digitado nï¿½o existe!");
 		}
 	}
 	
-	@Override
-	public void execute(String filename, PlanoContas planoContas) {
-
-		// Chamar o tipo de previsao pra cada rubrica
+	
+	public String toString(int codigo, int mes) {
+		return super.getPlanoContas().getRubricas().get(codigo).getValorPrevisto(mes, codigo) + " mes: " + mes;
 	}
 	
-	public String toString(PlanoContas planoContas, int codigo, int mes) {
-		return planoContas.getRubricas().get(codigo).getValorPrevisto(mes, codigo) + " mes: " + mes;
-	}
-	
-	public void geraArquivoPrevisao(PlanoContas planoContas) {
-		GeradorCSV orcamentoMensal = new GeradorCSV(planoContas);
+	public void geraArquivoPrevisao() {
+		GeradorCSV orcamentoMensal = new GeradorCSV(super.getPlanoContas());
 		orcamentoMensal.geraArquivoPrevisoes("Previsoes.xls");
 	}
 

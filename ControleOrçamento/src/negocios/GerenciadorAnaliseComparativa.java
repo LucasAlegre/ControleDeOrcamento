@@ -1,26 +1,21 @@
 package negocios;
 
 /**
- *  Classe responsável por gerenciar a geração de análise comparativa do
- *  planejando de orçamento e do que foi efetivamente realizada durante um
- *  determinado período em uma empresa.
+ *  Classe responsï¿½vel por gerenciar a geraï¿½ï¿½o de anï¿½lise comparativa do
+ *  planejando de orï¿½amento e do que foi efetivamente realizada durante um
+ *  determinado perï¿½odo em uma empresa.
  * 
  */
-public class GerenciadorAnaliseComparativa implements Gerenciador{
+public class GerenciadorAnaliseComparativa extends Gerenciador{
 
 	
-	public GerenciadorAnaliseComparativa() {
-	
+	public GerenciadorAnaliseComparativa(String filename, PlanoContas planoContas) {
+		super(filename, planoContas);
 	}
 	
 	public void execute(String filename, PlanoContas planoContas) {
 		
 		
-	}
-	
-	public void geraAnaliseComparativa(PlanoContas planoContas, int mesInicio, int mesFim) {
-		//TODO:
-	}
-	
+	}	
 	
 }

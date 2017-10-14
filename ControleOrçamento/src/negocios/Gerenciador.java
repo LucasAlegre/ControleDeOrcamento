@@ -1,7 +1,16 @@
 package negocios;
 
-public interface Gerenciador {
+public abstract class Gerenciador {
 	
-	public void execute(String filename, PlanoContas planoContas);
-
+	private String filename;
+	private PlanoContas planoContas;
+	
+	public Gerenciador(String filename, PlanoContas planoContas) {
+		this.filename = filename;
+		this.planoContas = planoContas;
+	}
+	
+	public String getFileName() {return this.filename;}
+	public PlanoContas getPlanoContas() {return this.planoContas;}
+	
 }

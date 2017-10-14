@@ -5,24 +5,26 @@ import java.util.LinkedHashMap;
 import util.LeitorCSV;
 
 /**
- *  Classe responsável por gerenciar a leitura do plano orçamentario do ano anterior da empresa.
+ *  Classe responsï¿½vel por gerenciar a leitura do plano orï¿½amentario do ano anterior da empresa.
  * 
  */
-public class GerenciadorOrcamentoInicial implements Gerenciador {
+public class GerenciadorOrcamentoInicial extends Gerenciador {
 
+	public GerenciadorOrcamentoInicial(String filename, PlanoContas planoContas) {
+		super(filename, planoContas);
+	}
 	
-	public void execute(String filename, PlanoContas planoContas) {
+	public void execute() {
 		
-		
-		lerOrcamentoAnterior(planoContas, filename);
+		lerOrcamentoAnterior();
 
 	}
 	
-	private void lerOrcamentoAnterior(PlanoContas plano, String filename) {
+	private void lerOrcamentoAnterior() {
 		
-		LeitorCSV ler = new LeitorCSV(filename);
+		LeitorCSV ler = new LeitorCSV(super.getFileName());
 		LinkedHashMap<Integer, Rubrica> map = ler.lerOrcamentoInicial();
-		plano.setRubricas(map);
+		super.getPlanoContas().setRubricas(map);
 	}
 	
 }
