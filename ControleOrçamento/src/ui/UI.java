@@ -15,16 +15,16 @@ public class UI {
 	public static void main(String Args[]) {
 		
 
-		// --- Leitura do Arquivo Inicial
+		// --- Leitura do Arquivo Inicial --requisito 01
 		PlanoContas planoContas = new PlanoContas(); 
 		GerenciadorOrcamentoInicial gInicial = new GerenciadorOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv", planoContas);
 		gInicial.execute();
 		
-		// -- Data de congelamento
+		// -- Data de congelamento --requisito 04
 		planoContas.setDataCongelamento(LocalDate.of(2020, 1, 11)); 
 			
 		
-        // -- Previsões
+        // -- Previsões --requisito 02
 		GerenciadorPrevisao gerenciadorPrevisao = new GerenciadorPrevisao(planoContas);
 		
 		// Previsão Porcentagem
@@ -41,14 +41,14 @@ public class UI {
 		
 		gerenciadorPrevisao.execute(3, 109, 900, CategoriaMes.AGOSTO.toInt());
 
-		// Gera arquivo das previsoes
+		// Gera arquivo das previsoes --requisito 02
 		gerenciadorPrevisao.geraArquivoPrevisao();
 		
-		// Gera arquivo para usuario completar o realizado mensal
+		// Gera arquivo para usuario completar o realizado mensal --requisito 05
 		GerenciadorRealizadoMensal realizadoMensal = new GerenciadorRealizadoMensal("TemplateJaneiroCompletado.xls", planoContas);
 		realizadoMensal.geraTemplateOrcamentoMensal(CategoriaMes.JANEIRO.toInt());
 		
-		// Le realizadoMensal
+		// Le realizadoMensal--requisito 05
 		realizadoMensal.leRealizadoMensal(CategoriaMes.JANEIRO.toInt());
 		
 	
