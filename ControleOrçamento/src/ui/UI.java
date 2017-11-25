@@ -16,7 +16,8 @@ public class UI {
 		
 
 		// --- Leitura do Arquivo Inicial --requisito 01
-		PlanoContas planoContas = new PlanoContas(); 
+		PlanoContas planoContas = PlanoContas.getInstance();
+		
 		GerenciadorOrcamentoInicial gInicial = new GerenciadorOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv", planoContas);
 		gInicial.execute();
 		
