@@ -39,7 +39,7 @@ public class GeradorArquivo {
 	            sheet.setColumnWidth(0, 10000);
 
 	            HSSFRow mesRelizado = sheet.createRow((short)0);
-	            mesRelizado.createCell(0).setCellValue(months[mes]);
+	            mesRelizado.createCell(0).setCellValue(months[mes.toInt()]);
 	            
 	            
 	            HSSFRow rowhead = sheet.createRow((short)1);

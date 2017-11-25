@@ -13,7 +13,7 @@ import util.CategoriaMes;
 public class UI {
 	
 	public static void main(String Args[]) {
-		
+		/**
 
 		// --- Leitura do Arquivo Inicial --requisito 01
 		PlanoContas planoContas = PlanoContas.getInstance();
@@ -51,7 +51,7 @@ public class UI {
 		
 		// Le realizadoMensal--requisito 05
 		realizadoMensal.leRealizadoMensal(CategoriaMes.JANEIRO.toInt());
-		
+		**/
 	
 	}
 

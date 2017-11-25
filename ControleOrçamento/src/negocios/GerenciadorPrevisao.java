@@ -18,10 +18,10 @@ public class GerenciadorPrevisao extends AbstractGerenciador {
 		super();
 	}
 
-	public void previsaoPorcentagem(int codigo, double valor, int mes) {
+	public void previsaoPorcentagem(int codigo, double porcentagem, int mes) {
 		
 		try {
-			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes)*valor);
+			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes)*porcentagem);
 		}
 		catch (NullPointerException npe) {
 			 System.out.println("O código digitado não existe!");
@@ -41,7 +41,7 @@ public class GerenciadorPrevisao extends AbstractGerenciador {
 	public void previsaoManterAnoAnterior(int codigo, double valor, int mes) {
 		
 		try {
-			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes,valor);
+			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, valor);
 		}
 		catch (NullPointerException npe) {
 			 System.out.println("O código digitado não existe!");
