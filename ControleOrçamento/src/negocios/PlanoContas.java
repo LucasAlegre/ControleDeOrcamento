@@ -23,8 +23,6 @@ public class PlanoContas {
 		return(instance);	
 	}
 	
-	
-	
 	public PlanoContas(){
 		rubricas = new LinkedHashMap<Integer, Rubrica>();
 		dataCongelamento = LocalDate.of(2020, 1, 11);

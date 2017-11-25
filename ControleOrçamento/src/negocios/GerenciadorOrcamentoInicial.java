@@ -8,24 +8,19 @@ import util.LeitorArquivoCSV;
  *  Classe respons�vel por gerenciar a leitura do plano or�amentario do ano anterior da empresa.
  * 
  */
-public class GerenciadorOrcamentoInicial extends Gerenciador {
+public class GerenciadorOrcamentoInicial extends AbstractGerenciador {
 
-	public GerenciadorOrcamentoInicial(String filename, PlanoContas planoContas) {
-		super(filename, planoContas);
+	public GerenciadorOrcamentoInicial() {
+		super();
 	}
 	
-	public void execute() {
-		
-		lerOrcamentoAnterior();
 
-	}
-	
 	/**
 	 *  Le o arquivo inicial e cria as rubricas de acordo com o arquivo
 	 */
-	private void lerOrcamentoAnterior() {
+	public void lerOrcamentoAnterior(String filename) {
 		
-		LeitorArquivoCSV ler = new LeitorArquivoCSV(super.getFileName());
+		LeitorArquivoCSV ler = new LeitorArquivoCSV(filename);
 		LinkedHashMap<Integer, Rubrica> rubricasIniciais = ler.lerOrcamentoInicial();
 		
 		getPlanoContas().setRubricas(rubricasIniciais);

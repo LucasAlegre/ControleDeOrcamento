@@ -7,47 +7,18 @@ import util.GeradorArquivo;
  *   Classe que gerencia a previs�o para o pr�ximo ano do 
  *   plano de contas.
  */
-public class GerenciadorPrevisao extends Gerenciador {
+public class GerenciadorPrevisao extends AbstractGerenciador {
+
+	public static final int PREVISAO_VALORFIXO = 0;
+	public static final int PREVISAO_VALORPORCENTAGEM = 1;
+	public static final int PREVISAO_VALORANOANTERIOR = 2;
 
 	
-	public GerenciadorPrevisao(PlanoContas planoContas) {
-		super("Previsoes.xls", planoContas);
+	public GerenciadorPrevisao() {
+		super();
 	}
 
-	/**
-	 * Esse excecute foi a maneira que encontramos de colocar o padr�o de projeto "Fachada", pois ele � o p�blico que chama cada uma das diferentes previs�es
-	 * 
-	 * @param option 1 - Porcentagem 2 - Valor fixo 3  - Manter valor anterior 
-	 * @param codigo Codigo da Rubrica
-	 * @param valor 
-	 * @param mes
-	 */
-	public void execute(int option, int codigo, double valor, int mes) {
-		if(LocalDate.now().isBefore(super.getPlanoContas().getDataCongelamento())) {
-			switch(option) {
-				case 01:{
-					previsaoPorcentagem(codigo, valor, mes);
-				}
-				break;
-				case 02:{
-					previsaoValorFixo(codigo, valor, mes);
-				}
-				break;
-				case 03:{
-					previsaoManterAnoAnterior(codigo, super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes), mes);
-				}
-				break;
-				default: {
-					System.out.println("Opção não existente!");
-				}
-			}
-		}
-		else {
-			System.out.println("Data de congelamento atingida, desculpe, mas alterações nas previs�es n�o podem mais ser feitas");
-		}
-	}
-	
-	private void previsaoPorcentagem(int codigo, double valor, int mes) {
+	public void previsaoPorcentagem(int codigo, double valor, int mes) {
 		
 		try {
 			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes)*valor);
@@ -57,7 +28,7 @@ public class GerenciadorPrevisao extends Gerenciador {
 		}
 	}
 
-	private void previsaoValorFixo(int codigo, double valor, int mes) {
+	public void previsaoValorFixo(int codigo, double valor, int mes) {
 		
 		try {
 			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes,valor);
@@ -67,7 +38,7 @@ public class GerenciadorPrevisao extends Gerenciador {
 		}
 	}
 	
-	private void previsaoManterAnoAnterior(int codigo, double valor, int mes) {
+	public void previsaoManterAnoAnterior(int codigo, double valor, int mes) {
 		
 		try {
 			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes,valor);

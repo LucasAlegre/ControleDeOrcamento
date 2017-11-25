@@ -23,7 +23,7 @@ public class UI {
 		
 		// -- Data de congelamento --requisito 04
 		planoContas.setDataCongelamento(LocalDate.of(2020, 1, 11)); 
-			
+		
 		
         // -- Previsões --requisito 02
 		GerenciadorPrevisao gerenciadorPrevisao = new GerenciadorPrevisao(planoContas);

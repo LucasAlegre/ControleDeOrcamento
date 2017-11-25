@@ -4,14 +4,14 @@ package negocios;
  *  Classe pai dos Gerenciadores
  *
  */
-public abstract class Gerenciador {
+public abstract class AbstractGerenciador {
 	
 	private String filename;
 	private PlanoContas planoContas;
 	
-	public Gerenciador(String filename, PlanoContas planoContas) {
-		this.filename = filename;
-		this.planoContas = planoContas;
+	public AbstractGerenciador() {
+		this.filename = "";
+		this.planoContas = PlanoContas.getInstance();
 	}
 	
 	public String getFileName() {

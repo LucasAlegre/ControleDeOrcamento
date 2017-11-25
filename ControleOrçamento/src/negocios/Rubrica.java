@@ -60,6 +60,7 @@ public class Rubrica {
 	public double getvalorAnoPassado(int mes) {
 		return this.valoresAnoPassado[mes];
 	}
+	
 	public String getNome() {
 		return this.nome;
 	}

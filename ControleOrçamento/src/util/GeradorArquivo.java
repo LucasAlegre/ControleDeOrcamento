@@ -30,7 +30,7 @@ public class GeradorArquivo {
 	 * @param planoContas
 	 * @param mes
 	 */
-	public void geraTemplateRealizadoMensal(PlanoContas planoContas, int mes) {
+	public void geraTemplateRealizadoMensal(PlanoContas planoContas, CategoriaMes mes) {
 		
 		 try {
 	           
@@ -61,7 +61,7 @@ public class GeradorArquivo {
 		            cont++;
 	            }
 
-	            String outputFileName = "Template" + months[mes] + ".xls";
+	            String outputFileName = "Template" + months[mes.toInt()] + ".xls";
 	            FileOutputStream fileOut = new FileOutputStream(outputFileName);
 	            workbook.write(fileOut);
 	            fileOut.close();

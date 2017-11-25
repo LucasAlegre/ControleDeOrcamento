@@ -6,11 +6,11 @@ package negocios;
  *  determinado per�odo em uma empresa.
  * 
  */
-public class GerenciadorAnaliseComparativa extends Gerenciador{
+public class GerenciadorAnaliseComparativa extends AbstractGerenciador{
 
 	
-	public GerenciadorAnaliseComparativa(String filename, PlanoContas planoContas) {
-		super(filename, planoContas);
+	public GerenciadorAnaliseComparativa() {
+		super();
 	}
 	
 	public void execute(String filename, PlanoContas planoContas) {
