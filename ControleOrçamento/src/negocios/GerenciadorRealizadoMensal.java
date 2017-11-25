@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import util.GeradorArquivo;
-import util.LeitorArquivo;;
+import util.LeitorArquivoCSV;;
 
 /**
  * Classe respons�vel por controlar o que foi realmente realizado de gastos
@@ -33,7 +33,7 @@ public class GerenciadorRealizadoMensal extends Gerenciador {
 	 */
 	public void leRealizadoMensal(int mes) {
 		
-		LeitorArquivo leitor = new LeitorArquivo(getFileName());
+		LeitorArquivoCSV leitor = new LeitorArquivoCSV(getFileName());
 		
 		// Codigo para Valor realizado de cada rubrica
 		LinkedHashMap<Integer, Double> realizado = leitor.lerRealizadoMensal();
