@@ -11,11 +11,11 @@ import util.LeitorArquivo;;
  * na empresa.
  *
  */
-public class GerenciadorRealizadoMensal extends AbstractGerenciador {
+public class AgenteRealizadoMensal extends AgenteAbstract {
 
 
-	public GerenciadorRealizadoMensal() {
-		super();
+	public AgenteRealizadoMensal(PlanoContas plano) {
+		super(plano);
 	}
 	
 	/**

@@ -1,23 +1,27 @@
-package negocios;
+package facade;
 
 import java.time.LocalDate;
 
+import negocios.AgenteAnaliseComparativa;
+import negocios.AgenteOrcamentoInicial;
+import negocios.AgentePrevisao;
+import negocios.AgenteRealizadoMensal;
+import negocios.PlanoContas;
 import util.CategoriaMes;
 
 public class GerenciadorFacade {
 	
-	private GerenciadorAnaliseComparativa gerenciadorAnaliseComparativa;
-	private GerenciadorRealizadoMensal gerenciadorRealizadoMensal;
-	private GerenciadorPrevisao gerenciadorPrevisao;
-	private GerenciadorOrcamentoInicial gerenciadorOrcamentoInicial;
+	private AgenteAnaliseComparativa gerenciadorAnaliseComparativa;
+	private AgenteRealizadoMensal gerenciadorRealizadoMensal;
+	private AgentePrevisao gerenciadorPrevisao;
+	private AgenteOrcamentoInicial gerenciadorOrcamentoInicial;
 
 
-	public GerenciadorFacade() {
-		
-		gerenciadorAnaliseComparativa = new GerenciadorAnaliseComparativa();
-		gerenciadorRealizadoMensal = new GerenciadorRealizadoMensal();
-		gerenciadorPrevisao = new GerenciadorPrevisao();
-		gerenciadorOrcamentoInicial = new GerenciadorOrcamentoInicial();
+	public GerenciadorFacade(PlanoContas plano) {
+		gerenciadorAnaliseComparativa = new AgenteAnaliseComparativa(plano);
+		gerenciadorRealizadoMensal = new AgenteRealizadoMensal(plano);
+		gerenciadorPrevisao = new AgentePrevisao(plano);
+		gerenciadorOrcamentoInicial = new AgenteOrcamentoInicial(plano);
 		
 	}
 	
@@ -26,15 +30,15 @@ public class GerenciadorFacade {
 		if(LocalDate.now().isBefore(gerenciadorPrevisao.getPlanoContas().getDataCongelamento())) {
 			
 			switch(option) {
-				case GerenciadorPrevisao.PREVISAO_VALORPORCENTAGEM:
+				case AgentePrevisao.PREVISAO_VALORPORCENTAGEM:
 					gerenciadorPrevisao.previsaoPorcentagem(codigo, valor, mes);
 					break;
 				
-				case GerenciadorPrevisao.PREVISAO_VALORFIXO:
+				case AgentePrevisao.PREVISAO_VALORFIXO:
 					gerenciadorPrevisao.previsaoValorFixo(codigo, valor, mes);
 					break;
 				
-				case GerenciadorPrevisao.PREVISAO_VALORANOANTERIOR:
+				case AgentePrevisao.PREVISAO_VALORANOANTERIOR:
 					gerenciadorPrevisao.previsaoManterAnoAnterior(codigo, PlanoContas.getInstance().getRubricas().get(codigo).getvalorAnoPassado(mes), mes);
 					break;
 				

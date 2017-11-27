@@ -3,9 +3,9 @@ package ui;
 
 import java.time.LocalDate;
 
-import negocios.GerenciadorOrcamentoInicial;
-import negocios.GerenciadorPrevisao;
-import negocios.GerenciadorRealizadoMensal;
+import negocios.AgenteOrcamentoInicial;
+import negocios.AgentePrevisao;
+import negocios.AgenteRealizadoMensal;
 import negocios.PlanoContas;
 import util.GeradorArquivo;
 import util.CategoriaMes;

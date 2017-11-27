@@ -6,11 +6,11 @@ package negocios;
  *  determinado per�odo em uma empresa.
  * 
  */
-public class GerenciadorAnaliseComparativa extends AbstractGerenciador{
+public class AgenteAnaliseComparativa extends AgenteAbstract{
 
 	
-	public GerenciadorAnaliseComparativa() {
-		super();
+	public AgenteAnaliseComparativa(PlanoContas plano) {
+		super(plano);
 	}
 	
 	public void execute(String filename, PlanoContas planoContas) {

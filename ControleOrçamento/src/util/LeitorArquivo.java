@@ -19,7 +19,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import negocios.CategoriaRubrica;
+import negocios.AgenteCategoriaRubrica;
 import negocios.Rubrica;
 
 public class LeitorArquivo {
@@ -78,19 +78,19 @@ public class LeitorArquivo {
 					//limpa-se os pais registrados e inicializa a rubrica com pai=null
 					if(pontos == 0) {
 						pais.clear();
-						rubrica = new Rubrica(null, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, valoresPassadosMensal);
+						rubrica = new Rubrica(null, nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
 					
 					//Caso a rubrica esteja classificada ao mesmo nível de sua antecessora, 
 					//possui o mesmo pai que ela
 					}else if(pontos == pontoBuf) {
-						rubrica = new Rubrica(buf.getPai(), nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, valoresPassadosMensal);
+						rubrica = new Rubrica(buf.getPai(), nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
 						buf.getPai().addSubRubrica(rubrica);
 						
 						
 					//Caso a rubrica esteja em um nível mais profundo que a outra, adicionamos a rubrica
 					//anterior na lista de pais a adicionamos como pai da rubrica atual
 					}else if(pontos > pontoBuf){
-						rubrica = new Rubrica(buf, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, valoresPassadosMensal);
+						rubrica = new Rubrica(buf, nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
 						if(buf != null) {
 							pais.add(buf);
 							buf.addSubRubrica(rubrica);
@@ -106,7 +106,7 @@ public class LeitorArquivo {
 							pai =  null;
 							pais.clear();
 						}
-						rubrica = new Rubrica(pai, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, valoresPassadosMensal);
+						rubrica = new Rubrica(pai, nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
 						if(pai != null)pai.addSubRubrica(rubrica);
 						for(int i = pontos; i < pais.size(); i++) {
 							pais.remove(i);

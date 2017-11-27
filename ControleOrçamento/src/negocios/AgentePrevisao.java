@@ -7,15 +7,15 @@ import util.GeradorArquivo;
  *   Classe que gerencia a previs�o para o pr�ximo ano do 
  *   plano de contas.
  */
-public class GerenciadorPrevisao extends AbstractGerenciador {
+public class AgentePrevisao extends AgenteAbstract {
 
 	public static final int PREVISAO_VALORFIXO = 0;
 	public static final int PREVISAO_VALORPORCENTAGEM = 1;
 	public static final int PREVISAO_VALORANOANTERIOR = 2;
 
 	
-	public GerenciadorPrevisao() {
-		super();
+	public AgentePrevisao(PlanoContas plano) {
+		super(plano);
 	}
 
 	public void previsaoPorcentagem(int codigo, double porcentagem, int mes) {

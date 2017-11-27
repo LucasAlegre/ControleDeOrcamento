@@ -2,16 +2,16 @@ package negocios;
 
 import java.util.LinkedHashMap;
 
-import util.LeitorArquivoCSV;
+import util.LeitorArquivo;
 
 /**
  *  Classe respons�vel por gerenciar a leitura do plano or�amentario do ano anterior da empresa.
  * 
  */
-public class GerenciadorOrcamentoInicial extends AbstractGerenciador {
+public class AgenteOrcamentoInicial extends AgenteAbstract {
 
-	public GerenciadorOrcamentoInicial() {
-		super();
+	public AgenteOrcamentoInicial(PlanoContas plano) {
+		super(plano);
 	}
 	
 
@@ -20,7 +20,7 @@ public class GerenciadorOrcamentoInicial extends AbstractGerenciador {
 	 */
 	public void lerOrcamentoAnterior(String filename) {
 		
-		LeitorArquivoCSV ler = new LeitorArquivoCSV(filename);
+		LeitorArquivo ler = new LeitorArquivo(filename);
 		LinkedHashMap<Integer, Rubrica> rubricasIniciais = ler.lerOrcamentoInicial();
 		
 		getPlanoContas().setRubricas(rubricasIniciais);
