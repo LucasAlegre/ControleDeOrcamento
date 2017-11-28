@@ -21,13 +21,16 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import negocios.AgenteCategoriaRubrica;
 import negocios.Rubrica;
+import drivers.DriverCSV;
 
 public class LeitorArquivo {
 
 	private String filename;
+	 DriverCSV driver;
 	
-	public LeitorArquivo(String filename) {
-		this.filename = filename; 
+	public LeitorArquivo(String filename)throws FileNotFoundException{
+		this.filename = filename;
+		this.driver = new DriverCSV(this.filename);
 	}
 
 	public LinkedHashMap<Integer, Rubrica> lerOrcamentoInicial(){
@@ -36,8 +39,8 @@ public class LeitorArquivo {
 			
 		//Lista de pais para a estruturação da linhagem hierárquica
 		List<Rubrica> pais = new ArrayList<>();
-		Rubrica buf = null;
-		int pontoBuf = 0;
+		Rubrica pai = null;
+		int classPai = 0;
 		try {
 			String[] valorPassadoMensal;
 			Double[] valoresPassadosMensal;
@@ -45,79 +48,75 @@ public class LeitorArquivo {
 			File file = new File(this.filename);
 			Scanner scan = new Scanner(file);
 			
-			while(scan.hasNext()) {
+			while(driver.hasNext()) {
 				Rubrica rubrica;
-				
 				// INTERPRETAÇÃO DA LINHA
-				String line = scan.nextLine();
+				driver.proceed();
 				
-				int pos1 = line.indexOf(',');
-				int pos2 = line.indexOf(',', pos1 + 1);
-				int pos3 = line.indexOf(',', pos2 + 1); 
-				
-				String classe = line.substring(0, pos1);
-				String cod = line.substring(pos1 + 1, pos2);
-				String nome = line.substring(pos2 + 1, pos3);
-				
-				//Caso a rúbrica for classificável
-				if(0 != pos1) {
 
-					String valorPassado = line.substring(pos3 + 1);
+				if(driver.getNumOfLineFields() != 0) {
 					
-					valorPassadoMensal = valorPassado.split(",");
-					valoresPassadosMensal = new Double[valorPassadoMensal.length];
+					String classe = driver.getFields()[0];
+					String cod = driver.getFields()[1];
+					String nome = driver.getFields()[2];
+					System.out.println(classe + cod + nome);
 					
-					for(int i = 0; i<valoresPassadosMensal.length; i++) {
-						valoresPassadosMensal[i] = Double.valueOf(valorPassadoMensal[i]);
-					}
-					//Instanciar o número de pontos de classificação da rúbrica,
-					//ou seja, verificar em que nível a rúbrica está
-					int pontos = classe.length() - classe.replace(".", "").length();
-					
-					//Caso o número de pontos seja zero, ou seja, a rubrica lida não possui pai
-					//limpa-se os pais registrados e inicializa a rubrica com pai=null
-					if(pontos == 0) {
-						pais.clear();
-						rubrica = new Rubrica(null, nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
-					
-					//Caso a rubrica esteja classificada ao mesmo nível de sua antecessora, 
-					//possui o mesmo pai que ela
-					}else if(pontos == pontoBuf) {
-						rubrica = new Rubrica(buf.getPai(), nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
-						buf.getPai().addSubRubrica(rubrica);
+					//Caso a rúbrica for classificável
+					if(!classe.equals("")) {
 						
+						valoresPassadosMensal = new Double[driver.getNumOfLineFields()-3];
 						
-					//Caso a rubrica esteja em um nível mais profundo que a outra, adicionamos a rubrica
-					//anterior na lista de pais a adicionamos como pai da rubrica atual
-					}else if(pontos > pontoBuf){
-						rubrica = new Rubrica(buf, nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
-						if(buf != null) {
-							pais.add(buf);
-							buf.addSubRubrica(rubrica);
+						for(int i = 3; i<driver.getNumOfLineFields(); i++) {
+							valoresPassadosMensal[i-3] = Double.valueOf(driver.getFields()[i]);
 						}
-					
-					//Caso tenhamos voltado um nível, deletamos a diferença de níveis da rubrica atual e da anterior,
-					//assim como retomamos a posição da rubrica antes de intanciarmos ela
-					}else {
-						Rubrica pai;
-						try{
-							pai = pais.get(pontos - 1);
-						}catch(IndexOutOfBoundsException e){
-							pai =  null;
+						//Instanciar o número de pontos de classificação da rúbrica,
+						//ou seja, verificar em que nível a rúbrica está
+						int pontos = classe.length() - classe.replace(".", "").length();
+						
+						//Caso o número de pontos seja zero, ou seja, a rubrica lida não possui pai
+						//limpa-se os pais registrados e inicializa a rubrica com pai=null
+						if(pontos == 0) {
 							pais.clear();
-						}
-						rubrica = new Rubrica(pai, nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
-						if(pai != null)pai.addSubRubrica(rubrica);
-						for(int i = pontos; i < pais.size(); i++) {
-							pais.remove(i);
-						}
-					}
-					//set final
-					buf = rubrica;
-					pontoBuf = pontos;
+							rubrica = new Rubrica(null, nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
 						
-					//coloca no mapa
-					map.put(Integer.valueOf(cod), rubrica);
+						//Caso a rubrica esteja classificada ao mesmo nível de sua antecessora, 
+						//possui o mesmo pai que ela
+						}else if(pontos == classPai) {
+							rubrica = new Rubrica(pai.getPai(), nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
+							pai.getPai().addSubRubrica(rubrica);
+							
+							
+						//Caso a rubrica esteja em um nível mais profundo que a outra, adicionamos a rubrica
+						//anterior na lista de pais a adicionamos como pai da rubrica atual
+						}else if(pontos > classPai){
+							rubrica = new Rubrica(pai, nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
+							if(pai != null) {
+								pais.add(pai);
+								pai.addSubRubrica(rubrica);
+							}
+						
+						//Caso tenhamos voltado um nível, deletamos a diferença de níveis da rubrica atual e da anterior,
+						//assim como retomamos a posição da rubrica antes de intanciarmos ela
+						}else {
+							try{
+								pai = pais.get(pontos - 1);
+							}catch(IndexOutOfBoundsException e){
+								pai =  null;
+								pais.clear();
+							}
+							rubrica = new Rubrica(pai, nome, (int)Integer.valueOf(cod), AgenteCategoriaRubrica.DESPESA, valoresPassadosMensal);
+							if(pai != null)pai.addSubRubrica(rubrica);
+							for(int i = pontos; i < pais.size(); i++) {
+								pais.remove(i);
+							}
+						}
+						//set final
+						pai = rubrica;
+						classPai = pontos;
+							
+						//coloca no mapa
+						map.put(Integer.valueOf(cod), rubrica);
+					}
 				}
 				
 			}
@@ -165,6 +164,17 @@ public class LeitorArquivo {
 		
 	
 		return realizados;
+	}
+	
+	public static void main(String Args[]) {
+		try {
+			LeitorArquivo le = new LeitorArquivo("Modelo_Controle_Orcamentario_Completo.csv");
+			le.lerOrcamentoInicial().toString();
+		} catch (FileNotFoundException e) {
+			System.out.println("Não funfou");
+			e.printStackTrace();
+		}
+		
 	}
 	
 }
