@@ -14,9 +14,9 @@ public class Rubrica {
 	private Double[] valoresAnoPassado;
 	private Double[] valoresPrevistos;
 	private Double[] valoresRealizados;
-	private AgenteCategoriaRubrica categoria;
+	private CategoriaRubrica categoria;
 	
-	public Rubrica(Rubrica pai, String nome, int codigo, AgenteCategoriaRubrica categoria, Double[] valoresAnoPassado) {
+	public Rubrica(Rubrica pai, String nome, int codigo, CategoriaRubrica categoria, Double[] valoresAnoPassado) {
 		this.pai = pai;
 		this.nome = nome;
 		this.codigo = codigo;

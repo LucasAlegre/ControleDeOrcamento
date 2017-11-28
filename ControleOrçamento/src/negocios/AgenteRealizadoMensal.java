@@ -1,10 +1,7 @@
 package negocios;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import util.CategoriaMes;
-import util.GeradorArquivo;
-import util.LeitorArquivo;;
 
 /**
  * Classe respons�vel por controlar o que foi realmente realizado de gastos
@@ -24,7 +21,7 @@ public class AgenteRealizadoMensal extends AgenteAbstract {
 	 */
 	public void geraTemplateOrcamentoMensal(CategoriaMes mes) {
 		
-		GeradorArquivo gerador = new GeradorArquivo();
+		GerenciadorArquivos gerador = new GerenciadorArquivos();
 		gerador.geraTemplateRealizadoMensal(getPlanoContas(), mes);
 	}
 	
@@ -34,10 +31,10 @@ public class AgenteRealizadoMensal extends AgenteAbstract {
 	 */
 	public void leRealizadoMensal(String filename, CategoriaMes mes) {
 		
-		LeitorArquivo leitor = new LeitorArquivo(filename);
+		GerenciadorArquivos leitor = new GerenciadorArquivos();
 		
 		// Codigo para Valor realizado de cada rubrica
-		LinkedHashMap<Integer, Double> realizado = leitor.lerRealizadoMensal();
+		LinkedHashMap<Integer, Double> realizado = leitor.lerRealizadoMensal(filename);
 		
 		if(getPlanoContas().getRubricas().keySet().size() != realizado.keySet().size()) {
 			System.out.println("Falta rúbrica no realizado mensal!");

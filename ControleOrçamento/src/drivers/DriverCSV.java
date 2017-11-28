@@ -11,7 +11,7 @@ public class DriverCSV{
 	private Scanner scanner;
 	private String[] fieldNames;
 	
-	public DriverCSV(String filename)throws FileNotFoundException {
+	public DriverCSV(String filename) throws FileNotFoundException {
 		this.csvFile = new File(filename);
 		this.scanner = new Scanner(this.csvFile);
 		this.proceed();
@@ -39,7 +39,7 @@ public class DriverCSV{
 		return this.fieldNames;
 	}
 	
-	public String[] gotoSpecificLine(int lineIndex)throws FileNotFoundException{
+	public String[] gotoSpecificLine(int lineIndex) throws FileNotFoundException{
 		scanner.close();
 		scanner = new Scanner(csvFile);
 		for(int i = 0; i < lineIndex; i++) {

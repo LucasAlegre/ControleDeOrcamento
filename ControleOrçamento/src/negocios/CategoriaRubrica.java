@@ -4,7 +4,7 @@ package negocios;
  * Enum para identificar a categora de uma rubrica.
  *
  */
-public enum AgenteCategoriaRubrica {
+public enum CategoriaRubrica {
 
 	DESPESA, RECEITA;
 }

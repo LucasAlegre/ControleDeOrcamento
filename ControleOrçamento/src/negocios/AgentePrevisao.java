@@ -1,7 +1,5 @@
 package negocios;
-import java.time.LocalDate;
 
-import util.GeradorArquivo;
 
 /**
  *   Classe que gerencia a previs�o para o pr�ximo ano do 
@@ -55,7 +53,7 @@ public class AgentePrevisao extends AgenteAbstract {
 	}
 	
 	public void geraArquivoPrevisao() {
-		GeradorArquivo orcamentoMensal = new GeradorArquivo();
+		GerenciadorArquivos orcamentoMensal = new GerenciadorArquivos();
 		orcamentoMensal.geraArquivoPrevisoes(getPlanoContas(), "Previsoes.xls");
 	}
 
