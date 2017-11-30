@@ -152,13 +152,13 @@ public class GerenciadorArquivos {
 			}
 			
 		}catch(FileNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}catch(InvalidFormatException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (EncryptedDocumentException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (IOException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		return realizados;
