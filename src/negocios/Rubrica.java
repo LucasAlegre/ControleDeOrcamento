@@ -30,7 +30,9 @@ public class Rubrica {
 	public Rubrica getPai() {
 		return this.pai;
 	}
-	
+	public int getCodigo() {
+		return codigo;
+	}
 	public List<Rubrica> getSubRubricas(){
 		return this.subRubricas;
 	

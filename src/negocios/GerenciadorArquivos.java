@@ -123,7 +123,6 @@ public class GerenciadorArquivos {
 			}
 			
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 			System.out.println("Arquivo " + filename + " não encontrado.");
 		}
 		

@@ -1,14 +1,20 @@
 package ui;
 
+import negocios.AgenteOrcamentoInicial;
+import negocios.PlanoContas;
+
 public class UI {
 	
 	public static void main(String Args[]) {
+		PlanoContas planoContas = PlanoContas.getInstance();
+		
+
 		/**
 
 		// --- Leitura do Arquivo Inicial --requisito 01
 		PlanoContas planoContas = PlanoContas.getInstance();
 		
-		GerenciadorOrcamentoInicial gInicial = new GerenciadorOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv", planoContas);
+		AgenteOrcamentoInicial gInicial = new GerenciadorOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv", planoContas);
 		gInicial.execute();
 		
 		// -- Data de congelamento --requisito 04
