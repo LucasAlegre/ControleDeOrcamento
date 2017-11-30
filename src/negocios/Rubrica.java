@@ -7,14 +7,14 @@ import java.util.*;
  */
 public class Rubrica {
 	
-	private int codigo;
-	private String nome;
 	private Rubrica pai;
-	private List<Rubrica> subRubricas;
+	private String nome;
+	private int codigo;
+	private CategoriaRubrica categoria;
 	private Double[] valoresAnoPassado;
 	private Double[] valoresPrevistos;
 	private Double[] valoresRealizados;
-	private CategoriaRubrica categoria;
+	private List<Rubrica> subRubricas;
 	
 	public Rubrica(Rubrica pai, String nome, int codigo, CategoriaRubrica categoria, Double[] valoresAnoPassado) {
 		this.pai = pai;
@@ -26,6 +26,7 @@ public class Rubrica {
 		this.valoresPrevistos = new Double[12]; 
 		this.valoresRealizados = new Double[12]; 
 	}
+
 
 	public Rubrica getPai() {
 		return this.pai;
