@@ -27,7 +27,7 @@ public class GerenciadorFacade {
 	
 	public void geraPrevisao(int option, int codigo, double valor, int mes) {
 		
-		if(LocalDate.now().isBefore(gerenciadorPrevisao.getPlanoContas().getDataCongelamento())) {
+		if(LocalDate.now().isBefore(gerenciadorPrevisao.getPlanoContas().getDataCongelamento()) && valor >=0) {
 			
 			switch(option) {
 				case AgentePrevisao.PREVISAO_VALORPORCENTAGEM:
@@ -47,7 +47,12 @@ public class GerenciadorFacade {
 			}
 		}
 		else {
-			System.out.println("Data de congelamento atingida, desculpe, mas alterações nas previsões não podem mais ser feitas");
+			if(valor <=0) {
+				System.out.println("Valor não pode ser negativo");
+			}
+			else {
+				System.out.println("Data de congelamento atingida, desculpe, mas alterações nas previsões não podem mais ser feitas");	
+			}
 		}
 	}
 	
@@ -64,6 +69,11 @@ public class GerenciadorFacade {
 	}
 	
 	public void geraAnalise() {
+		
+	}
+
+	public void geraArquivoPrevisao() {
+		gerenciadorPrevisao.geraArquivoPrevisao();
 		
 	}
 }

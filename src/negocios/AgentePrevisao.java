@@ -19,7 +19,7 @@ public class AgentePrevisao extends AgenteAbstract {
 	public void previsaoPorcentagem(int codigo, double porcentagem, int mes) {
 		
 		try {
-			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes)*porcentagem);
+			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, (super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes)*porcentagem));
 		}
 		catch (NullPointerException npe) {
 			 System.out.println("O código digitado não existe!");
