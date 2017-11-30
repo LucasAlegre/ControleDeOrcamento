@@ -283,13 +283,4 @@ public class GerenciadorArquivos {
         }
 		
 	}
-	
-	
-	public static void main(String Args[]) {
-		
-		GerenciadorArquivos le = new GerenciadorArquivos();
-		System.out.println(le.lerOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv").toString());
-
-	}
-	
 }
