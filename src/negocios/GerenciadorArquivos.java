@@ -32,7 +32,7 @@ public class GerenciadorArquivos {
 		
 	}
 
-	public LinkedHashMap<Integer, Rubrica> lerOrcamentoInicial(String filename){
+	public LinkedHashMap<Integer, Rubrica> lerOrcamentoInicial(String filename)throws FileNotFoundException{
 	
 		
 		LinkedHashMap<Integer, Rubrica> map = new LinkedHashMap<Integer, Rubrica>();
@@ -42,8 +42,6 @@ public class GerenciadorArquivos {
 		Rubrica parent = null;
 		int parentClass = 0;
 		
-		try {
-			
 			DriverCSV driver = new DriverCSV(filename);
 			
 			Double[] pastValues;
@@ -118,9 +116,6 @@ public class GerenciadorArquivos {
 				
 			}
 			
-		} catch (FileNotFoundException e) {
-			System.out.println("Arquivo " + filename + " não encontrado.");
-		}
 		
 		return map;
 	}

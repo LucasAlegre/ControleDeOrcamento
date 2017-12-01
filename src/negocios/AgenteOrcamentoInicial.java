@@ -1,5 +1,6 @@
 package negocios;
 
+import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 
 /**
@@ -16,7 +17,7 @@ public class AgenteOrcamentoInicial extends AgenteAbstract {
 	/**
 	 *  Le o arquivo inicial e cria as rubricas de acordo com o arquivo
 	 */
-	public void lerOrcamentoAnterior(String filename) {
+	public void lerOrcamentoAnterior(String filename)throws FileNotFoundException {
 		
 		GerenciadorArquivos ler = new GerenciadorArquivos();
 		LinkedHashMap<Integer, Rubrica> rubricasIniciais = ler.lerOrcamentoInicial(filename);

@@ -1,5 +1,6 @@
 package facade;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 
 import negocios.AgenteAnaliseComparativa;
@@ -56,7 +57,7 @@ public class GerenciadorFacade {
 		}
 	}
 	
-	public void lerOrcamentoInicial(String filename){
+	public void lerOrcamentoInicial(String filename)throws FileNotFoundException{
 		gerenciadorOrcamentoInicial.lerOrcamentoAnterior(filename);
 	}
 	
