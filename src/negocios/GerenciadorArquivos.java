@@ -39,14 +39,14 @@ public class GerenciadorArquivos {
 			
 		//Lista de pais para a estruturação da linhagem hierárquica
 		List<Rubrica> pais = new ArrayList<>();
-		Rubrica pai = null;
-		int classPai = 0;
+		Rubrica parent = null;
+		int parentClass = 0;
 		
 		try {
 			
 			DriverCSV driver = new DriverCSV(filename);
 			
-			Double[] valoresPassadosMensal;
+			Double[] pastValues;
 			
 			while(driver.hasNext()) {
 				Rubrica rubrica;
@@ -55,44 +55,40 @@ public class GerenciadorArquivos {
 				
 				if(driver.getNumOfLineFields() != 0) {
 					
-					String classe = driver.getFields()[0];
+					String classification = driver.getFields()[0];
 					String cod = driver.getFields()[1];
-					String nome = driver.getFields()[2];
+					String name = driver.getFields()[2];
 					
 					//Caso a rúbrica for classificável
-					if(!classe.equals("")) {
+					if(this.isRubricaValid(driver.getFields())) {
 						
-						valoresPassadosMensal = new Double[driver.getNumOfLineFields()-3];
+						pastValues = this.getPastValues(driver.getFields());
 						
-						for(int i = 3; i<driver.getNumOfLineFields(); i++) {
-							valoresPassadosMensal[i-3] = Double.valueOf(driver.getFields()[i]);
-						}
 						//Instanciar o número de pontos de classificação da rúbrica,
 						//ou seja, verificar em que nível a rúbrica está
-						int pontos = classe.length() - classe.replace(".", "").length();
+						int depth = this.getRubricaDepth(driver.getFields());
 						
 						//Caso o número de pontos seja zero, ou seja, a rubrica lida não possui pai
 						//limpa-se os pais registrados e inicializa a rubrica com pai=null
-						if(pontos == 0) {
+						if(depth == 0) {
 							pais.clear();
-							rubrica = new Rubrica(null, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, valoresPassadosMensal);
-						
+							rubrica = new Rubrica(null, name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
+						}
+
 						//Caso a rubrica esteja classificada ao mesmo nível de sua antecessora, 
 						//possui o mesmo pai que ela
-						}
-						else if(pontos == classPai) {
-							rubrica = new Rubrica(pai.getPai(), nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, valoresPassadosMensal);
-							pai.getPai().addSubRubrica(rubrica);
-							
+						else if(depth == parentClass) {
+							rubrica = new Rubrica(parent.getPai(), name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
+							parent.getPai().addSubRubrica(rubrica);
 							
 						//Caso a rubrica esteja em um nível mais profundo que a outra, adicionamos a rubrica
 						//anterior na lista de pais a adicionamos como pai da rubrica atual
 						}
-						else if(pontos > classPai){
-							rubrica = new Rubrica(pai, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, valoresPassadosMensal);
-							if(pai != null) {
-								pais.add(pai);
-								pai.addSubRubrica(rubrica);
+						else if(depth > parentClass){
+							rubrica = new Rubrica(parent, name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
+							if(parent != null) {
+								pais.add(parent);
+								parent.addSubRubrica(rubrica);
 							}
 						
 						//Caso tenhamos voltado um nível, deletamos a diferença de níveis da rubrica atual e da anterior,
@@ -100,20 +96,20 @@ public class GerenciadorArquivos {
 						}
 						else {
 							try{
-								pai = pais.get(pontos - 1);
+								parent = pais.get(depth - 1);
 							}catch(IndexOutOfBoundsException e){
-								pai =  null;
+								parent =  null;
 								pais.clear();
 							}
-							rubrica = new Rubrica(pai, nome, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, valoresPassadosMensal);
-							if(pai != null)pai.addSubRubrica(rubrica);
-							for(int i = pontos; i < pais.size(); i++) {
+							rubrica = new Rubrica(parent, name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
+							if(parent != null)parent.addSubRubrica(rubrica);
+							for(int i = depth; i < pais.size(); i++) {
 								pais.remove(i);
 							}
 						}
 						//set final
-						pai = rubrica;
-						classPai = pontos;
+						parent = rubrica;
+						parentClass = depth;
 							
 						//coloca no mapa
 						map.put(Integer.valueOf(cod), rubrica);
@@ -127,6 +123,25 @@ public class GerenciadorArquivos {
 		}
 		
 		return map;
+	}
+	
+	private boolean isRubricaValid(String line[]) {
+		String classe = line[0];
+		if(classe.equals("")) return false;
+		return true;
+	}
+	
+	private Double[] getPastValues(String line[]) {
+		Double pastValues[] = new Double[15];
+		for(int i = 3; i<15; i++) {
+			pastValues[i-3] = Double.valueOf(line[i]);
+		}
+		return pastValues;
+	}
+	
+	private int getRubricaDepth(String line[]) {
+		String classe = line[0];
+		return classe.length() - classe.replace(".", "").length();
 	}
 	
 	public LinkedHashMap<Integer, Double> lerRealizadoMensal(String filename){
@@ -283,4 +298,6 @@ public class GerenciadorArquivos {
         }
 		
 	}
+	
+	
 }
