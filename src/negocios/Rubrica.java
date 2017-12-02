@@ -67,6 +67,16 @@ public class Rubrica {
 	public String getNome() {
 		return this.nome;
 	}
+	
+	public CategoriaRubrica getCategoria () {
+		return this.categoria;
+	}
+	public Double getValorRealizado(int mes) {
+		return this.valoresRealizados[mes];
+	}
+
+	
+
 
 	public String toString() {
 		String out = this.nome + "  " +  String.valueOf(this.codigo);

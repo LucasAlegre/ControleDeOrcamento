@@ -69,7 +69,8 @@ public class GerenciadorFacade {
 		gerenciadorRealizadoMensal.leRealizadoMensal(filename, mes);
 	}
 	
-	public void geraAnalise() {
+	public void geraAnalise(CategoriaMes mesInicial, CategoriaMes mesFinal) {
+		gerenciadorAnaliseComparativa.geraAnaliseComparativa(mesInicial, mesFinal);
 		
 	}
 
