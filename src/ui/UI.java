@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Scanner;
 
 import negocios.AgenteOrcamentoInicial;
+import negocios.AgentePrevisao;
 import negocios.PlanoContas;
 import facade.GerenciadorFacade;
 

@@ -115,6 +115,7 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		return valores;
 		
 	}
+	
 	public static Double somaValoresPrevistosSubrubricas(Rubrica rubrica, int mes)  {
 		if (rubrica.getSubRubricas().isEmpty() ) {
 			try { 
