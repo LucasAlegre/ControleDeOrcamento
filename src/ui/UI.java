@@ -45,9 +45,10 @@ public class UI {
 			}
 			
 			while(!this.dateIsValid) {
-				day = Integer.valueOf(this.askUser("Digite a data de congelamento(dd/mm/yyyy)(0 para sair)", "0"));
-				month = Integer.valueOf(this.askUser("", ""));
-				year = Integer.valueOf(this.askUser("", ""));
+				System.out.println("Digite a data de congelamento(dd/mm/yyyy)(0 para sair)");
+				day = Integer.valueOf(this.askUser("Dia", "0"));
+				month = Integer.valueOf(this.askUser("Mês", "0"));
+				year = Integer.valueOf(this.askUser("Ano", "0"));
 				
 				if(this.validateDate(day, month, year)) {
 					planoContas.setDataCongelamento(LocalDate.of(Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day)));
