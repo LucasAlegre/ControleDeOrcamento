@@ -7,9 +7,9 @@ package negocios;
  */
 public class AgentePrevisao extends AgenteAbstract {
 
-	public static final int PREVISAO_VALORFIXO = 0;
-	public static final int PREVISAO_VALORPORCENTAGEM = 1;
-	public static final int PREVISAO_VALORANOANTERIOR = 2;
+	public static final int PREVISAO_VALORFIXO = 1;
+	public static final int PREVISAO_VALORPORCENTAGEM = 2;
+	public static final int PREVISAO_VALORANOANTERIOR = 3;
 
 	
 	public AgentePrevisao(PlanoContas plano) {

@@ -20,13 +20,14 @@ public class UI {
 	private boolean predictionEnd = false;
 
 	public void executeUI(){
+		
 		PlanoContas planoContas = PlanoContas.getInstance();
 		GerenciadorFacade facade = new GerenciadorFacade(planoContas);
 		
 		String csvName;
 		int day, month, year;
 		int predicitionOp;
-		int predictionCode;
+		int rubricaCode;
 		int predictionValue;
 		int predictionMonth;
 		String predicitionContinues;
@@ -54,23 +55,42 @@ public class UI {
 					planoContas.setDataCongelamento(LocalDate.of(Integer.valueOf(year), Integer.valueOf(month), Integer.valueOf(day)));
 					this.dateIsValid = true;
 				}
-				else System.out.println("Data inválida!\n");
+				else {
+					System.out.println("Data inválida!\n");
+				}
 			}
 			
 			while(!this.optionValid) {
-				predicitionOp = Integer.valueOf(this.askUser("Digite a opção para a previsão: 1-Porcentagem   2-Valor Fixo   3-Manter Valor Passado (0 para sair)", "0"));
-				if(predicitionOp < 1 || predicitionOp > 3) System.out.println("Opção não reconhecida!!");
+				
+				predicitionOp = Integer.valueOf(askUser("Digite a opção para a previsão: 1-Valor Fixo "
+						                                + "  2-Valor Porcentagem   3-Manter Valor Ano Anterior (0 para sair)", "0"));
+				
+				if(predicitionOp < 1 || predicitionOp > 3) {
+					System.out.println("Opção não reconhecida!!");
+				}
+				
 				else {
 					while(!this.predictionEnd) {
 						optionValid = true;
-						predictionCode = Integer.valueOf(this.askUser("Digite o código da Rubrica que desejas prever o valor", ""));
 						
-						if(predicitionOp == 2)predictionValue = 0;
-						else predictionValue = Integer.valueOf(this.askUser("Digite o valor de alteração da Rubrica que desejas prever o valor", ""));
+						rubricaCode = Integer.valueOf(this.askUser("Digite o código da Rubrica que desejas prever o valor", ""));
 						predictionMonth = Integer.valueOf(this.askUser("Digite o mes de previsão da Rubrica que desejas prever o valor", ""));
-						facade.geraPrevisao(predicitionOp, predictionCode, predictionValue, predictionMonth);
+						
+						if(predicitionOp == AgentePrevisao.PREVISAO_VALORANOANTERIOR) {
+							predictionValue = 0;
+						}
+						else if(predicitionOp == AgentePrevisao.PREVISAO_VALORFIXO){
+							predictionValue = Integer.valueOf(this.askUser("Digite o valor de alteração da Rubrica que desejas prever o valor", ""));
+						}
+						else {
+							predictionValue = Integer.valueOf(this.askUser("Digite o valor percentual de alteração da rubrica", ""));
+						}
+					
+						facade.geraPrevisao(predicitionOp, rubricaCode, predictionValue, predictionMonth);
 						predicitionContinues = this.askUser("Desejas continuar a previsão?(s/n)(0 para sair)", "");
-						if(predicitionContinues.equals("n")) this.predictionEnd = true;
+						if(predicitionContinues.equals("n")) {
+							this.predictionEnd = true;
+						}
 					}
 				}
 			}
@@ -89,13 +109,14 @@ public class UI {
 			System.out.println("Encerrando");
 			System.exit(-1);;
 		}
+		inputChannel.close();
 		return input;		
 	}
 	
 	private boolean validateDate(int day, int month, int year) {
 		
 		Calendar calendar = Calendar.getInstance();
-		boolean monthIsValid = month<=12 && month>=1;
+		boolean monthIsValid = month <= 12 && month >= 1;
 		
 		int yearLowerLimit = calendar.get(calendar.YEAR);
 		boolean yearIsValid = year > yearLowerLimit;

@@ -6,16 +6,11 @@ package negocios;
  */
 public abstract class AgenteAbstract {
 	
-	private String filename;
 	private PlanoContas planoContas;
 	
 	public AgenteAbstract(PlanoContas plano) {
-		this.filename = "";
-		this.planoContas = plano;
-	}
 	
-	public String getFileName() {
-		return this.filename;
+		this.planoContas = plano;
 	}
 	
 	public PlanoContas getPlanoContas() {
