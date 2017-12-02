@@ -70,7 +70,11 @@ public class GerenciadorFacade {
 	}
 	
 	public void geraAnalise(CategoriaMes mesInicial, CategoriaMes mesFinal) {
+<<<<<<< HEAD
 		agenteAnaliseComparativa.geraAnaliseComparativa(mesInicial, mesFinal);
+=======
+		gerenciadorAnaliseComparativa.geraAnaliseComparativa(mesInicial, mesFinal);
+>>>>>>> branch 'master' of https://github.com/LucasAlegre/ControleDeOrcamento.git
 		
 	}
 
