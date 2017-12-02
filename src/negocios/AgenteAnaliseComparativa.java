@@ -16,8 +16,7 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		super(plano);
 	}
 	
-	public void execute(String filename, PlanoContas planoContas) {
-	}	
+
 	public void geraAnaliseComparativa(CategoriaMes mesInicial, CategoriaMes mesFinal) {
 		
 		int contadorRubrica = 1;
