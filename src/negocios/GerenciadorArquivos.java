@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.poi.EncryptedDocumentException;
@@ -23,10 +24,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import drivers.DriverCSV;
+import util.CategoriaAnaliseComparativa;
 import util.CategoriaMes;
 
 public class GerenciadorArquivos {
 
+	private HSSFSheet analiseComparativaSheet;
+	private HSSFWorkbook analisaComparativaWorkbook;
 	
 	public GerenciadorArquivos(){
 		
@@ -263,6 +267,7 @@ public class GerenciadorArquivos {
 	            int cont = 0;
 	            for (Integer key : planoContas.getRubricas().keySet()) {
 	            		HSSFRow newRubricaRow = sheet.createRow((short)cont+1);
+	            		
 	            		HSSFCell rubricaNameCell = newRubricaRow.createCell(0);
 	            		rubricaNameCell.setCellValue(planoContas.getRubricas().get(key).getNome());
 	            		rubricaNameCell.setCellStyle(cellStyle);
@@ -293,6 +298,59 @@ public class GerenciadorArquivos {
         }
 		
 	}
+	
+	private void criaHeaderAnaliseComparativa(HSSFSheet sheet, HSSFWorkbook workbook) { 
+		EnumSet<CategoriaAnaliseComparativa> categorias = EnumSet.allOf(CategoriaAnaliseComparativa.class);
+		try {
+	        HSSFCellStyle cellHeaderStyle = workbook.createCellStyle();
+	        cellHeaderStyle.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
+	        cellHeaderStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	        HSSFRow rowhead = sheet.createRow((short)0);  
+	        
+	        for (CategoriaAnaliseComparativa categoria : categorias) {
+	        		HSSFCell newcell = rowhead.createCell(categoria.toInt());
+	            newcell.setCellStyle(cellHeaderStyle);
+	            newcell.setCellValue(categoria.toString());
+	            sheet.setColumnWidth(categoria.toInt(), 10000);
+	       
+	        }
+		}
+		catch (Exception ex) {
+		}
+	}
+	public void geraArquivoAnaliseComparativa() {
+		
+		HSSFWorkbook workbook = new HSSFWorkbook();
+		this.analisaComparativaWorkbook = workbook;
+		
+        HSSFSheet sheet = workbook.createSheet("FirstSheet"); 
+        this.analiseComparativaSheet = sheet;
+        
+        criaHeaderAnaliseComparativa(sheet, workbook);
+            
+	}
+	public void finalizaArquivoAnaliseComparativa () {
+		try {
+	        FileOutputStream fileOut = new FileOutputStream("teste.xls");
+	        this.analisaComparativaWorkbook.write(fileOut);
+	        fileOut.close();
+			} catch (Exception ex) {
+				
+			}
+	}
+	
+	
+	public void preencheLinhaAnaliseComparativa(ArrayList<String> valoresRubrica, int linhaRubrica) {
+		int contadorColuna = 0;
+		HSSFRow novaLinha = this.analiseComparativaSheet.createRow((short)linhaRubrica);
+		for (String valor : valoresRubrica ) {
+			HSSFCell celula = novaLinha.createCell(contadorColuna);
+		    celula.setCellValue(valor);
+		    contadorColuna += 1;
+		}			
+	}
+	
+	
 	
 	
 }
