@@ -45,7 +45,6 @@ public class UI {
 					System.out.println("Arquivo não encontrado!\n");
 				}
 			}
-			
 			while(!this.dateIsValid) {
 				System.out.println("Digite a data de congelamento(dd/mm/yyyy)(0 para sair)");
 				day = Integer.valueOf(this.askUser("Dia", "0"));
@@ -60,6 +59,7 @@ public class UI {
 					System.out.println("Data inválida!\n");
 				}
 			}
+		
 			
 			while(!this.optionValid) {
 				
@@ -107,7 +107,7 @@ public class UI {
 		String input = inputChannel.nextLine();
 		if(input.equals(quitOp) && !quitOp.equals("")) {
 			this.executing = false;
-			System.out.println("Encerrando");
+			System.out.println("Obrigada por utilizar o sistema!");
 			System.exit(-1);;
 		}
 		inputChannel.close();

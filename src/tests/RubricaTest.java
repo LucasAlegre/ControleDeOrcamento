@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,7 @@ public class RubricaTest {
 	private PlanoContas planoContas;
 	
 	@Before
-	public void createPlanoContasAndAgents(){
+	public void createPlanoContasAndAgents() throws FileNotFoundException{
 		 planoContas = PlanoContas.getInstance();
 		 gerenciador = new GerenciadorFacade(planoContas);
 		 gerenciador.lerOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv");

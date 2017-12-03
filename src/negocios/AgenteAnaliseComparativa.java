@@ -79,7 +79,7 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		gerenciadorArquivo.finalizaArquivoAnaliseComparativa();
 	}
 	
-	public ArrayList<String> geraValoresRubrica(Rubrica rubrica, CategoriaMes mesInicial, CategoriaMes mesFinal) {
+	public static ArrayList<String> geraValoresRubrica(Rubrica rubrica, CategoriaMes mesInicial, CategoriaMes mesFinal) {
 		
 		ArrayList<String> valores = new ArrayList<String>();
 		try {
@@ -96,13 +96,12 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		}
 		Double somaValoresPrevistos = 0.0;
 		Double somaValoresRealizados = 0.0;
-		System.out.println("ackaknksankans");
 		
 
 		for (int mounthCounter = mesInicial.toInt(); mounthCounter <= mesFinal.toInt(); mounthCounter ++) {
 			somaValoresPrevistos += somaValoresPrevistosSubrubricas(rubrica, mounthCounter);
 			somaValoresRealizados += somaValoresRealizadosSubrubricas(rubrica, mounthCounter);
-			System.out.println(somaValoresPrevistos);
+		//	System.out.println(somaValoresPrevistos);
 		}
 		valores.add(String.valueOf(somaValoresPrevistos));
 		valores.add(String.valueOf(somaValoresRealizados));
@@ -119,7 +118,12 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 	public static Double somaValoresPrevistosSubrubricas(Rubrica rubrica, int mes)  {
 		if (rubrica.getSubRubricas().isEmpty() ) {
 			try { 
-				return rubrica.getValorPrevisto(mes);
+				if(rubrica.getValorPrevisto(mes) == null) {
+					return 0.0;
+				}
+				else {
+					return rubrica.getValorPrevisto(mes);	
+				}
 			}
 			catch (NullPointerException ex){
 				return 0.0;
@@ -135,7 +139,12 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 	public static Double somaValoresRealizadosSubrubricas(Rubrica rubrica, int mes)  {
 		if (rubrica.getSubRubricas().isEmpty() ) {
 			try { 
-				return rubrica.getValorRealizado(mes);
+				if(rubrica.getValorRealizado(mes) == null) {
+					return 0.0;
+				}
+				else {
+					return rubrica.getValorRealizado(mes);
+				}
 			}
 			catch (NullPointerException ex){
 				return 0.0;
@@ -171,8 +180,9 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 	public static Double calculaVariacao (Rubrica rubrica, int mes) {
 		Double variacao = 0.0;
 		try {
-			variacao = rubrica.getValorPrevisto(mes) - rubrica.getValorRealizado(mes);
-			return variacao;
+				variacao = rubrica.getValorPrevisto(mes) - rubrica.getValorRealizado(mes);
+				return variacao;	
+		
 		}
 		catch (NullPointerException exc){
 			return 0.0;
@@ -181,7 +191,7 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		
 	}
 	
-	public static Double calculaPorcentagem (Double valorPrevisto, Double variacao) {
+	private static Double calculaPorcentagem (Double valorPrevisto, Double variacao) {
 		//Double variacao = calculaVariacao(rubrica, mes);
 		try {
 			Double porcentagem = variacao * 100 / valorPrevisto;

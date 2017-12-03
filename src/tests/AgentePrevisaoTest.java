@@ -22,7 +22,7 @@ public class AgentePrevisaoTest {
 	private PlanoContas planoContas;
 	
 	@Before
-	public void createPlanoContasAndAgents(){
+	public void createPlanoContasAndAgents() throws FileNotFoundException{
 		 planoContas = PlanoContas.getInstance();
 		 gerenciador = new GerenciadorFacade(planoContas);
 		 gerenciador.lerOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv");
@@ -96,7 +96,7 @@ public class AgentePrevisaoTest {
 	@Test
 	public void manterAnoAnterior() {
 		double valuePreviousYear = 	PlanoContas.getInstance().getRubricas().get(103).getvalorAnoPassado(CategoriaMes.JANEIRO.toInt());
-		gerenciador.geraPrevisao(2, 103, 10, CategoriaMes.JANEIRO.toInt());
+		gerenciador.geraPrevisao(3, 103, 10, CategoriaMes.JANEIRO.toInt());
 		double predictedValue = PlanoContas.getInstance().getRubricas().get(103).getValorPrevisto(CategoriaMes.JANEIRO.toInt());
 		assertEquals(predictedValue,valuePreviousYear, 0.00001);
 	}
@@ -109,7 +109,7 @@ public class AgentePrevisaoTest {
 	@Test
 	public void percentagePrediction(){
 		double valuePreviousYear = 	PlanoContas.getInstance().getRubricas().get(106).getvalorAnoPassado(CategoriaMes.JANEIRO.toInt());
-		gerenciador.geraPrevisao(1, 106, 1.10, CategoriaMes.JANEIRO.toInt());
+		gerenciador.geraPrevisao(2, 106, 1.10, CategoriaMes.JANEIRO.toInt());
 		double predictedValue = PlanoContas.getInstance().getRubricas().get(106).getValorPrevisto(CategoriaMes.JANEIRO.toInt());
 		assertEquals(predictedValue,valuePreviousYear*1.10, 0.00001);
 	}
@@ -122,7 +122,7 @@ public class AgentePrevisaoTest {
 	public void fixedPrediction(){
 		double fixedValue = 19050;
 		double valuePreviousYear = 	PlanoContas.getInstance().getRubricas().get(106).getvalorAnoPassado(CategoriaMes.FEVEREIRO.toInt());
-		gerenciador.geraPrevisao(0, 106, fixedValue, CategoriaMes.FEVEREIRO.toInt());
+		gerenciador.geraPrevisao(1, 106, fixedValue, CategoriaMes.FEVEREIRO.toInt());
 		double predictedValue = PlanoContas.getInstance().getRubricas().get(106).getValorPrevisto(CategoriaMes.FEVEREIRO.toInt());
 		assertEquals(fixedValue,predictedValue, 0.00001);
 	}
