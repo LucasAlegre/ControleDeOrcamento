@@ -48,7 +48,7 @@ public class AgenteAnaliseComparativaTest {
 	@Test
 	public void geraValoresRubricaSemNome() {
 		ArrayList<String> correctAnswer = new ArrayList<String>(
-				Arrays.asList("0", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
+				Arrays.asList("0", "SEM NOME", "200.0", "400.0", "-200.0", "-100.0%", ":("));
 		Rubrica mae = new Rubrica(null, null, 0, CategoriaRubrica.DESPESA, null);
 		Rubrica filha = new Rubrica(null, null, 1, CategoriaRubrica.DESPESA, null);
 		mae.addSubRubrica(filha);
@@ -113,8 +113,10 @@ public class AgenteAnaliseComparativaTest {
 		Rubrica mae = new Rubrica(null, "mae", 0, CategoriaRubrica.DESPESA, null);
 		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
 		mae.addSubRubrica(filha);
+		ArrayList<String> valoresEsperados = new ArrayList<String>(
+				Arrays.asList("0", "mae", "0.0", "0.0", "0.0", "0.0%", ":)"));
 		ArrayList<String> valores = analiseComp.geraValoresRubrica(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
-		assertEquals(0.0, valores);
+		assertEquals(valoresEsperados, valores);
 
 	}
 

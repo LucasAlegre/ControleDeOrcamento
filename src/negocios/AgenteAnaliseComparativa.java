@@ -89,10 +89,16 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 			valores.add("SEM CODIGO");
 		}
 		try {
-			valores.add(String.valueOf(rubrica.getNome()));
+			if (rubrica.getNome() == null) {
+				valores.add("SEM NOME");
+			}
+			else {
+				valores.add(String.valueOf(rubrica.getNome()));
+			}
+			
 		}
 		catch (NullPointerException ex) {
-			valores.add("SEM NOME");
+			
 		}
 		Double somaValoresPrevistos = 0.0;
 		Double somaValoresRealizados = 0.0;
@@ -194,8 +200,14 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 	private static Double calculaPorcentagem (Double valorPrevisto, Double variacao) {
 		//Double variacao = calculaVariacao(rubrica, mes);
 		try {
-			Double porcentagem = variacao * 100 / valorPrevisto;
-			return porcentagem;
+			if (valorPrevisto != 0.0) {
+				Double porcentagem = variacao * 100 / valorPrevisto;
+				return porcentagem;
+			}
+			else {
+				return 0.0;
+			}
+			
 		}
 		catch (NullPointerException exc) {
 			return 0.0;
