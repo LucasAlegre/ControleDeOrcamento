@@ -1,6 +1,7 @@
 package negocios;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import util.CategoriaMes;
 
@@ -12,6 +13,8 @@ import util.CategoriaMes;
  */
 public class AgenteAnaliseComparativa extends AgenteAbstract{
 
+	HashMap<Integer, Double> hardcodedResults = new HashMap<>(); 
+	
 	public AgenteAnaliseComparativa(PlanoContas plano) {
 		super(plano);
 	}
@@ -77,6 +80,11 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		
 		
 		gerenciadorArquivo.finalizaArquivoAnaliseComparativa();
+	}
+	
+	private void hardcodedResultCalculations() {
+		
+		
 	}
 	
 	public static ArrayList<String> geraValoresRubrica(Rubrica rubrica, CategoriaMes mesInicial, CategoriaMes mesFinal) {

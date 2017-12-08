@@ -125,15 +125,17 @@ public class GerenciadorArquivos {
 	}
 	
 	private boolean isRubricaValid(String line[]) {
-		String classe = line[0];
-		if(classe.equals("")) return false;
+		String cod = line[1];
+		if(cod.equals("")) return false;
 		return true;
 	}
 	
 	private Double[] getPastValues(String line[]) {
-		Double pastValues[] = new Double[15];
-		for(int i = 3; i<15; i++) {
-			pastValues[i-3] = Double.valueOf(line[i]);
+		Double pastValues[] = new Double[12];
+		int lowerBound = line.length - 12;
+		int higherBound = line.length;
+		for(int i = lowerBound ; i<higherBound; i++) {
+			pastValues[i - lowerBound] = Double.valueOf(line[i]);
 		}
 		return pastValues;
 	}
