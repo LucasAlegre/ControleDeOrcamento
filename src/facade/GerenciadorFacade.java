@@ -20,6 +20,7 @@ public class GerenciadorFacade {
 
 	public GerenciadorFacade(PlanoContas plano) {
 		agenteAnaliseComparativa = new AgenteAnaliseComparativa(plano);
+		//agenteAnaliseComparativa.geraAnaliseComparativa(CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		agenteRealizadoMensal = new AgenteRealizadoMensal(plano);
 		agentePrevisao = new AgentePrevisao(plano);
 		agenteOrcamentoInicial = new AgenteOrcamentoInicial(plano);

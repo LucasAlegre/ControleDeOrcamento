@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Scanner;
+import util.CategoriaMes;
 
 import negocios.AgenteOrcamentoInicial;
 import negocios.AgentePrevisao;
@@ -99,6 +100,11 @@ public class UI {
 			this.askUser("Queres continuar a listar previsões? N para não", "N");
 			
 		}
+		this.askUser("Queres gerar analise comparativa? N para nao", "N");
+		int mesInicial = Integer.valueOf(this.askUser("Digite o mes inicial! 1 - janeiro. 12 - dezembro", ""));
+		int mesFinal = Integer.valueOf(this.askUser("Digite o mes final! 1 - janeiro. 12 - dezembro", ""));
+
+		facade.geraAnalise(CategoriaMes.values()[mesInicial - 1], CategoriaMes.values()[mesFinal - 1]  );
 	}
 	
 	private String askUser(String question, String quitOp) {
@@ -108,9 +114,9 @@ public class UI {
 		if(input.equals(quitOp) && !quitOp.equals("")) {
 			this.executing = false;
 			System.out.println("Obrigada por utilizar o sistema!");
-			System.exit(-1);;
+			System.exit(-1);
 		}
-		inputChannel.close();
+		//inputChannel.close();
 		return input;		
 	}
 	
