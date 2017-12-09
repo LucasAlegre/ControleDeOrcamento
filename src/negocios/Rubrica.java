@@ -76,6 +76,47 @@ public class Rubrica {
 	}
 
 	
+	public Double somaValoresPrevistosSubrubricas(int mes)  {
+		if (this.getSubRubricas().isEmpty() ) {
+				if(this.getValorPrevisto(mes) == null) {
+					return 0.0;
+				}
+				else {
+					return this.getValorPrevisto(mes);	
+				}
+			
+		}
+		
+		Double count = 0.0;
+		for (Rubrica subRubrica : this.getSubRubricas()) {
+			count = count + subRubrica.somaValoresPrevistosSubrubricas(mes);
+		}
+		return count;
+	}
+	public Double somaValoresRealizadosSubrubricas(int mes)  {
+		if (this.getSubRubricas().isEmpty() ) {
+			try { 
+				if(this.getValorRealizado(mes) == null) {
+					return 0.0;
+				}
+				else {
+					return this.getValorRealizado(mes);
+				}
+			}
+			catch (NullPointerException ex){
+				return 0.0;
+			}
+		}
+		
+		Double count = 0.0;
+		for (Rubrica subRubrica : this.getSubRubricas()) {
+			count = count + subRubrica.somaValoresRealizadosSubrubricas(mes);
+		}
+		return count;
+	}
+	
+	
+	
 
 
 	public String toString() {

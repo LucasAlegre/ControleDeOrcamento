@@ -21,6 +21,8 @@ public class UI {
 	private boolean optionValid = false;
 	private boolean predictionEnd = false;
 
+	private boolean testing = false;
+	
 	public void executeUI(){
 		
 		PlanoContas planoContas = PlanoContas.getInstance();
@@ -34,7 +36,7 @@ public class UI {
 		int predictionMonth;
 		String predicitionContinues;
 		
-		while(this.executing) {
+		while(this.executing && !testing) {
 			
 			//Requisição do plano de contas inicial
 			while(!this.fileExists) {
@@ -95,16 +97,43 @@ public class UI {
 						}
 					}
 				}
+			
+			
 			}
 			
-			this.askUser("Queres continuar a listar previsões? N para não", "N");
+			//this.askUser("Queres continuar a listar previsões? N para não", "N");
+			this.askUser("Queres gerar analise comparativa? N para nao", "N");
+			int mesInicial = Integer.valueOf(this.askUser("Digite o mes inicial! 1 - janeiro. 12 - dezembro", ""));
+			int mesFinal = Integer.valueOf(this.askUser("Digite o mes final! 1 - janeiro. 12 - dezembro", ""));
+
+			
+			System.out.println(PlanoContas.getInstance().getRubricas().get(109).getvalorAnoPassado(2));
+			
+			facade.geraAnalise(CategoriaMes.values()[mesInicial - 1], CategoriaMes.values()[mesFinal - 1]  );
 			
 		}
-		this.askUser("Queres gerar analise comparativa? N para nao", "N");
-		int mesInicial = Integer.valueOf(this.askUser("Digite o mes inicial! 1 - janeiro. 12 - dezembro", ""));
-		int mesFinal = Integer.valueOf(this.askUser("Digite o mes final! 1 - janeiro. 12 - dezembro", ""));
-
-		facade.geraAnalise(CategoriaMes.values()[mesInicial - 1], CategoriaMes.values()[mesFinal - 1]  );
+		if (testing) {
+			this.stubFunction();
+		
+		}
+		
+	}
+	
+	
+	private void stubFunction() {
+		PlanoContas planoContas = PlanoContas.getInstance();
+		GerenciadorFacade facade = new GerenciadorFacade(planoContas);
+		try {
+			facade.lerOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv");
+		}
+		catch (Exception ex) {
+			
+		}
+		facade.geraTemplateRealizadoMensal(CategoriaMes.JANEIRO);
+		facade.geraPrevisao(1,106, 90000, 0);
+		facade.geraArquivoPrevisao();
+		facade.geraAnalise(CategoriaMes.JANEIRO, CategoriaMes.JANEIRO);
+	
 	}
 	
 	private String askUser(String question, String quitOp) {
