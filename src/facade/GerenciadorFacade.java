@@ -10,6 +10,10 @@ import negocios.AgenteRealizadoMensal;
 import negocios.PlanoContas;
 import util.CategoriaMes;
 
+/**
+ *  Clase fachada para todos os agentes que operam sobre o Plano de Contas
+ *
+ */
 public class GerenciadorFacade {
 	
 	private AgenteAnaliseComparativa agenteAnaliseComparativa;
@@ -20,13 +24,19 @@ public class GerenciadorFacade {
 
 	public GerenciadorFacade(PlanoContas plano) {
 		agenteAnaliseComparativa = new AgenteAnaliseComparativa(plano);
-		//agenteAnaliseComparativa.geraAnaliseComparativa(CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		agenteRealizadoMensal = new AgenteRealizadoMensal(plano);
 		agentePrevisao = new AgentePrevisao(plano);
 		agenteOrcamentoInicial = new AgenteOrcamentoInicial(plano);
 		
 	}
 	
+	/**
+	 * Executa o agente de previsão.
+	 * @param option 1 - Valor Fixo, 2 - Valor em Porcentual, 3 - Valor Ano Anterior
+	 * @param codigo Código da Rúbrica
+	 * @param valor Valor de previsão
+	 * @param mes Mês da previsão
+	 */
 	public void geraPrevisao(int option, int codigo, double valor, int mes) {
 		
 		if(LocalDate.now().isBefore(agentePrevisao.getPlanoContas().getDataCongelamento()) && valor >= 0) {
@@ -41,7 +51,7 @@ public class GerenciadorFacade {
 					break;
 				
 				case AgentePrevisao.PREVISAO_VALORANOANTERIOR:
-					agentePrevisao.previsaoManterAnoAnterior(codigo, PlanoContas.getInstance().getRubricas().get(codigo).getvalorAnoPassado(mes), mes);
+					agentePrevisao.previsaoManterAnoAnterior(codigo, mes);
 					break;
 				
 				default: 
@@ -58,23 +68,49 @@ public class GerenciadorFacade {
 		}
 	}
 	
-	public void lerOrcamentoInicial(String filename)throws FileNotFoundException{
+	/**
+	 * Executa o agente de Orçamento Inicial.
+	 * @param filename Arquivo de Orçamento Inicial 
+	 * @throws FileNotFoundException
+	 */
+	public void lerOrcamentoInicial(String filename) throws FileNotFoundException {
 		agenteOrcamentoInicial.lerOrcamentoAnterior(filename);
 	}
 	
+	/**
+	 * Executa o agente de Realizado Mensal para gerar um template
+	 * a ser preenchido pelo usuário.
+	 * @param mes
+	 */
 	public void geraTemplateRealizadoMensal(CategoriaMes mes) {
 		agenteRealizadoMensal.geraTemplateOrcamentoMensal(mes);
 	}
 	
+	/**
+	 * Executa o agente de Realizado Mensal para ler o
+	 * arquivo preenchido pelo usuário.
+	 * @param filename
+	 * @param mes
+	 */
 	public void leRealizadoMensal(String filename, CategoriaMes mes) {
 		agenteRealizadoMensal.leRealizadoMensal(filename, mes);
 	}
 	
+	/**
+	 * Executa o agente de Analise Comparativa para gerar analise
+	 * no período entre os meses fornecidos.
+	 * @param mesInicial
+	 * @param mesFinal
+	 */
 	public void geraAnalise(CategoriaMes mesInicial, CategoriaMes mesFinal) {
 
 		agenteAnaliseComparativa.geraAnaliseComparativa(mesInicial, mesFinal);
 	}
 
+	/**
+	 * Executa o agente de Previsao para gerar o arquivo
+	 * de visualização das previsões feitas.
+	 */
 	public void geraArquivoPrevisao() {
 		agentePrevisao.geraArquivoPrevisao();
 		

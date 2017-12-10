@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import facade.GerenciadorFacade;
+import negocios.AgentePrevisao;
 import negocios.GerenciadorArquivos;
 import negocios.PlanoContas;
 import negocios.Rubrica;
@@ -28,7 +29,8 @@ public class AgentePrevisaoTest {
 		 gerenciador.lerOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv");
 		 planoContas.setDataCongelamento(LocalDate.now().plusYears(1));
 	}
-	//===================interface-based tests:	===================//
+	
+	//===================Interface-based Tests:	===================//
 
 	/*Partição: Valor para prever ser nulo? 
 	 * Opções de resposta: 
@@ -96,7 +98,7 @@ public class AgentePrevisaoTest {
 	@Test
 	public void manterAnoAnterior() {
 		double valuePreviousYear = 	PlanoContas.getInstance().getRubricas().get(103).getvalorAnoPassado(CategoriaMes.JANEIRO.toInt());
-		gerenciador.geraPrevisao(3, 103, 10, CategoriaMes.JANEIRO.toInt());
+		gerenciador.geraPrevisao(AgentePrevisao.PREVISAO_VALORANOANTERIOR, 103, 0, CategoriaMes.JANEIRO.toInt());
 		double predictedValue = PlanoContas.getInstance().getRubricas().get(103).getValorPrevisto(CategoriaMes.JANEIRO.toInt());
 		assertEquals(predictedValue,valuePreviousYear, 0.00001);
 	}

@@ -2,7 +2,7 @@ package negocios;
 
 
 /**
- *   Classe que gerencia a previs�o para o pr�ximo ano do 
+ *   Classe que gerencia a previsão para o próximo ano do 
  *   plano de contas.
  */
 public class AgentePrevisao extends AgenteAbstract {
@@ -16,30 +16,50 @@ public class AgentePrevisao extends AgenteAbstract {
 		super(plano);
 	}
 
+	/**
+	 * Prevê o valor de uma rúbrica como sendo um percentual do valor da mesma no ano passado.
+	 * @param codigo Código da rúbrica
+	 * @param porcentagem Taxa do valor comparado ao ano passado em percentual
+	 * @param mes Mês da previsão
+	 */
 	public void previsaoPorcentagem(int codigo, double porcentagem, int mes) {
 		
 		try {
-			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, (super.getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes)*porcentagem));
+			double valorAnoPassado = getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes);
+			
+			getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, (valorAnoPassado*porcentagem));
 		}
 		catch (NullPointerException npe) {
 			 System.out.println("O código digitado não existe!");
 		}
 	}
 
+	/**
+	 * Prevê o valor de uma rúbrica com um valor dado
+	 * @param codigo Código da rúbrica
+	 * @param valor Valor de previsão
+	 * @param mes Mês da previsão
+	 */
 	public void previsaoValorFixo(int codigo, double valor, int mes) {
 		
 		try {
-			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes,valor);
+			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, valor);
 		}
 		catch (NullPointerException npe) {
 			 System.out.println("O código digitado não existe!");
 		}
 	}
 	
-	public void previsaoManterAnoAnterior(int codigo, double valor, int mes) {
+	/**
+	 * Prevê o valor da rúbrica como sendo o mesmo do ano anterios.
+	 * @param codigo Código da rúbrica
+	 * @param mes Mês da previsão
+	 */
+	public void previsaoManterAnoAnterior(int codigo, int mes) {
 		
 		try {
-			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, valor);
+			double valorAnoPassado = getPlanoContas().getRubricas().get(codigo).getvalorAnoPassado(mes);
+			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, valorAnoPassado);
 		}
 		catch (NullPointerException npe) {
 			 System.out.println("O código digitado não existe!");
@@ -52,6 +72,9 @@ public class AgentePrevisao extends AgenteAbstract {
 		return super.getPlanoContas().getRubricas().get(codigo).getValorPrevisto(mes, codigo) + " mes: " + mes;
 	}
 	
+	/**
+	 *  Gera o arquivo com as previsões feitas.
+	 */
 	public void geraArquivoPrevisao() {
 		GerenciadorArquivos orcamentoMensal = new GerenciadorArquivos();
 		orcamentoMensal.geraArquivoPrevisoes(getPlanoContas(), "Previsoes.xls");

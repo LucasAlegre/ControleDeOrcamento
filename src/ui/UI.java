@@ -13,6 +13,11 @@ import negocios.AgentePrevisao;
 import negocios.PlanoContas;
 import facade.GerenciadorFacade;
 
+
+/**
+ *  User-Interface de texto do Sistema
+ *
+ */
 public class UI {
 	
 	private boolean executing = true;
@@ -178,46 +183,6 @@ public class UI {
 		
 		ui.executeUI();
 		
-		/**
-
-		// --- Leitura do Arquivo Inicial --requisito 01
-		PlanoContas planoContas = PlanoContas.getInstance();
-		
-		AgenteOrcamentoInicial gInicial = new GerenciadorOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv", planoContas);
-		gInicial.execute();
-		
-		// -- Data de congelamento --requisito 04
-		planoContas.setDataCongelamento(LocalDate.of(2020, 1, 11)); 
-		
-		
-        // -- Previsões --requisito 02
-		GerenciadorPrevisao gerenciadorPrevisao = new GerenciadorPrevisao(planoContas);
-		
-		// Previsão Porcentagem
-		gerenciadorPrevisao.execute(1, 104, 1.2, CategoriaMes.JANEIRO.toInt());
-		System.out.println(gerenciadorPrevisao.toString(104, CategoriaMes.JANEIRO.toInt()));
-		
-		// Previsão Valor Fixo
-		gerenciadorPrevisao.execute(2, 104, 200, CategoriaMes.JANEIRO.toInt());
-		System.out.println(gerenciadorPrevisao.toString(104, CategoriaMes.JANEIRO.toInt()));
-		
-		// Previsao mantendo valor do ano anterior
-		gerenciadorPrevisao.execute(3, 104, 200, CategoriaMes.JANEIRO.toInt());
-		System.out.println(gerenciadorPrevisao.toString(104, CategoriaMes.JANEIRO.toInt()));
-		
-		gerenciadorPrevisao.execute(3, 109, 900, CategoriaMes.AGOSTO.toInt());
-
-		// Gera arquivo das previsoes --requisito 02
-		gerenciadorPrevisao.geraArquivoPrevisao();
-		
-		// Gera arquivo para usuario completar o realizado mensal --requisito 05
-		GerenciadorRealizadoMensal realizadoMensal = new GerenciadorRealizadoMensal("TemplateJaneiroCompletado.xls", planoContas);
-		realizadoMensal.geraTemplateOrcamentoMensal(CategoriaMes.JANEIRO.toInt());
-		
-		// Le realizadoMensal--requisito 05
-		realizadoMensal.leRealizadoMensal(CategoriaMes.JANEIRO.toInt());
-		**/
-	
 	}
 	
 	

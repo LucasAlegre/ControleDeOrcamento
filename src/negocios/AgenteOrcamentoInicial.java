@@ -4,25 +4,28 @@ import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 
 /**
- *  Classe respons�vel por gerenciar a leitura do plano or�amentario do ano anterior da empresa.
+ *  Classe responsável por gerenciar a leitura do plano orçamentário do ano anterior da empresa.
  * 
  */
 public class AgenteOrcamentoInicial extends AgenteAbstract {
 
+	
 	public AgenteOrcamentoInicial(PlanoContas plano) {
 		super(plano);
 	}
 	
-
 	/**
-	 *  Le o arquivo inicial e cria as rubricas de acordo com o arquivo
+	 * Lê o arquivo CSV com o Orçamento do ano passado da empresa.
+	 * @param filename Arquivo csv
+	 * @throws FileNotFoundException
 	 */
-	public void lerOrcamentoAnterior(String filename)throws FileNotFoundException {
+	public void lerOrcamentoAnterior(String filename) throws FileNotFoundException{
 		
 		GerenciadorArquivos ler = new GerenciadorArquivos();
 		LinkedHashMap<Integer, Rubrica> rubricasIniciais = ler.lerOrcamentoInicial(filename);
 		
 		getPlanoContas().setRubricas(rubricasIniciais);
+
 	}
 	
 }

@@ -71,13 +71,11 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		GerenciadorArquivos gerenciadorArquivo = new GerenciadorArquivos();
 		gerenciadorArquivo.geraArquivoAnaliseComparativa();
 		
-        for (int codigoRubrica : PlanoContas.getInstance().getRubricas().keySet()) {
-        		Rubrica rubrica = PlanoContas.getInstance().getRubricas().get(codigoRubrica);
+        for (int codigoRubrica : getPlanoContas().getRubricas().keySet()) {
+        		Rubrica rubrica = getPlanoContas().getRubricas().get(codigoRubrica);
         		gerenciadorArquivo.preencheLinhaAnaliseComparativa(geraValoresRubrica(rubrica, mesInicial, mesFinal), contadorRubrica);
         		contadorRubrica += 1;
         }
-		
-		
 		
 		gerenciadorArquivo.finalizaArquivoAnaliseComparativa();
 	}

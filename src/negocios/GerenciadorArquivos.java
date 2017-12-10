@@ -27,6 +27,10 @@ import drivers.DriverCSV;
 import util.CategoriaAnaliseComparativa;
 import util.CategoriaMes;
 
+/**
+ *  Classe responsavel pelo acessoa a escrita e leitura dos arquivos da empresa
+ *
+ */
 public class GerenciadorArquivos {
 
 	private HSSFSheet analiseComparativaSheet;
@@ -36,6 +40,13 @@ public class GerenciadorArquivos {
 		
 	}
 
+	/**
+	 * Lê o arquivo de orçamento inicial da empresa
+	 * 
+	 * @param filename Arquivo .csv com o orçamento inicial
+	 * @return Map de Código da Rúbrica -> Rúbrica
+	 * @throws FileNotFoundException
+	 */
 	public LinkedHashMap<Integer, Rubrica> lerOrcamentoInicial(String filename) throws FileNotFoundException{
 	
 		
@@ -46,105 +57,125 @@ public class GerenciadorArquivos {
 		Rubrica parent = null;
 		int parentClass = 0;
 		
-			DriverCSV driver = new DriverCSV(filename);
+		DriverCSV driver = new DriverCSV(filename);
 			
-			Double[] pastValues;
+		Double[] pastValues;
+		
+		while(driver.hasNext()) {
+			Rubrica rubrica;
+			// INTERPRETAÇÃO DA LINHA
+			driver.proceed();
 			
-			while(driver.hasNext()) {
-				Rubrica rubrica;
-				// INTERPRETAÇÃO DA LINHA
-				driver.proceed();
+			if(driver.getNumOfLineFields() != 0) {
 				
-				if(driver.getNumOfLineFields() != 0) {
+				String classification = driver.getFields()[0];
+				String cod = driver.getFields()[1];
+				String name = driver.getFields()[2];
+				
+				//Caso a rúbrica for classificável
+				if(this.isRubricaValid(driver.getFields())) {
 					
-					String classification = driver.getFields()[0];
-					String cod = driver.getFields()[1];
-					String name = driver.getFields()[2];
+					pastValues = this.getPastValues(driver.getFields());
 					
-					//Caso a rúbrica for classificável
-					if(this.isRubricaValid(driver.getFields())) {
-						
-						pastValues = this.getPastValues(driver.getFields());
-						
-						//Instanciar o número de pontos de classificação da rúbrica,
-						//ou seja, verificar em que nível a rúbrica está
-						int depth = this.getRubricaDepth(driver.getFields());
-						
-						//Caso o número de pontos seja zero, ou seja, a rubrica lida não possui pai
-						//limpa-se os pais registrados e inicializa a rubrica com pai=null
-						if(depth == 0) {
-							pais.clear();
-							rubrica = new Rubrica(null, name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
-						}
-
-						//Caso a rubrica esteja classificada ao mesmo nível de sua antecessora, 
-						//possui o mesmo pai que ela
-						else if(depth == parentClass) {
-							rubrica = new Rubrica(parent.getPai(), name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
-							parent.getPai().addSubRubrica(rubrica);
-							
-						//Caso a rubrica esteja em um nível mais profundo que a outra, adicionamos a rubrica
-						//anterior na lista de pais a adicionamos como pai da rubrica atual
-						}
-						else if(depth > parentClass){
-							rubrica = new Rubrica(parent, name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
-							if(parent != null) {
-								pais.add(parent);
-								parent.addSubRubrica(rubrica);
-							}
-						
-						//Caso tenhamos voltado um nível, deletamos a diferença de níveis da rubrica atual e da anterior,
-						//assim como retomamos a posição da rubrica antes de intanciarmos ela
-						}
-						else {
-							try{
-								parent = pais.get(depth - 1);
-							}catch(IndexOutOfBoundsException e){
-								parent =  null;
-								pais.clear();
-							}
-							rubrica = new Rubrica(parent, name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
-							if(parent != null)parent.addSubRubrica(rubrica);
-							for(int i = depth; i < pais.size(); i++) {
-								pais.remove(i);
-							}
-						}
-						//set final
-						parent = rubrica;
-						parentClass = depth;
-							
-						//coloca no mapa
-						map.put(Integer.valueOf(cod), rubrica);
+					//Instanciar o número de pontos de classificação da rúbrica,
+					//ou seja, verificar em que nível a rúbrica está
+					int depth = this.getRubricaDepth(driver.getFields());
+					
+					//Caso o número de pontos seja zero, ou seja, a rubrica lida não possui pai
+					//limpa-se os pais registrados e inicializa a rubrica com pai=null
+					if(depth == 0) {
+						pais.clear();
+						rubrica = new Rubrica(null, name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
 					}
+
+					//Caso a rubrica esteja classificada ao mesmo nível de sua antecessora, 
+					//possui o mesmo pai que ela
+					else if(depth == parentClass) {
+						rubrica = new Rubrica(parent.getPai(), name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
+						parent.getPai().addSubRubrica(rubrica);
+						
+					//Caso a rubrica esteja em um nível mais profundo que a outra, adicionamos a rubrica
+					//anterior na lista de pais a adicionamos como pai da rubrica atual
+					}
+					else if(depth > parentClass){
+						rubrica = new Rubrica(parent, name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
+						if(parent != null) {
+							pais.add(parent);
+							parent.addSubRubrica(rubrica);
+						}
+					
+					//Caso tenhamos voltado um nível, deletamos a diferença de níveis da rubrica atual e da anterior,
+					//assim como retomamos a posição da rubrica antes de intanciarmos ela
+					}
+					else {
+						try{
+							parent = pais.get(depth - 1);
+						}catch(IndexOutOfBoundsException e){
+							parent =  null;
+							pais.clear();
+						}
+						rubrica = new Rubrica(parent, name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
+						if(parent != null)parent.addSubRubrica(rubrica);
+						for(int i = depth; i < pais.size(); i++) {
+							pais.remove(i);
+						}
+					}
+					//set final
+					parent = rubrica;
+					parentClass = depth;
+						
+					//coloca no mapa
+					map.put(Integer.valueOf(cod), rubrica);
 				}
-				
 			}
+				
+		}
 			
 		
 		return map;
 	}
 	
+	/**
+	 * Verifica a validade de uma linha de rúbrica
+	 * @param line Linha do arquivo
+	 * @return True se o código da rúbrica não é vazio, falso caso contrário
+	 */
 	private boolean isRubricaValid(String line[]) {
 		String cod = line[1];
-		if(cod.equals("")) return false;
+		if(cod.equals("")) {
+			return false;
+		}
 		return true;
 	}
 	
+	/**
+	 * Lê os valores realizados no ano passado para cada mês
+	 * @param line Linha do CSV
+	 * @return Array com valor anterior de cada mês
+	 */
 	private Double[] getPastValues(String line[]) {
 		Double pastValues[] = new Double[12];
 		int lowerBound = line.length - 12;
 		int higherBound = line.length;
-		for(int i = lowerBound ; i<higherBound; i++) {
+		
+		for(int i = lowerBound ; i < higherBound; i++) {
 			pastValues[i - lowerBound] = Double.valueOf(line[i]);
 		}
+		
 		return pastValues;
 	}
+	
 	
 	private int getRubricaDepth(String line[]) {
 		String classe = line[0];
 		return classe.length() - classe.replace(".", "").length();
 	}
 	
+	/**
+	 * Lê um arquivo com os valores realizados em um certo mês.
+	 * @param filename
+	 * @return Map Código -> Valor Realizado
+	 */
 	public LinkedHashMap<Integer, Double> lerRealizadoMensal(String filename){
 		
 		LinkedHashMap<Integer, Double> realizados = new LinkedHashMap<Integer, Double>();
@@ -167,16 +198,10 @@ public class GerenciadorArquivos {
 				row++;
 			}
 			
-		}catch(FileNotFoundException e) {
-			//e.printStackTrace();
-		}catch(InvalidFormatException e) {
-			//e.printStackTrace();
-		} catch (EncryptedDocumentException e) {
-			//e.printStackTrace();
-		} catch (IOException e) {
-			//e.printStackTrace();
+		}catch(EncryptedDocumentException | InvalidFormatException | IOException e) {
+			System.out.println("Arquivo " + filename + " inválido");
 		}
-		
+
 		return realizados;
 	}
 	
@@ -320,6 +345,7 @@ public class GerenciadorArquivos {
 		catch (Exception ex) {
 		}
 	}
+	
 	public void geraArquivoAnaliseComparativa() {
 		
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -331,14 +357,15 @@ public class GerenciadorArquivos {
         criaHeaderAnaliseComparativa(sheet, workbook);
             
 	}
+	
 	public void finalizaArquivoAnaliseComparativa () {
 		try {
 	        FileOutputStream fileOut = new FileOutputStream("teste.xls");
 	        this.analisaComparativaWorkbook.write(fileOut);
 	        fileOut.close();
-			} catch (Exception ex) {
+		} catch (Exception ex) {
 				
-			}
+		}
 	}
 	
 	

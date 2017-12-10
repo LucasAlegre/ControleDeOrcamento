@@ -1,7 +1,7 @@
 package negocios;
 
 /**
- *  Classe pai dos Gerenciadores
+ * Classe abstrata para uma classe que pode agir sobre o Plano de Contas.
  *
  */
 public abstract class AgenteAbstract {

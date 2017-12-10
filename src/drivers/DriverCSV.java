@@ -4,6 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ *  Driver para leitura de arquivo CSV
+ *
+ */
 public class DriverCSV{
 
 	private File csvFile;
@@ -14,7 +18,7 @@ public class DriverCSV{
 	public DriverCSV(String filename) throws FileNotFoundException {
 		this.csvFile = new File(filename);
 		this.scanner = new Scanner(this.csvFile);
-		this.proceed();
+		this.proceed(); 
 		this.proceed();
 		this.fieldNames = this.getFields();
 	}

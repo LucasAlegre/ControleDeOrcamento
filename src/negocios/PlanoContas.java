@@ -6,12 +6,9 @@ import java.util.*;
 
 /**
  *  Classe que representa um Plano de Contas de uma empresa.
+ *  Usado o Design-Pattern de Singleton
  *
  */
-
-
-
-
 public class PlanoContas {
 	
 	private Map<Integer, Rubrica> rubricas;
@@ -21,6 +18,10 @@ public class PlanoContas {
 	
 	private Map<Integer, String> rubricasEspeciais;
 	
+	/**
+	 * Implementação do Singleton Plano de Contas
+	 * @return A única instância de Plano de Contas do Sistema
+	 */
 	public static PlanoContas getInstance() {
 		
 		if(instance == null){
@@ -30,8 +31,18 @@ public class PlanoContas {
 		return(instance);	
 	}
 	
+	/**
+	 *  Inicializa as rubricas especiais que possuem fórmula especial para o somatório.
+	 *  A chave do map é o código da rúbrica, e a String é a fórmula dos códigos que devem ser
+	 *  somados ou subtraídos.
+	 *  Ex:
+	 *  1 -> "103 - 2396"    
+	 *  Rubrica 1 possui o valor da rubrica 103 subtraído da rúbrica 2396
+	 */
 	private void inicializaMapRubricasEspeciais() {
+		
 		rubricasEspeciais = new HashMap<Integer, String>();
+		
 		rubricasEspeciais.put(103, "103"); 
 		rubricasEspeciais.put(2396, "2396"); 
 		rubricasEspeciais.put(1, "103 - 2396"); 
@@ -81,6 +92,11 @@ public class PlanoContas {
 		return rubricas;
 	}
 	
+	/**
+	 * Determina a data de congelamento de previsões,
+	 * data a partir do qual não poderá mais haver previsões.
+	 * @param date Data de congelamento
+	 */
 	public void setDataCongelamento(LocalDate date) {
 		this.dataCongelamento = date;
 	}
@@ -93,28 +109,5 @@ public class PlanoContas {
 		return this.rubricasEspeciais;
 	}
 	
-	public void printPlanoBase() {
-		
-		Rubrica rubrica;
-		
-		for(Integer cod : rubricas.keySet()) {
-			rubrica = rubricas.get(cod);
-			if(rubrica.getPai() == null) {
-				System.out.println(rubrica.toString());
-				this.getPlanoBaseInfo(rubrica, 1);
-			}
-		}
-	}
-	
-	private void getPlanoBaseInfo(Rubrica r, int tab) {
-		
-		for(Rubrica ru : r.getSubRubricas()) {
-			for(int i = 0; i < tab; i++) {
-				System.out.print("    ");
-			}
-			System.out.print(ru.toString() + '\n');
-			this.getPlanoBaseInfo(ru, tab + 1);
-		}
-	}
 
 }
