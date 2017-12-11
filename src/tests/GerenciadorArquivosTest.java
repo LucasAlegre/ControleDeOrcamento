@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import facade.GerenciadorFacade;
-import negocios.GerenciadorArquivos;
 import negocios.PlanoContas;
 import util.CategoriaMes;
+import util.GerenciadorArquivos;
 
 public class GerenciadorArquivosTest {
 	private GerenciadorArquivos gerenciador;

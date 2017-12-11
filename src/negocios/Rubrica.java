@@ -1,6 +1,8 @@
 package negocios;
 import java.util.*;
 
+import util.CategoriaRubrica;
+
 /**
  *  Classe que representa uma Rubrica de um Plano de Contas
  *

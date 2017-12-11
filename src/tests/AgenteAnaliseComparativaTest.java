@@ -15,10 +15,10 @@ import org.junit.rules.ExpectedException;
 
 import facade.GerenciadorFacade;
 import negocios.AgenteAnaliseComparativa;
-import negocios.CategoriaRubrica;
 import negocios.PlanoContas;
 import negocios.Rubrica;
 import util.CategoriaMes;
+import util.CategoriaRubrica;
 
 public class AgenteAnaliseComparativaTest {
 
@@ -33,17 +33,13 @@ public class AgenteAnaliseComparativaTest {
 		gerenciador.lerOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv");
 		planoContas.setDataCongelamento(LocalDate.now().plusYears(1));
 		analiseComp = new AgenteAnaliseComparativa(planoContas);
-		// gerenciador.geraAnalise(CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 	}
-	// ===================interface-based tests: ===================//
-
-	// Domínio: método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente
-	// com todas rúbricas
-
-	// ESSA NÃO DEVERIA FUNCIONAR, NAO TEM NOME NA RUBRICA
-	/*
-	 * Partição: Valor para prever ser nulo no nome da rubrica, avisa o usuário?
-	 * Opções de resposta: Sim Não
+	
+	// ============================================interface-based tests:==============================================
+	/**
+	 * Domínio: método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 *Partição: Valor para prever ser nulo no nome da rubrica, avisa o usuário? Opções de resposta: Sim Não
 	 */
 	@Test
 	public void geraValoresRubricaSemNome() {
@@ -192,8 +188,8 @@ public class AgenteAnaliseComparativaTest {
 		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, valoresAnoPassado);
 		mae.setValorRealizado(0, 200);
 		mae.setValorRealizado(1, 200);
-		Double valores = analiseComp.somaValoresPrevistosSubrubricas(mae, 02);
-		assertEquals(0.0, valores, 0.0000000001);
+		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(0.0, valores[0], 0.0000000001);
 	}
 
 	/*
@@ -208,10 +204,10 @@ public class AgenteAnaliseComparativaTest {
 		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, valoresAnoPassado);
 		mae.setValorPrevisto(0, 100);
 		mae.setValorRealizado(0, 200);
-		mae.setValorPrevisto(1, 100);
-		mae.setValorRealizado(1, 200);
-		Double valores = analiseComp.somaValoresPrevistosSubrubricas(mae, 01);
-		assertEquals(100.0, valores, 0.0000000001);
+		mae.setValorPrevisto(5, 100);
+		mae.setValorRealizado(5, 200);
+		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(100.0, valores[0], 0.0000000001);
 	}
 
 	/*
@@ -223,12 +219,12 @@ public class AgenteAnaliseComparativaTest {
 		Rubrica mae = new Rubrica(null, "mae", 0, CategoriaRubrica.DESPESA, null);
 		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
 		mae.addSubRubrica(filha);
-		filha.setValorPrevisto(0, 100);
-		filha.setValorRealizado(0, 200);
 		filha.setValorPrevisto(1, 100);
+		filha.setValorRealizado(0, 200);
+		filha.setValorPrevisto(2, 300);
 		filha.setValorRealizado(1, 200);
-		Double valores = analiseComp.somaValoresPrevistosSubrubricas(mae, 01);
-		assertEquals(100.0, valores, 0.0000000001);
+		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.MARCO);
+		assertEquals(400.0, valores[0], 0.0000000001);
 	}
 
 	/*
@@ -242,8 +238,8 @@ public class AgenteAnaliseComparativaTest {
 		mae.addSubRubrica(filha);
 		filha.setValorRealizado(0, 200);
 		filha.setValorRealizado(1, 200);
-		Double valores = analiseComp.somaValoresPrevistosSubrubricas(mae, 01);
-		assertEquals(0.0, valores, 0.0000000001);
+		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(0.0, valores[0], 0.0000000001);
 	}
 	// Domínio: método somaValoresRealizadosSubrubricas() do
 	// AgenteAnáliseComparativa, jutamente com todas rúbricas
@@ -260,8 +256,8 @@ public class AgenteAnaliseComparativaTest {
 		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, valoresAnoPassado);
 		mae.setValorPrevisto(0, 100);
 		mae.setValorPrevisto(1, 100);
-		Double valores = analiseComp.somaValoresRealizadosSubrubricas(mae, 02);
-		assertEquals(0.0, valores, 0.0000000001);
+		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(0.0, valores[1], 0.0000000001);
 	}
 
 	/*
@@ -276,8 +272,8 @@ public class AgenteAnaliseComparativaTest {
 		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, valoresAnoPassado);
 		mae.setValorRealizado(0, 200);
 		mae.setValorRealizado(1, 200);
-		Double valores = analiseComp.somaValoresRealizadosSubrubricas(mae, 01);
-		assertEquals(200.0, valores, 0.0000000001);
+		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(0.0, valores[1], 0.0000000001);
 	}
 
 	/*
@@ -291,8 +287,8 @@ public class AgenteAnaliseComparativaTest {
 		mae.addSubRubrica(filha);
 		filha.setValorRealizado(0, 200);
 		filha.setValorRealizado(1, 200);
-		Double valores = analiseComp.somaValoresRealizadosSubrubricas(mae, 01);
-		assertEquals(200.0, valores, 0.0000000001);
+		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(400.0, valores[1], 0.0000000001);
 	}
 
 	/*
@@ -304,8 +300,8 @@ public class AgenteAnaliseComparativaTest {
 		Rubrica mae = new Rubrica(null, "mae", 0, CategoriaRubrica.DESPESA, null);
 		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
 		mae.addSubRubrica(filha);
-		Double valores = analiseComp.somaValoresRealizadosSubrubricas(mae, 01);
-		assertEquals(0.0, valores, 0.0000000001);
+		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(0.0, valores[1], 0.0000000001);
 	}
 	// Domínio: método geraAvaliacao() do AgenteAnáliseComparativa, jutamente com
 	// todas rúbricas e valores ja estimados da comparação

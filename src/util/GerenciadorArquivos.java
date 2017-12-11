@@ -1,4 +1,4 @@
-package negocios;
+package util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,8 +24,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import drivers.DriverCSV;
-import util.CategoriaAnaliseComparativa;
-import util.CategoriaMes;
+import negocios.PlanoContas;
+import negocios.Rubrica;
 
 /**
  *  Classe responsavel pelo acessoa a escrita e leitura dos arquivos da empresa

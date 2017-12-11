@@ -2,6 +2,7 @@ package negocios;
 import java.util.LinkedHashMap;
 
 import util.CategoriaMes;
+import util.GerenciadorArquivos;
 
 /**
  * Classe respons�vel por controlar o que foi realmente realizado de gastos

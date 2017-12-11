@@ -11,9 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import facade.GerenciadorFacade;
-import negocios.CategoriaRubrica;
 import negocios.PlanoContas;
 import negocios.Rubrica;
+import util.CategoriaRubrica;
 
 public class RubricaTest {
 

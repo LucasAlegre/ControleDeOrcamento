@@ -1,4 +1,4 @@
-package negocios;
+package util;
 
 /**
  * Enum para identificar a categora de uma rubrica.

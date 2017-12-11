@@ -3,6 +3,8 @@ package negocios;
 import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 
+import util.GerenciadorArquivos;
+
 /**
  *  Classe responsável por gerenciar a leitura do plano orçamentário do ano anterior da empresa.
  * 

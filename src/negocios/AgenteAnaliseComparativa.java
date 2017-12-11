@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import util.CategoriaMes;
+import util.CategoriaRubrica;
+import util.GerenciadorArquivos;
 
 /**
  *  Classe respons�vel por gerenciar a gera��o de an�lise comparativa do
@@ -23,50 +25,6 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 	public void geraAnaliseComparativa(CategoriaMes mesInicial, CategoriaMes mesFinal) {
 		
 		int contadorRubrica = 1;
-		
-        /*
-        Rubrica mae = new Rubrica(null, "mae", 0, CategoriaRubrica.DESPESA, null);
-		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
-		mae.addSubRubrica(filha);
-		filha.setValorPrevisto(0, 100);
-		filha.setValorRealizado(0, 200);
-		filha.setValorPrevisto(1, 100);
-		filha.setValorRealizado(1, 200);
-		
-		Rubrica filha2 = new Rubrica(null, "filha2", 2, CategoriaRubrica.DESPESA, null);
-		mae.addSubRubrica(filha2);
-		filha2.setValorPrevisto(0, 200);
-		filha2.setValorRealizado(0, 100);
-		filha2.setValorPrevisto(1, 200);
-		filha2.setValorRealizado(1, 100);
-		
-		Rubrica filhaMae = new Rubrica(null, "filhaMae", 3, CategoriaRubrica.DESPESA, null);
-		Rubrica filha3 = new Rubrica(null, "filha3", 4, CategoriaRubrica.RECEITA, null);
-		Rubrica filha4 = new Rubrica(null, "filha4", 5, CategoriaRubrica.RECEITA, null);
-		filha3.setValorPrevisto(0, 700);
-		filha4.setValorPrevisto(0, 500);
-		
-		filha3.setValorRealizado(0, 740);
-		filha4.setValorRealizado(0, 500);
-		
-		filha3.setValorPrevisto(1, 700);
-		filha4.setValorPrevisto(1, 500);
-		
-		filha3.setValorRealizado(1, 740);
-		filha4.setValorRealizado(1, 500);
-		
-		filhaMae.addSubRubrica(filha4);
-		filhaMae.addSubRubrica(filha3);
-		mae.addSubRubrica(filhaMae);
-		
-		ArrayList<Rubrica> arrayTeste = new ArrayList<Rubrica>();
-		arrayTeste.add(mae);
-		arrayTeste.add(filha);
-		arrayTeste.add(filha2);
-		arrayTeste.add(filhaMae);
-		arrayTeste.add(filha4);
-		arrayTeste.add(filha3);
-		*/
 		
 		GerenciadorArquivos gerenciadorArquivo = new GerenciadorArquivos();
 		gerenciadorArquivo.geraArquivoAnaliseComparativa();

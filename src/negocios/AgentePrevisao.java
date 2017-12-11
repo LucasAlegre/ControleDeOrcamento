@@ -1,5 +1,6 @@
 package negocios;
 
+import util.GerenciadorArquivos;
 
 /**
  *   Classe que gerencia a previsão para o próximo ano do 
