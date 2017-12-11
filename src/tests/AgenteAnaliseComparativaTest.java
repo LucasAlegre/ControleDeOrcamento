@@ -13,10 +13,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import dominio.PlanoContas;
+import dominio.Rubrica;
 import facade.GerenciadorFacade;
 import negocios.AgenteAnaliseComparativa;
-import negocios.PlanoContas;
-import negocios.Rubrica;
 import util.CategoriaMes;
 import util.CategoriaRubrica;
 
@@ -48,10 +48,10 @@ public class AgenteAnaliseComparativaTest {
 		Rubrica mae = new Rubrica(null, null, 0, CategoriaRubrica.DESPESA, null);
 		Rubrica filha = new Rubrica(null, null, 1, CategoriaRubrica.DESPESA, null);
 		mae.addSubRubrica(filha);
-		filha.setValorPrevisto(0, 100);
-		filha.setValorRealizado(0, 200);
 		filha.setValorPrevisto(1, 100);
 		filha.setValorRealizado(1, 200);
+		filha.setValorPrevisto(2, 100);
+		filha.setValorRealizado(2, 200);
 		ArrayList<String> valores = analiseComp.geraValoresRubrica(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(correctAnswer, valores);
 
@@ -118,19 +118,18 @@ public class AgenteAnaliseComparativaTest {
 
 	// ===================functionality-based tests: ===================//
 
-	// Domínio: método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente
+	// Domínio: método geraValoresRubrica() do AgenteAnáliseComparativa, juntamente
 	// com todas rúbricas
 	@Test
 	public void geraValoresRubricaComSubrubrica() {
-		ArrayList<String> correctAnswer = new ArrayList<String>(
-				Arrays.asList("0", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
+		ArrayList<String> correctAnswer = new ArrayList<String>(Arrays.asList("0", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
 		Rubrica mae = new Rubrica(null, "mae", 0, CategoriaRubrica.DESPESA, null);
 		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
 		mae.addSubRubrica(filha);
-		filha.setValorPrevisto(0, 100);
-		filha.setValorRealizado(0, 200);
 		filha.setValorPrevisto(1, 100);
 		filha.setValorRealizado(1, 200);
+		filha.setValorPrevisto(2, 100);
+		filha.setValorRealizado(2, 200);
 		ArrayList<String> valores = analiseComp.geraValoresRubrica(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(correctAnswer, valores);
 
@@ -145,10 +144,10 @@ public class AgenteAnaliseComparativaTest {
 		ArrayList<String> correctAnswer = new ArrayList<String>(
 				Arrays.asList("1", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
 		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, null);
-		mae.setValorPrevisto(0, 100);
-		mae.setValorRealizado(0, 200);
 		mae.setValorPrevisto(1, 100);
 		mae.setValorRealizado(1, 200);
+		mae.setValorPrevisto(2, 100);
+		mae.setValorRealizado(2, 200);
 		ArrayList<String> valores = analiseComp.geraValoresRubrica(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(correctAnswer, valores);
 
@@ -165,11 +164,13 @@ public class AgenteAnaliseComparativaTest {
 				Arrays.asList("1", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
 		Double[] valoresAnoPassado = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, valoresAnoPassado);
-		mae.setValorPrevisto(0, 100);
-		mae.setValorRealizado(0, 200);
 		mae.setValorPrevisto(1, 100);
 		mae.setValorRealizado(1, 200);
+		mae.setValorPrevisto(2, 100);
+		mae.setValorRealizado(2, 200);
 		ArrayList<String> valores = analiseComp.geraValoresRubrica(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		System.out.println(valores);
+		System.out.println(correctAnswer);
 		assertEquals(correctAnswer, valores);
 
 	}
@@ -202,10 +203,10 @@ public class AgenteAnaliseComparativaTest {
 				Arrays.asList("1", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
 		Double[] valoresAnoPassado = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, valoresAnoPassado);
-		mae.setValorPrevisto(0, 100);
-		mae.setValorRealizado(0, 200);
-		mae.setValorPrevisto(5, 100);
-		mae.setValorRealizado(5, 200);
+		mae.setValorPrevisto(1, 100);
+		mae.setValorRealizado(1, 200);
+		mae.setValorPrevisto(6, 100);
+		mae.setValorRealizado(6, 200);
 		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(100.0, valores[0], 0.0000000001);
 	}
@@ -270,8 +271,8 @@ public class AgenteAnaliseComparativaTest {
 				Arrays.asList("1", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
 		Double[] valoresAnoPassado = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
 		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, valoresAnoPassado);
-		mae.setValorRealizado(0, 200);
 		mae.setValorRealizado(1, 200);
+		mae.setValorRealizado(2, 200);
 		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(0.0, valores[1], 0.0000000001);
 	}
@@ -285,8 +286,8 @@ public class AgenteAnaliseComparativaTest {
 		Rubrica mae = new Rubrica(null, "mae", 0, CategoriaRubrica.DESPESA, null);
 		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
 		mae.addSubRubrica(filha);
-		filha.setValorRealizado(0, 200);
 		filha.setValorRealizado(1, 200);
+		filha.setValorRealizado(2, 200);
 		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(400.0, valores[1], 0.0000000001);
 	}

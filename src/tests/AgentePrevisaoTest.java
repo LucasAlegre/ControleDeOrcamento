@@ -11,12 +11,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import dominio.PlanoContas;
+import dominio.Rubrica;
 import facade.GerenciadorFacade;
 import negocios.AgentePrevisao;
-import negocios.PlanoContas;
-import negocios.Rubrica;
+import negocios.GerenciadorArquivos;
 import util.CategoriaMes;
-import util.GerenciadorArquivos;
 
 public class AgentePrevisaoTest {
 	private GerenciadorFacade gerenciador;
@@ -67,17 +67,9 @@ public class AgentePrevisaoTest {
 	@Test(expected = java.lang.NullPointerException.class)
 	public void negativeValue() throws FileNotFoundException{
 		gerenciador.geraPrevisao(1, 103, -10, CategoriaMes.JANEIRO.toInt());
-		assertEquals(planoContas.getInstance().getRubricas().get(103).getValorPrevisto(02),(Double)null, 0.00001);
+		assertEquals(planoContas.getRubricas().get(103).getValorPrevisto(02),(Double)null, 0.00001);
 	}
-	/*Partição: Mes inexistente? 
-	 * Opções de resposta: 
-	 * Sim
-	 * Não
-	 */
-	@Test(expected = java.lang.ArrayIndexOutOfBoundsException.class)
-	public void nonExistentMonth() throws FileNotFoundException{
-		gerenciador.geraPrevisao(1, 103, 10, 13);
-	}
+
 	/*Partição:Gerando o arquivo corretamente, sem avisos de exceptions? 
 	 * Opções de resposta: 
 	 * Sim

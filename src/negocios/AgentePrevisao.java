@@ -1,6 +1,6 @@
 package negocios;
 
-import util.GerenciadorArquivos;
+import dominio.PlanoContas;
 
 /**
  *   Classe que gerencia a previsão para o próximo ano do 
@@ -46,7 +46,7 @@ public class AgentePrevisao extends AgenteAbstract {
 		try {
 			super.getPlanoContas().getRubricas().get(codigo).setValorPrevisto(mes, valor);
 		}
-		catch (NullPointerException npe) {
+		catch(NullPointerException npe) {
 			 System.out.println("O código digitado não existe!");
 		}
 	}

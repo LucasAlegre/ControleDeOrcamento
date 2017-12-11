@@ -3,15 +3,14 @@ package util;
 import java.time.LocalDate;
 import java.util.Calendar;
 
+import dominio.PlanoContas;
 import facade.GerenciadorFacade;
 import negocios.AgentePrevisao;
-import negocios.PlanoContas;
 
 /**
  *  Classe responsável por conter os métodos que a UI utiliza, porém somente métodos que não interagem com usuário. Por esse motivo é uma classe de "Helpers" e está no pacote util
  *
  */
-
 public class UIHelpers {
  
 	static UIHelpers instance;
@@ -27,6 +26,7 @@ public class UIHelpers {
 		}		
 		return(instance);	
 	}
+	
 	private boolean validateDate(int day, int month, int year) {
 		
 		Calendar calendar = Calendar.getInstance();
@@ -50,6 +50,7 @@ public class UIHelpers {
 		
 		return dayIsValid && monthIsValid && yearIsValid;
 	}
+	
 	
 	public boolean returnIfIsAValidDate(int day, int month, int year) {
 		

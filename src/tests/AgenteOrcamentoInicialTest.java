@@ -10,10 +10,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import dominio.PlanoContas;
+import dominio.Rubrica;
 import facade.GerenciadorFacade;
-import negocios.PlanoContas;
-import negocios.Rubrica;
-import util.GerenciadorArquivos;
+import negocios.GerenciadorArquivos;
 
 public class AgenteOrcamentoInicialTest {
 

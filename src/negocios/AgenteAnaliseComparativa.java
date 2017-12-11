@@ -3,9 +3,10 @@ package negocios;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import dominio.PlanoContas;
+import dominio.Rubrica;
 import util.CategoriaMes;
 import util.CategoriaRubrica;
-import util.GerenciadorArquivos;
 
 /**
  *  Classe respons�vel por gerenciar a gera��o de an�lise comparativa do
@@ -38,7 +39,7 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		gerenciadorArquivo.finalizaArquivoAnaliseComparativa();
 	}
 	
-	public static ArrayList<String> geraValoresRubrica(Rubrica rubrica, CategoriaMes mesInicial, CategoriaMes mesFinal) {
+	public ArrayList<String> geraValoresRubrica(Rubrica rubrica, CategoriaMes mesInicial, CategoriaMes mesFinal) {
 		
 		ArrayList<String> valores = new ArrayList<String>();
 		Double previstos = 0.0;
@@ -58,7 +59,7 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 			
 		}
 		else {
-			previstosERealizados =iteraESomaValoresRubricas(rubrica, mesInicial, mesFinal);
+			previstosERealizados = iteraESomaValoresRubricas(rubrica, mesInicial, mesFinal);
 		}
 		previstos = previstosERealizados[0];
 		realizados = previstosERealizados[1];
@@ -127,7 +128,7 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		}
 		else {
 			
-			for (int cont=0; cont < formulaArray.length; cont += 2) {
+			for (int cont = 0; cont < formulaArray.length; cont += 2) {
 				Rubrica rubrica =  PlanoContas.getInstance().getRubricas().get(Integer.valueOf(formulaArray[cont]));
 				Double[] result = iteraESomaValoresRubricas(rubrica, mesInicial, mesFinal);
 				if (cont == 0) {

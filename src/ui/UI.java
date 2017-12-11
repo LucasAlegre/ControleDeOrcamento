@@ -6,11 +6,12 @@ import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Scanner;
+
+import dominio.PlanoContas;
 import util.CategoriaMes;
 
 import negocios.AgenteOrcamentoInicial;
 import negocios.AgentePrevisao;
-import negocios.PlanoContas;
 import facade.GerenciadorFacade;
 
 
@@ -19,6 +20,7 @@ import facade.GerenciadorFacade;
  *
  */
 public class UI {
+	
 	private static UIFacade executeUI = new UIFacade();	
 	
 	

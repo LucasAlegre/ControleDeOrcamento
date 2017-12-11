@@ -1,8 +1,9 @@
 package negocios;
 import java.util.LinkedHashMap;
 
+import dominio.PlanoContas;
+import dominio.Rubrica;
 import util.CategoriaMes;
-import util.GerenciadorArquivos;
 
 /**
  * Classe respons�vel por controlar o que foi realmente realizado de gastos

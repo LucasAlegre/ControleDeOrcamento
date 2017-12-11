@@ -1,5 +1,7 @@
 package negocios;
 
+import dominio.PlanoContas;
+
 /**
  * Classe abstrata para uma classe que pode agir sobre o Plano de Contas.
  *

@@ -3,9 +3,9 @@ package ui;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+import dominio.PlanoContas;
 import facade.GerenciadorFacade;
 import negocios.AgentePrevisao;
-import negocios.PlanoContas;
 import util.CategoriaMes;
 import util.UIHelpers;
 
@@ -14,7 +14,6 @@ import util.UIHelpers;
  *  É uma fachada, que encapsula os métodos de interação com o usuário e os gerencia no método uiFacade();
  *
  */
-
 public class UIFacade {
 	
 	private UIHelpers uiHelper;
@@ -49,20 +48,20 @@ public class UIFacade {
 				this.dateIsValid = verificaValidadeDataDeCongelamento();
 			}
 			
-			while(!this.optionValid) {
+			while(!this.optionValid && this.predictionContinue) {
 				int predicitionOp = validOption();
 				if(predicitionOp != -1) {
 					do {
 						predictionValue(predicitionOp);
 						this.predictionContinue = predictionEnd();
-						System.out.println(this.predictionContinue); //--> TA DANDO FALSE MAS N SAI
+				
 					}while(this.predictionContinue);
 				}
 			}
 			geraAnaliseComparativa();
 			
 		}
-		//this.uiHelper.stubFunction();  -> Porque DIABOS, se usa stub da ui? Tem de fazer uma classe de testes para UI e colocar  stub lá, mas já perdi tanto tempo refatorando a UI que nao to com saco de fazer testes de UI agr
+		
 	}
 	
 	private boolean getFileExistance() {
@@ -87,12 +86,15 @@ public class UIFacade {
 		}
 		return input;		
 	}
+	
 	private boolean verificaValidadeDataDeCongelamento() {
 		int day, month, year;
+		
 		System.out.println("Digite a data de congelamento(dd/mm/yyyy)(0 para sair)");
 		day = Integer.valueOf(this.askUser("Dia", "0"));
 		month = Integer.valueOf(this.askUser("Mês", "0"));
 		year = Integer.valueOf(this.askUser("Ano", "0"));
+		
 		return this.uiHelper.returnIfIsAValidDate(day, month, year);
 	}
 	
@@ -109,10 +111,25 @@ public class UIFacade {
 			return predicitionOp;
 		}
 	}
+	
+	private boolean validateMonth(int mes) {
+		if(mes < 1 || mes > 12)
+			return false;
+		
+		return true;
+	}
+	
 	private void predictionValue(int predicitionOp) {
-		int rubricaCode = Integer.valueOf(this.askUser("Digite o código da Rubrica que desejas prever o valor", ""));
-		int predictionMonth = Integer.valueOf(this.askUser("Digite o mes de previsão da Rubrica que desejas prever o valor", ""));
+		
 		int predictionValue;
+		int predictionMonth;
+		int rubricaCode = Integer.valueOf(this.askUser("Digite o código da Rubrica que desejas prever o valor", ""));
+		do {
+			predictionMonth = Integer.valueOf(this.askUser("Digite o mês(1 à 12) de previsão da Rubrica que desejas prever o valor", ""));
+		}while(!validateMonth(predictionMonth));
+		
+		assert(predictionMonth >= 1 && predictionMonth <= 12);
+		
 		if(predicitionOp == AgentePrevisao.PREVISAO_VALORANOANTERIOR) {
 			predictionValue = 0;
 		}
@@ -123,11 +140,13 @@ public class UIFacade {
 			predictionValue = Integer.valueOf(this.askUser("Digite o valor percentual de alteração da rubrica", ""));
 		}
 	
-		this.uiHelper.generatePrediction(predicitionOp , rubricaCode , predictionValue,predictionMonth);
+		this.uiHelper.generatePrediction(predicitionOp, rubricaCode, predictionValue, predictionMonth);
 		
 	}
+	
 	private boolean predictionEnd() {
 		String predicitionContinues = this.askUser("Desejas continuar a previsão?(s/n)", "");
+		
 		if(predicitionContinues.equals("n")) {
 			return false;
 		}
@@ -140,6 +159,7 @@ public class UIFacade {
 		this.askUser("Queres gerar analise comparativa? N para nao", "N");
 		int mesInicial = Integer.valueOf(this.askUser("Digite o mes inicial! 1 - janeiro. 12 - dezembro", ""));
 		int mesFinal = Integer.valueOf(this.askUser("Digite o mes final! 1 - janeiro. 12 - dezembro", ""));
+		
 		facade.geraAnalise(CategoriaMes.values()[mesInicial - 1], CategoriaMes.values()[mesFinal - 1]  );
 	}
 
