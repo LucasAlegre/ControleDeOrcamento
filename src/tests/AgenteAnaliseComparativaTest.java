@@ -22,6 +22,9 @@ import util.CategoriaRubrica;
 
 public class AgenteAnaliseComparativaTest {
 
+	Double PREV_VALUE = 100.0;
+	Double REL_VALUE = 200.0;
+	
 	private GerenciadorFacade gerenciador;
 	private PlanoContas planoContas;
 	private AgenteAnaliseComparativa analiseComp;
@@ -421,55 +424,105 @@ public class AgenteAnaliseComparativaTest {
 		assertEquals(0.0, resultado, 0.000000001);
 	}
 	@Test
+	public void calculaValoresDeRubricaEspecial17() {
+		//formula da 17 = -187
+		//187 = 187 - 193
+		//193 = 193
+		
+		Rubrica rubricaCode17 = planoContas.getRubricas().get(17);
+		Rubrica rubricaCode187 = planoContas.getRubricas().get(187);
+		Rubrica rubricaCode193 = planoContas.getRubricas().get(193);
+		
+		setaValoresPrevistosERealizadosSubrubricas(193);
+		setaValoresPrevistosERealizadosSubrubricas(187);
+			
+		ArrayList<String> correctAnswer193 = new ArrayList<String>(
+				Arrays.asList("193", "Receitas Financeiras", "800.0", "1600.0", "-800.0", "-100.0" + "%", ":("));
+		ArrayList<String> obtido193 = analiseComp.geraValoresRubrica(rubricaCode193, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(correctAnswer193, obtido193);
+		
+		System.out.println("SUB 187");
+		System.out.println(planoContas.getRubricas().get(187).getSubRubricas().size());
+		
+		ArrayList<String> correctAnswer187 = new ArrayList<String>(
+				Arrays.asList("187", "Resultado Financeiro", "1800.0", "-3600.0", "-1800.0", "-100.0" + "%", ":)"));
+		
+		ArrayList<String> obtido187 = analiseComp.geraValoresRubrica(rubricaCode187, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(correctAnswer187, obtido187);
+		
+			
+	}
+	@Test
+	public void testaRubrica110() {
+		//110 = 2 + 120
+		//2 tem 9 filhos
+		//120 tem 13 filhos
+		Rubrica rubrica110 = planoContas.getRubricas().get(110);
+		Rubrica rubrica2 = planoContas.getRubricas().get(2);
+		Rubrica rubrica120 = planoContas.getRubricas().get(120);
+		
+		assertEquals(9, rubrica2.getSubRubricas().size());
+		//assertEquals(13, rubrica120.getSubRubricas().size());
+
+		
+		setaValoresPrevistosERealizadosSubrubricas(2);
+		setaValoresPrevistosERealizadosSubrubricas(120);
+		
+		
+		ArrayList<String> correctAnswer2 = new ArrayList<String>(
+				Arrays.asList("2", "Custos operacionais", "1800.0", "3600.0", "-1800.0", "-100.0" + "%", ":("));
+		
+		ArrayList<String> obtido2 = analiseComp.geraValoresRubrica(rubrica2, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(correctAnswer2, obtido2);
+		
+		ArrayList<String> correctAnswer120 = new ArrayList<String>(
+				Arrays.asList("120", "Custos com Pessoal", "2600.0", "5200.0", "-2600.0", "-100.0" + "%", ":)"));
+		
+		ArrayList<String> obtido120 = analiseComp.geraValoresRubrica(rubrica120, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(correctAnswer120, obtido120);
+		
+		ArrayList<String> correctAnswer110 = new ArrayList<String>(
+				Arrays.asList("110", "( - ) Custo dos produtos/serviços vendidos", "4600.0", "9200.0", "-4600.0", "-100.0" + "%", ":)"));
+		
+		ArrayList<String> obtido110 = analiseComp.geraValoresRubrica(rubrica110, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(correctAnswer110, obtido110);
+		
+		
+	}
+	@Test
 	public void calculaValoresDeRubricaEspecial() {
 		//formula da 1 = 103 - 2396
 		
-		Double PREV_VALUE = 100.0;
-		Double REL_VALUE = 200.0;
-
+		Rubrica rubricaCode1 = planoContas.getRubricas().get(1);
+		Rubrica rubricaCode2396 = planoContas.getRubricas().get(2396);
+		Rubrica rubricaCode103 = planoContas.getRubricas().get(103);
 		
 		this.setaValoresPrevistosERealizadosSubrubricas(103);
 		this.setaValoresPrevistosERealizadosSubrubricas(2396);
-
-		
-		Double valorPrevistoEsperado103 = 2* planoContas.getRubricas().get(103).getSubRubricas().size() * PREV_VALUE;
-		String valorPrevistoEsperado103String = valorPrevistoEsperado103.toString();
-		
-		Double valorPrevistoEsperado2396 = 2* planoContas.getRubricas().get(2396).getSubRubricas().size() * PREV_VALUE;
-		String valorPrevistoEsperado2396String = valorPrevistoEsperado2396.toString();
-		
-		Double valorRealizadoEsperado103 = 2* planoContas.getRubricas().get(103).getSubRubricas().size() * REL_VALUE;
-		String valorRealizadoEsperado103String = valorRealizadoEsperado103.toString();
-		
-		Double valorRealizadoEsperado2396 = 2* planoContas.getRubricas().get(2396).getSubRubricas().size() * REL_VALUE;
-		String valorRealizadoEsperado2396String = valorRealizadoEsperado2396.toString();
-		
-		String[] esperado103 = { "103", "Receita Bruta", valorPrevistoEsperado103String, valorRealizadoEsperado103String, ":)"};
-		String[] esperado2396 = { "2396", "( - ) Deduções", valorPrevistoEsperado2396String, valorRealizadoEsperado2396String, ":("};
-
-		
-		Double variacao103 = valorPrevistoEsperado103 - valorRealizadoEsperado103;
-		Double perc103 = variacao103 * 100 /  valorPrevistoEsperado103;
-		
-		
-		Double variacao2396 = valorPrevistoEsperado2396 - valorRealizadoEsperado2396;
-		Double perc2396 = variacao2396 * 100 /  valorPrevistoEsperado2396;
-		
-		
+	
 		ArrayList<String> correctAnswer103 = new ArrayList<String>(
-				Arrays.asList("103", "Receita Bruta", valorPrevistoEsperado103String, valorRealizadoEsperado103String, variacao103.toString(), perc103.toString() + "%", ":("));
+				Arrays.asList("103", "Receita Bruta", "400.0", "800.0", "-400.0", "-100.0" + "%", ":("));
 		
 		
 		ArrayList<String> correctAnswer2396 = new ArrayList<String>(
-				Arrays.asList( "2396", "( - ) Deducoes", valorPrevistoEsperado2396String, valorRealizadoEsperado2396String, variacao2396.toString(), perc2396.toString(), ":("));
+				Arrays.asList( "2396", "( - ) Dedu��es", "1200.0", "2400.0", "-1200.0", "-100.0%", ":("));
 		
 		
-		ArrayList<String> obtido103 = analiseComp.geraValoresRubrica(PlanoContas.getInstance().getRubricas().get(103), CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		ArrayList<String> obtido103 = analiseComp.geraValoresRubrica(rubricaCode103, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(correctAnswer103, obtido103);
 		
 		
-		ArrayList<String> obtido2396 = analiseComp.geraValoresRubrica(PlanoContas.getInstance().getRubricas().get(2396), CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		ArrayList<String> obtido2396 = analiseComp.geraValoresRubrica(rubricaCode2396, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(correctAnswer2396, obtido2396);
+		
+		
+	
+		ArrayList<String> correctAnswer1 = new ArrayList<String>(
+				Arrays.asList("1", "Receita L�quida de Vendas", "-800.0", "-1600.0", "800.0", "-100.0" + "%", ":)"));
+		ArrayList<String> obtido1 = analiseComp.geraValoresRubrica(rubricaCode1, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+
+		
+		assertEquals(correctAnswer1, obtido1);
 			
 	}
 	public void setaValoresPrevistosERealizadosSubrubricas(int RubricaCode) {
@@ -481,4 +534,8 @@ public class AgenteAnaliseComparativaTest {
 		}
 	}
 
+	
+	
+	
+	
 }
