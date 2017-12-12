@@ -75,8 +75,8 @@ public class PlanoContas {
 		rubricasEspeciais.put(16, "184"); 
 		rubricasEspeciais.put(17, "- 187"); 
 		rubricasEspeciais.put(18, "13 + 15 + 16 + 17");
-		rubricasEspeciais.put(19, "110");
-		rubricasEspeciais.put(20, "110");		
+		rubricasEspeciais.put(19, "2398");
+		rubricasEspeciais.put(20, "21 + 22 + 23");		
 	}
 	
 	public PlanoContas(){

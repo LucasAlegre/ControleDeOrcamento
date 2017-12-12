@@ -474,6 +474,7 @@ public class AgenteAnaliseComparativaTest {
 		setaValoresPrevistosERealizadosSubrubricas(2);
 		setaValoresPrevistosERealizadosSubrubricas(120);
 		
+		assertEquals(9, rubrica2.getSubRubricas().size());
 		
 		ArrayList<String> correctAnswer2 = new ArrayList<String>(
 				Arrays.asList("2", "Custos operacionais", "1800.0", "3600.0", "-1800.0", "-100.0" + "%", ":("));
