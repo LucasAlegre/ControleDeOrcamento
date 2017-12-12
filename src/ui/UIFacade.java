@@ -58,6 +58,7 @@ public class UIFacade {
 					}while(this.predictionContinue);
 				}
 			}
+			geraRealizadoEProcessa();
 			geraAnaliseComparativa();
 			
 		}
@@ -152,6 +153,29 @@ public class UIFacade {
 		}
 		else {
 			return true;
+		}
+	}
+	
+	private void geraRealizadoEProcessa() {
+		int realizadoMonth;
+		do {
+			realizadoMonth = Integer.valueOf(this.askUser("Digite o mês(1 à 12) de previsão da Rubrica que desejas preencher o valor realizado", ""));
+		}while(!validateMonth(realizadoMonth));
+		
+		assert(realizadoMonth >= 1 && realizadoMonth <= 12);
+		
+		CategoriaMes mes = CategoriaMes.getMes(realizadoMonth);
+
+		this.facade.geraTemplateRealizadoMensal(mes);		
+		System.out.println("O arquivo do mes de "+mes.toString()+" já está disponível para preenchimento");
+		this.esperaEscritaRealizado();
+		this.facade.leRealizadoMensal("Template"+mes.toString()+".xls", mes);
+	}
+	
+	private void esperaEscritaRealizado() {
+		String answer = "";
+		while(!answer.equals("s")) {
+			answer = this.askUser("Digite 's' quando o arquivo do realizado estiver preenchido...", "");
 		}
 	}
 	

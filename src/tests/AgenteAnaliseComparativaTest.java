@@ -142,8 +142,8 @@ public class AgenteAnaliseComparativaTest {
 	@Test
 	public void geraValoresRubricaSemSubrubrica() {
 		ArrayList<String> correctAnswer = new ArrayList<String>(
-				Arrays.asList("1", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
-		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, null);
+				Arrays.asList("100", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
+		Rubrica mae = new Rubrica(null, "mae", 100, CategoriaRubrica.DESPESA, null);
 		mae.setValorPrevisto(1, 100);
 		mae.setValorRealizado(1, 200);
 		mae.setValorPrevisto(2, 100);
@@ -161,9 +161,9 @@ public class AgenteAnaliseComparativaTest {
 	@Test
 	public void geraValoresRubricaComValoresAnoPassado() {
 		ArrayList<String> correctAnswer = new ArrayList<String>(
-				Arrays.asList("1", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
+				Arrays.asList("100", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
 		Double[] valoresAnoPassado = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
-		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, valoresAnoPassado);
+		Rubrica mae = new Rubrica(null, "mae", 100, CategoriaRubrica.DESPESA, valoresAnoPassado);
 		mae.setValorPrevisto(1, 100);
 		mae.setValorRealizado(1, 200);
 		mae.setValorPrevisto(2, 100);
@@ -268,13 +268,14 @@ public class AgenteAnaliseComparativaTest {
 	@Test
 	public void somaValoresRealizadosSubrubricasSemSubrubricasComValorPrevisto() {
 		ArrayList<String> correctAnswer = new ArrayList<String>(
-				Arrays.asList("1", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
+				Arrays.asList("100", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
 		Double[] valoresAnoPassado = { 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0 };
-		Rubrica mae = new Rubrica(null, "mae", 1, CategoriaRubrica.DESPESA, valoresAnoPassado);
+		Rubrica mae = new Rubrica(null, "mae", 100, CategoriaRubrica.DESPESA, valoresAnoPassado);
 		mae.setValorRealizado(1, 200);
 		mae.setValorRealizado(2, 200);
 		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
-		assertEquals(0.0, valores[1], 0.0000000001);
+		assertEquals(400.0, valores[1], 0.0000000001);
+	
 	}
 
 	/*
@@ -419,6 +420,65 @@ public class AgenteAnaliseComparativaTest {
 		Double resultado = analiseComp.calculaVariacao(filha, 01);
 		assertEquals(0.0, resultado, 0.000000001);
 	}
-	
+	@Test
+	public void calculaValoresDeRubricaEspecial() {
+		//formula da 1 = 103 - 2396
+		
+		Double PREV_VALUE = 100.0;
+		Double REL_VALUE = 200.0;
+
+		
+		this.setaValoresPrevistosERealizadosSubrubricas(103);
+		this.setaValoresPrevistosERealizadosSubrubricas(2396);
+
+		
+		Double valorPrevistoEsperado103 = 2* planoContas.getRubricas().get(103).getSubRubricas().size() * PREV_VALUE;
+		String valorPrevistoEsperado103String = valorPrevistoEsperado103.toString();
+		
+		Double valorPrevistoEsperado2396 = 2* planoContas.getRubricas().get(2396).getSubRubricas().size() * PREV_VALUE;
+		String valorPrevistoEsperado2396String = valorPrevistoEsperado2396.toString();
+		
+		Double valorRealizadoEsperado103 = 2* planoContas.getRubricas().get(103).getSubRubricas().size() * REL_VALUE;
+		String valorRealizadoEsperado103String = valorRealizadoEsperado103.toString();
+		
+		Double valorRealizadoEsperado2396 = 2* planoContas.getRubricas().get(2396).getSubRubricas().size() * REL_VALUE;
+		String valorRealizadoEsperado2396String = valorRealizadoEsperado2396.toString();
+		
+		String[] esperado103 = { "103", "Receita Bruta", valorPrevistoEsperado103String, valorRealizadoEsperado103String, ":)"};
+		String[] esperado2396 = { "2396", "( - ) Deduções", valorPrevistoEsperado2396String, valorRealizadoEsperado2396String, ":("};
+
+		
+		Double variacao103 = valorPrevistoEsperado103 - valorRealizadoEsperado103;
+		Double perc103 = variacao103 * 100 /  valorPrevistoEsperado103;
+		
+		
+		Double variacao2396 = valorPrevistoEsperado2396 - valorRealizadoEsperado2396;
+		Double perc2396 = variacao2396 * 100 /  valorPrevistoEsperado2396;
+		
+		
+		ArrayList<String> correctAnswer103 = new ArrayList<String>(
+				Arrays.asList("103", "Receita Bruta", valorPrevistoEsperado103String, valorRealizadoEsperado103String, variacao103.toString(), perc103.toString() + "%", ":("));
+		
+		
+		ArrayList<String> correctAnswer2396 = new ArrayList<String>(
+				Arrays.asList( "2396", "( - ) Deducoes", valorPrevistoEsperado2396String, valorRealizadoEsperado2396String, variacao2396.toString(), perc2396.toString(), ":("));
+		
+		
+		ArrayList<String> obtido103 = analiseComp.geraValoresRubrica(PlanoContas.getInstance().getRubricas().get(103), CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(correctAnswer103, obtido103);
+		
+		
+		ArrayList<String> obtido2396 = analiseComp.geraValoresRubrica(PlanoContas.getInstance().getRubricas().get(2396), CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(correctAnswer2396, obtido2396);
+			
+	}
+	public void setaValoresPrevistosERealizadosSubrubricas(int RubricaCode) {
+		for (Rubrica filha : PlanoContas.getInstance().getRubricas().get(RubricaCode).getSubRubricas()) {
+			filha.setValorPrevisto(1, 100);
+			filha.setValorPrevisto(2, 100);
+			filha.setValorRealizado(1, 200);
+			filha.setValorRealizado(2, 200);
+		}
+	}
 
 }
