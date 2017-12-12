@@ -441,14 +441,20 @@ public class AgenteAnaliseComparativaTest {
 		ArrayList<String> obtido193 = analiseComp.geraValoresRubrica(rubricaCode193, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(correctAnswer193, obtido193);
 		
-		System.out.println("SUB 187");
-		System.out.println(planoContas.getRubricas().get(187).getSubRubricas().size());
+		assertEquals(13, planoContas.getRubricas().get(187).getSubRubricas().size());
 		
 		ArrayList<String> correctAnswer187 = new ArrayList<String>(
-				Arrays.asList("187", "Resultado Financeiro", "1800.0", "-3600.0", "-1800.0", "-100.0" + "%", ":)"));
+				Arrays.asList("187", "Resultado Financeiro", "1800.0", "3600.0", "-1800.0", "-100.0" + "%", ":("));
 		
 		ArrayList<String> obtido187 = analiseComp.geraValoresRubrica(rubricaCode187, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(correctAnswer187, obtido187);
+		
+		ArrayList<String> correctAnswer17 = new ArrayList<String>(
+				Arrays.asList("17", "Resultado Financeiro", "2600.0", "5200.0", "-2600.0", "-100.0" + "%", ":("));
+		
+		ArrayList<String> obtido17 = analiseComp.geraValoresRubrica(rubricaCode17, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
+		assertEquals(correctAnswer17, obtido17);
+		
 		
 			
 	}
@@ -462,7 +468,7 @@ public class AgenteAnaliseComparativaTest {
 		Rubrica rubrica120 = planoContas.getRubricas().get(120);
 		
 		assertEquals(9, rubrica2.getSubRubricas().size());
-		//assertEquals(13, rubrica120.getSubRubricas().size());
+		assertEquals(13, rubrica120.getSubRubricas().size());
 
 		
 		setaValoresPrevistosERealizadosSubrubricas(2);
@@ -476,13 +482,13 @@ public class AgenteAnaliseComparativaTest {
 		assertEquals(correctAnswer2, obtido2);
 		
 		ArrayList<String> correctAnswer120 = new ArrayList<String>(
-				Arrays.asList("120", "Custos com Pessoal", "2600.0", "5200.0", "-2600.0", "-100.0" + "%", ":)"));
+				Arrays.asList("120", "Custos com Pessoal", "2600.0", "5200.0", "-2600.0", "-100.0" + "%", ":("));
 		
 		ArrayList<String> obtido120 = analiseComp.geraValoresRubrica(rubrica120, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(correctAnswer120, obtido120);
 		
 		ArrayList<String> correctAnswer110 = new ArrayList<String>(
-				Arrays.asList("110", "( - ) Custo dos produtos/serviços vendidos", "4600.0", "9200.0", "-4600.0", "-100.0" + "%", ":)"));
+				Arrays.asList("110", "( - ) Custo dos produtos/servi�os vendidos", "4400.0", "8800.0", "-4400.0", "-100.0" + "%", ":("));
 		
 		ArrayList<String> obtido110 = analiseComp.geraValoresRubrica(rubrica110, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(correctAnswer110, obtido110);

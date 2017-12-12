@@ -90,11 +90,13 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 	
 	public static Double[] getValoresPrevistosRealizadosRubricaEspecial(int RubricaCode, CategoriaMes mesInicial, CategoriaMes mesFinal) {
 		String formula = PlanoContas.getInstance().getRubricasEspeciais().get(RubricaCode);
+		
 	
 		String[] formulaArray = formula.split(" ");
 		
 		Double acumuladorPrevistos = 0.0;
 		Double acumuladorRealizados = 0.0;
+		
 		
 		//se o comprimento é um, é porque a fórmula é uma rubrica; sem operacao
 		
@@ -106,25 +108,22 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		
 		//se é dois, é porque é -x. sim, sempre.
 		if (formulaArray.length == 2) {
-			System.out.println("caiuu");
 			Rubrica rubrica =  PlanoContas.getInstance().getRubricas().get(Integer.valueOf(formulaArray[1]));
 			Double[] result = iteraESomaValoresRubricas(rubrica, mesInicial, mesFinal);
-			System.out.println(rubrica.getCodigo());
-			System.out.println(result[1]);
-
-
+			
 			for (Double element : result) {
 				element *= -1;
 			}
 			return result;
 		}
 		//se é maior. é pq é ou x + x + ... ou x - x - x... nunca terá - e + misturados.
-		
-		
-		if (formulaArray[1] == "+") {
-			
+	
+		if (formulaArray[1].equals("+")) {
+
 			for (int cont=0; cont < formulaArray.length; cont += 2) {
 				Rubrica rubrica =  PlanoContas.getInstance().getRubricas().get(Integer.valueOf(formulaArray[cont]));
+				
+				
 				Double[] result = iteraESomaValoresRubricas(rubrica, mesInicial, mesFinal);
 				acumuladorPrevistos += result[0];
 				acumuladorRealizados += result[1];
