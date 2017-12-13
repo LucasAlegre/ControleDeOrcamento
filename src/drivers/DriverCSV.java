@@ -18,9 +18,12 @@ public class DriverCSV{
 	public DriverCSV(String filename) throws FileNotFoundException {
 		this.csvFile = new File(filename);
 		this.scanner = new Scanner(this.csvFile);
+		//enters first line
 		this.proceed(); 
-		this.proceed();
+		//initiate file scanning by reading the fields names
 		this.fieldNames = this.getFields();
+		//proceed to essence
+		this.proceed();
 	}
 	
 	public int getNumOfLineFields() {

@@ -184,6 +184,10 @@ public class UIFacade {
 		int mesInicial = Integer.valueOf(this.askUser("Digite o mes inicial! 1 - janeiro. 12 - dezembro", ""));
 		int mesFinal = Integer.valueOf(this.askUser("Digite o mes final! 1 - janeiro. 12 - dezembro", ""));
 		
+		assert(mesInicial <=12 && mesInicial >=1);
+		assert(mesFinal <=12 && mesFinal >=1);
+		
+		
 		facade.geraAnalise(CategoriaMes.values()[mesInicial - 1], CategoriaMes.values()[mesFinal - 1]  );
 	}
 

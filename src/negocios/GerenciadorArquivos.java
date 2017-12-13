@@ -71,9 +71,13 @@ public class GerenciadorArquivos {
 			
 			if(driver.getNumOfLineFields() != 0) {
 				
+				assert(driver.getNumOfLineFields() <= 15 && driver.getNumOfLineFields() > 12);
+				
 				String classification = driver.getFields()[0];
 				String cod = driver.getFields()[1];
 				String name = driver.getFields()[2];
+				
+				assert(cod != "");
 				
 				//Caso a rúbrica for classificável
 				if(this.isRubricaValid(driver.getFields())) {
