@@ -40,7 +40,7 @@ public class RubricaTest {
 	//=NAO SEI COMO FAZER FUNCIONAR ESSA PORRA, (será que precisa desse teste? é só um getter -> eu acho q precisa sim pq n to testando o get mas sim a logica tlg, de se a subrubricas tao salvando direitinho)
 	@Test
 	public void getSubRubricas() {
-		String correctAnswer = "[Devoluções  105  169199.0"+
+		String correctAnswer = "[Devolucoes  105  169199.0"+
 		                 ", ICMS  106  7749.0" +
 		                 ", ISSQN s/ Servicos  107  160131.0" +
 		                 ", Pis s/ Faturamento  108  70412.0" +
@@ -54,9 +54,8 @@ public class RubricaTest {
 				subrubricasDa2396 = entry.getValue().getSubRubricas();	
 			}
 		}
-		System.out.println(correctAnswer);
-		System.out.println(subrubricasDa2396);
-		assertEquals(subrubricasDa2396, correctAnswer);
+		
+		assertEquals(subrubricasDa2396.toString(), correctAnswer.toString());
 	}
 	
 	/**
@@ -82,6 +81,7 @@ public class RubricaTest {
 				subrubricasDa103 = entry.getValue().getSubRubricas();
 			}
 		}
+		
 
 		assertEquals(subrubricasDa103.contains(subrubricaAdicionada), true);
 

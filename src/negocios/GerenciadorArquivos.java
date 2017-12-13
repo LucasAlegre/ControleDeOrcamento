@@ -71,17 +71,16 @@ public class GerenciadorArquivos {
 			
 			if(driver.getNumOfLineFields() != 0) {
 				
-				assert(driver.getNumOfLineFields() <= 15 && driver.getNumOfLineFields() > 12);
 				
 				String classification = driver.getFields()[0];
 				String cod = driver.getFields()[1];
 				String name = driver.getFields()[2];
 				
-				assert(cod != "");
+				assert(!cod.isEmpty());
 				
 				//Caso a rúbrica for classificável
 				if(this.isRubricaValid(driver.getFields())) {
-					
+
 					pastValues = this.getPastValues(driver.getFields());
 					
 					//Instanciar o número de pontos de classificação da rúbrica,
@@ -122,7 +121,9 @@ public class GerenciadorArquivos {
 							pais.clear();
 						}
 						rubrica = new Rubrica(parent, name, (int)Integer.valueOf(cod), CategoriaRubrica.DESPESA, pastValues);
-						if(parent != null)parent.addSubRubrica(rubrica);
+						if(parent != null) {
+							parent.addSubRubrica(rubrica);
+						}
 						for(int i = depth; i < pais.size(); i++) {
 							pais.remove(i);
 						}
@@ -137,7 +138,6 @@ public class GerenciadorArquivos {
 			}
 				
 		}
-			
 		
 		return map;
 	}
@@ -149,7 +149,7 @@ public class GerenciadorArquivos {
 	 */
 	private boolean isRubricaValid(String line[]) {
 		String cod = line[1];
-		if(cod.equals("")) {
+		if(cod.isEmpty()) {
 			return false;
 		}
 		return true;
@@ -161,13 +161,22 @@ public class GerenciadorArquivos {
 	 * @return Array com valor anterior de cada mês
 	 */
 	private Double[] getPastValues(String line[]) {
+		
+		String classification = line[0];
+		if(classification.isEmpty()) {
+			return null;
+		}
+		
 		Double pastValues[] = new Double[12];
 		int lowerBound = line.length - 12;
-		int higherBound = line.length;
+		int higherBound = line.length - 1;
 		
-		for(int i = lowerBound ; i < higherBound; i++) {
-			pastValues[i - lowerBound] = Double.valueOf(line[i]);
+		for(int i = lowerBound ; i <= higherBound; i++) {
+			if(!line[i-1].isEmpty()) {
+				pastValues[i - lowerBound] = Double.valueOf(line[i-1]);
+			}else System.out.println(i-1 + "\n");
 		}
+		
 		
 		return pastValues;
 	}

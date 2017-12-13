@@ -135,9 +135,11 @@ public class Rubrica {
 		String out = this.nome + "  " +  String.valueOf(this.codigo);
 		double total = 0;
 		for(int i = 0; i < 12; i++) {
+			if(this.valoresAnoPassado[i] == null) System.out.println(this.nome +"\n");
 			total += this.valoresAnoPassado[i];
+			
 		}
-		out += "  " + Double.toString(total);
-		return out + '\n';
+		out += "  " + String.valueOf(total);
+		return out;
 	}
 }
