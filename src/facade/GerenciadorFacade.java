@@ -107,12 +107,5 @@ public class GerenciadorFacade {
 		agenteAnaliseComparativa.geraAnaliseComparativa(mesInicial, mesFinal);
 	}
 
-	/**
-	 * Executa o agente de Previsao para gerar o arquivo
-	 * de visualização das previsões feitas.
-	 */
-	public void geraArquivoPrevisao() {
-		agentePrevisao.geraArquivoPrevisao();
-		
-	}
+	
 }

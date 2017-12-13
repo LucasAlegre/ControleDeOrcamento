@@ -72,16 +72,7 @@ public class AgentePrevisaoTest {
 		gerenciador.geraPrevisao(1, 103, -10, CategoriaMes.JANEIRO.toInt());
 		assertEquals(planoContas.getRubricas().get(103).getValorPrevisto(02),(Double)null, 0.00001);
 	}
-	/**
-	 * Partição: Gerando o arquivo corretamente, sem avisos de exception
-	 * Opções de resposta: 
-	 * Sim
-	 * Não
-	 */
-	@Test(expected = Test.None.class)
-	public void generateFile() throws FileNotFoundException{
-		gerenciador.geraArquivoPrevisao();
-	}
+	
 	//===================functionality-based tests:	===================//
 	/**
 	 * Partição:  Correto valor de saída da previsão manter ano anterior? 

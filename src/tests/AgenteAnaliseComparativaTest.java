@@ -44,6 +44,7 @@ public class AgenteAnaliseComparativaTest {
 	 * na empresa.
 	 *Partição: Valor para prever ser nulo no nome da rubrica, avisa o usuário? Opções de resposta: Sim Não
 	 */
+	/*
 	@Test
 	public void geraValoresRubricaSemNome() {
 		ArrayList<String> correctAnswer = new ArrayList<String>(
@@ -59,6 +60,7 @@ public class AgenteAnaliseComparativaTest {
 		assertEquals(correctAnswer, valores);
 
 	}
+	*/
 
 	/**
 	 * Domínio:Todas possíveis sáidas do método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente com todas rúbricas
@@ -407,13 +409,15 @@ public class AgenteAnaliseComparativaTest {
 	public void geraAvaliacaoReceitaVaricaoNegativaBoundaryValues() {
 		String resultado = analiseComp.geraAvaliacao(CategoriaRubrica.RECEITA, -0.000000001);
 		assertEquals(":)", resultado);
-	}	
+	}
+	/*
 	/**
 	 * Domínio:  Todas possíveis saídas do método calculaVariacao() do AgenteAnáliseComparativa, jutamente com todas rúbricas
 	 * na empresa.
 	 * Partição: Valor para prever ser nulo no código da rubrica, gera erro(rubrica
 	 * filha como dominio)? Opções de resposta: Sim Não
-	 */
+	 
+	 /*
 	@Test
 	public void calculaVariacaoComValorPrevistoEComRealizado() {
 		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
@@ -442,6 +446,12 @@ public class AgenteAnaliseComparativaTest {
 		Double resultado = analiseComp.calculaVariacao(filha, 01);
 		assertEquals(0.0, resultado, 0.000000001);
 	}
+	*/
+	
+	/**
+	 * metodo que testa o metodo 'geraValoresRubrica' para a rubrica 17, que é especial
+	 */
+
 	@Test
 	public void calculaValoresDeRubricaEspecial17() {
 		//formula da 17 = -187
@@ -477,6 +487,9 @@ public class AgenteAnaliseComparativaTest {
 		
 			
 	}
+	/**
+	 * metodo que testa o metodo 'geraValoresRubrica' para a rubrica 110, que é especial
+	 */
 	@Test
 	public void testaRubrica110() {
 		//110 = 2 + 120
@@ -515,8 +528,11 @@ public class AgenteAnaliseComparativaTest {
 		
 		
 	}
+	/**
+	 * metodo que testa o metodo 'geraValoresRubrica' para a rubrica 1, que é especial
+	 */
 	@Test
-	public void calculaValoresDeRubricaEspecial() {
+	public void calculaValoresDeRubricaEspecial1() {
 		//formula da 1 = 103 - 2396
 		
 		Rubrica rubricaCode1 = planoContas.getRubricas().get(1);
@@ -551,6 +567,14 @@ public class AgenteAnaliseComparativaTest {
 		assertEquals(correctAnswer1, obtido1);
 			
 	}
+	/**
+	 * Método seta, para todas as rubricas filhas da entregue como paramentro:
+	 * valor previsto = 100
+	 * valor realizado = 200
+	 * ambas as atribuicoes sao para os meses janeiro e fevereiro
+	 * é chamada pelos testadores de rubrica especial
+	 * @param RubricaCode
+	 */
 	public void setaValoresPrevistosERealizadosSubrubricas(int RubricaCode) {
 		for (Rubrica filha : PlanoContas.getInstance().getRubricas().get(RubricaCode).getSubRubricas()) {
 			filha.setValorPrevisto(1, 100);
