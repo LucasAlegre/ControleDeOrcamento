@@ -27,11 +27,14 @@ public class AgenteOrcamentoInicialTest {
 	}
 	//===================interface-based tests:	===================//
 
-	/*Partição: Filename ser nulo? 
+
+	/**
+	 * Partição: Filename ser nulo? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
 	 */
+	
 	@Rule
 	public ExpectedException expectedEx1 = ExpectedException.none();
 	
@@ -40,11 +43,13 @@ public class AgenteOrcamentoInicialTest {
 		gerenciador.lerOrcamentoInicial(null);
 		expectedEx1.expectMessage("Expected exception:  java.lang.NullPointerException");
 	}
-	/*Partição: teste se não tem o código que a pessoa digitou)?
+	/**
+	 * Partição:  Gera exceção se não tem o código que a pessoa digitou?
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
 	 */
+
 	@Test(expected = java.lang.NullPointerException.class)
 	public void isReadingBasePlanCorrectlyNOCODE() throws FileNotFoundException {	
 		LinkedHashMap<Integer, Rubrica> map;
@@ -55,24 +60,26 @@ public class AgenteOrcamentoInicialTest {
 
 	
 	//===================functionality-based tests:	===================//
-	
-	
-	/*Partição: Agente orçamento inicial está lendo bem o plano base? 
+	/**
+	 * Partição:  Agente orçamento inicial está lendo bem o plano base? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
 	 */
+	
 	@Test(expected = Test.None.class)
 	public void isReadingBasePlan() throws FileNotFoundException {	
 		gerenciador.lerOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv");
 
 	}
-	
-	/*Partição: Exceção ao ler plano base quando nome de arquivo é errado, ocorre? 
+
+	/**
+	 * Partição:  Exceção ao ler plano base quando nome de arquivo é errado, ocorre? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
 	 */
+
 	@Rule
 	public ExpectedException expectedEx2 = ExpectedException.none();
 
@@ -81,12 +88,13 @@ public class AgenteOrcamentoInicialTest {
 		gerenciador.lerOrcamentoInicial("NomeQueNaoExiste.csv");
 		expectedEx2.expectMessage("Expected exception: java.io.FileNotFoundException");
 	}
-	
-	/*Partição: Rúbricas estão sendo armazenadas corretamente dada leitura do plano base (teste se o nome está correto)?
+	/**
+	 * Partição: Rúbricas estão sendo armazenadas corretamente dada leitura do plano base (teste se o nome está correto)?
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
 	 */
+
 	@Test
 	public void isReadingBasePlanCorrectlyTESTBYNAME() throws FileNotFoundException {	
 		LinkedHashMap<Integer, Rubrica> map;
@@ -94,10 +102,11 @@ public class AgenteOrcamentoInicialTest {
 		map  = le.lerOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv");
 		assertEquals(map.get(103).getNome(), "Receita Bruta");
 	}
-	/*Partição: Rúbricas estão sendo armazenadas corretamente dada leitura do plano base (teste se o código está correto)?
+	/**
+	 * Partição:   Rúbricas estão sendo armazenadas corretamente dada leitura do plano base (teste se o código está correto)?
 	 * Opções de resposta: 
 	 * Sim
-	 * Não 
+	 * Não
 	 */
 	@Test
 	public void isReadingBasePlanCorrectlyTESTBYCODE() throws FileNotFoundException {	

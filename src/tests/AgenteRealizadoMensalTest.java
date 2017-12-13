@@ -29,7 +29,8 @@ public class AgenteRealizadoMensalTest {
 	}
 	//===================interface-based tests:	===================//
 
-	/*Partição: Filename ser nulo? 
+	/**
+	 * Partição: Filename ser nulo? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
@@ -46,20 +47,22 @@ public class AgenteRealizadoMensalTest {
 
 	
 	//===================functionality-based tests:	===================//
-	
-	
-	/*Partição: Agente relaizado mensal está lendo bem o plano relaizado mensal? 
+	/**
+	 * Partição:  Agente relaizado mensal está lendo bem o plano relaizado mensal? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
 	 */
+
 	@Test(expected = Test.None.class)
 	public void isReadingPlan() throws FileNotFoundException {	
 		gerenciador.leRealizadoMensal("TemplateJaneiroCompletado.xls", CategoriaMes.JANEIRO);
 
 	}
 	
-	/*Partição: Exceção ao ler plano base quando nome de arquivo é errado, ocorre? 
+
+	/**
+	 * Partição:  Exceção ao ler plano base quando tipo de arquivo é errado, ocorre? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
@@ -73,7 +76,9 @@ public class AgenteRealizadoMensalTest {
 		expectedEx2.expectMessage("Expected exception: java.io.FileNotFoundException");
 	}
 	
-	/*Partição: Exceção ao ler plano base quando tipo de arquivo é errado, ocorre? 
+
+	/**
+	 * Partição:  Exceção ao ler plano base quando nome de arquivo é errado, ocorre? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
@@ -86,20 +91,6 @@ public class AgenteRealizadoMensalTest {
 		gerenciador.leRealizadoMensal("Modelo_Controle_Orcamentario_Completo.csv", CategoriaMes.JANEIRO);
 		expectedEx3.expectMessage("Expected exception: org.apache.poi.openxml4j.exceptions.InvalidFormatException");
 	}
-	
-	
-	/*Partição: Rúbricas estão sendo armazenadas corretamente dada leitura do plano base (teste se o nome está correto)?
-	 * Opções de resposta: 
-	 * Sim
-	 * Não
-	 */
-	//===Como testar esse??? Acho que precisaríamos de um arquivo só para teste
-	
-	/*Partição:Falta de rúbrica gera exceção
-	 * Opções de resposta: 
-	 * Sim
-	 * Não
-	 */
-	//===Como testar esse??? Acho que precisaríamos de um arquivo só para teste
+
 
 }

@@ -31,8 +31,8 @@ public class AgentePrevisaoTest {
 	}
 	
 	//===================Interface-based Tests:	===================//
-
-	/*Partição: Valor para prever ser nulo? 
+	/**
+	 * Partição:  Valor para prever ser nulo gera exceção? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
@@ -45,7 +45,9 @@ public class AgentePrevisaoTest {
 		gerenciador.geraPrevisao(1, 103, (Double) null, CategoriaMes.JANEIRO.toInt());
 		expectedEx1.expectMessage("Expected exception:  java.lang.NullPointerException");
 	}
-	/*Partição: Valor de código da rubrica ser nulo? 
+
+	/**
+	 * Partição:   Valor de código da rubrica ser nulo gera exceção? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
@@ -58,7 +60,8 @@ public class AgentePrevisaoTest {
 		gerenciador.geraPrevisao(1, (Integer) null, 100000, CategoriaMes.JANEIRO.toInt());
 		expectedEx1.expectMessage("Expected exception:  java.lang.NullPointerException");
 	}
-	/*Partição: valor negativo para previsao? 
+	/**
+	 * Partição:   valor negativo para previsao mantém valor do ano anterior? 
 	 * Opções de resposta: 
 	 * Sim, mantém a do ano anterior
 	 * Não, atualiza
@@ -69,8 +72,8 @@ public class AgentePrevisaoTest {
 		gerenciador.geraPrevisao(1, 103, -10, CategoriaMes.JANEIRO.toInt());
 		assertEquals(planoContas.getRubricas().get(103).getValorPrevisto(02),(Double)null, 0.00001);
 	}
-
-	/*Partição:Gerando o arquivo corretamente, sem avisos de exceptions? 
+	/**
+	 * Partição: Gerando o arquivo corretamente, sem avisos de exception
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
@@ -80,34 +83,36 @@ public class AgentePrevisaoTest {
 		gerenciador.geraArquivoPrevisao();
 	}
 	//===================functionality-based tests:	===================//
-	
-	
-	/*Partição: Correto valor de saída da previsão manter ano anterior? 
+	/**
+	 * Partição:  Correto valor de saída da previsão manter ano anterior? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
 	 */
+
 	@Test
 	public void manterAnoAnterior() {
 		double valuePreviousYear = 	PlanoContas.getInstance().getRubricas().get(103).getvalorAnoPassado(CategoriaMes.JANEIRO.toInt());
 		gerenciador.geraPrevisao(AgentePrevisao.PREVISAO_VALORANOANTERIOR, 103, 0, CategoriaMes.JANEIRO.toInt());
 		double predictedValue = PlanoContas.getInstance().getRubricas().get(103).getValorPrevisto(CategoriaMes.JANEIRO.toInt());
 		assertEquals(predictedValue,valuePreviousYear, 0.00001);
-	}
-
-	/*Partição: Correto valor de saída da previsão porcentagem? 
+	}	
+	/**
+	 * Partição:  Correto valor de saída da previsão porcentagem? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
 	 */
+
 	@Test
 	public void percentagePrediction(){
 		double valuePreviousYear = 	PlanoContas.getInstance().getRubricas().get(106).getvalorAnoPassado(CategoriaMes.JANEIRO.toInt());
 		gerenciador.geraPrevisao(2, 106, 1.10, CategoriaMes.JANEIRO.toInt());
 		double predictedValue = PlanoContas.getInstance().getRubricas().get(106).getValorPrevisto(CategoriaMes.JANEIRO.toInt());
 		assertEquals(predictedValue,valuePreviousYear*1.10, 0.00001);
-	}
-	/*Partição: Correto valor de saída da previsão valor fixo? 
+	}	
+	/**
+	 * Partição:   Correto valor de saída da previsão valor fixo? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
@@ -120,8 +125,8 @@ public class AgentePrevisaoTest {
 		double predictedValue = PlanoContas.getInstance().getRubricas().get(106).getValorPrevisto(CategoriaMes.FEVEREIRO.toInt());
 		assertEquals(fixedValue,predictedValue, 0.00001);
 	}
-	
-	/*Partição: Data alteração atingida bloqueia modif? 
+	/**
+	 * Partição:  Data alteração atingida bloqueia modificações? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
@@ -137,9 +142,4 @@ public class AgentePrevisaoTest {
 		expectedEx1.expectMessage("Expected exception:  java.lang.NullPointerException");
 	}
 
-	/*Partição:Gerando o arquivo corretamente tendo em vista os dados? 
-	 * Opções de resposta: 
-	 * Sim
-	 * Não
-	 */ //==PENSAR COMO DIABOS VOU TESTAR ESSA JOÇA E SE VALE O ESFORÇO DE LER A PORRA DO ARQUIVO #não aguento mais testar
 }

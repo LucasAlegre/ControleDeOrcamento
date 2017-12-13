@@ -40,7 +40,7 @@ public class AgenteAnaliseComparativaTest {
 	
 	// ============================================interface-based tests:==============================================
 	/**
-	 * Domínio: método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * Domínio: Todas possíveis sáidas do método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente com todas rúbricas
 	 * na empresa.
 	 *Partição: Valor para prever ser nulo no nome da rubrica, avisa o usuário? Opções de resposta: Sim Não
 	 */
@@ -60,7 +60,9 @@ public class AgenteAnaliseComparativaTest {
 
 	}
 
-	/*
+	/**
+	 * Domínio:Todas possíveis sáidas do método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
 	 * Partição: Valor para prever ser nulo no código da rubrica, gera erro(rubrica
 	 * filha como dominio)? Opções de resposta: Sim Não
 	 */
@@ -81,8 +83,10 @@ public class AgenteAnaliseComparativaTest {
 
 	}
 
-	/*
-	 * Partição: Valor para prever ser nulo no código da rubrica, gera erro(rubrica
+	/**
+	 * Domínio: Todas possíveis sáidas do método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 *  Partição: Valor para prever ser nulo no código da rubrica, gera erro(rubrica
 	 * mae como dominio)? Opções de resposta: Sim Não
 	 */
 	@Rule
@@ -101,10 +105,8 @@ public class AgenteAnaliseComparativaTest {
 		expectedEx2.expectMessage("Expected exception:  java.lang.NullPointerException");
 
 	}
-	// ERRO: Sem Valor previsto é devolvido zero, e o NAN q devolve ali, fazemos o q
-	// com ele??
 
-	/*
+	/**
 	 * Partição: Sem Valor previsto é devolvido zero? Opções de resposta: Sim Não
 	 */
 	@Test
@@ -121,8 +123,12 @@ public class AgenteAnaliseComparativaTest {
 
 	// ===================functionality-based tests: ===================//
 
-	// Domínio: método geraValoresRubrica() do AgenteAnáliseComparativa, juntamente
-	// com todas rúbricas
+	/**
+	 * Domínio: Todas possíveis saídas do método geraValoresRubrica() do AgenteAnáliseComparativa, juntamente com todas rúbricas
+	 * na empresa.
+	 * Partição: Valor para prever ser nulo no código da rubrica, gera erro(rubrica
+	 * filha como dominio)? Opções de resposta: Sim Não
+	 */
 	@Test
 	public void geraValoresRubricaComSubrubrica() {
 		ArrayList<String> correctAnswer = new ArrayList<String>(Arrays.asList("0", "mae", "200.0", "400.0", "-200.0", "-100.0%", ":("));
@@ -138,7 +144,10 @@ public class AgenteAnaliseComparativaTest {
 
 	}
 
-	/*
+	
+	/**
+	 * Domínio:  Todas possíveis saídas do método método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
 	 * Partição: Rúbrica sem subrubrica no método geraValoresRubrica? Opções de
 	 * resposta: Sim Não
 	 */
@@ -156,9 +165,10 @@ public class AgenteAnaliseComparativaTest {
 
 	}
 
-	// PARA QUE TU USA A LISTA DE VALORES ANO PASSADO???
-	/*
-	 * Partição: Rúbrica sem com valoresAnoPassado não nulo funciona corretamente?
+	/**
+	 * Domínio:  Todas possíveis saídas do método método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 *  * Partição: Rúbrica sem com valoresAnoPassado não nulo funciona corretamente?
 	 * Opções de resposta: Sim Não
 	 */
 	@Test
@@ -177,13 +187,13 @@ public class AgenteAnaliseComparativaTest {
 		assertEquals(correctAnswer, valores);
 
 	}
-	// Domínio: método somaValoresPrevistosSubrubricas() do
-	// AgenteAnáliseComparativa, jutamente com todas rúbricas
-
-	/*
-	 * Partição: Soma retorna resultado correto quando nao tem subricas e valor
+	/**
+	 * Domínio:  Todas possíveis saídas do método  somaValoresPrevistosSubrubricas() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 *Partição: soma retorna resultado correto quando nao tem subricas e valor
 	 * previsto? Opções de resposta: Sim Não
 	 */
+
 	@Test
 	public void somaValoresPrevistosSubrubricasSemSubrubricasSemValorPrevisto() {
 		ArrayList<String> correctAnswer = new ArrayList<String>(
@@ -195,11 +205,13 @@ public class AgenteAnaliseComparativaTest {
 		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(0.0, valores[0], 0.0000000001);
 	}
-
-	/*
-	 * Partição: Soma retorna resultado correto quando nao tem subricas, mas tem
+	/**
+	 * Domínio:  Todas possíveis saídas do método  somaValoresPrevistosSubrubricas() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 * 	Partição: Soma retorna resultado correto quando nao tem subricas, mas tem
 	 * valor previsto? Opções de resposta: Sim Não
 	 */
+
 	@Test
 	public void somaValoresPrevistosSubrubricasSemSubrubricasComValorPrevisto() {
 		ArrayList<String> correctAnswer = new ArrayList<String>(
@@ -213,11 +225,13 @@ public class AgenteAnaliseComparativaTest {
 		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(100.0, valores[0], 0.0000000001);
 	}
-
-	/*
-	 * Partição: Soma retorna resultado correto quando tem subricas e valor
-	 * previsto? Opções de resposta: Sim Não
+	/**
+	 * Domínio:  Todas possíveis saídas do método  somaValoresPrevistosSubrubricas() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 * 	Partição: Soma retorna resultado correto quando  tem subricas e  tem
+	 * valor previsto? Opções de resposta: Sim Não
 	 */
+
 	@Test
 	public void somaValoresPrevistosSubrubricasComSubrubricasComValorPrevisto() {
 		Rubrica mae = new Rubrica(null, "mae", 0, CategoriaRubrica.DESPESA, null);
@@ -230,11 +244,13 @@ public class AgenteAnaliseComparativaTest {
 		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.MARCO);
 		assertEquals(400.0, valores[0], 0.0000000001);
 	}
-
-	/*
-	 * Partição: Soma retorna resultado correto quando tem subricas e não tem valor
-	 * previsto? Opções de resposta: Sim Não
+	/**
+	 * Domínio:  Todas possíveis saídas do método  somaValoresPrevistosSubrubricas() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 * 	Partição: Soma retorna resultado correto quando  tem subricas, mas não tem
+	 * valor previsto? Opções de resposta: Sim Não
 	 */
+
 	@Test
 	public void somaValoresPrevistosSubrubricasComSubrubricassemValorPrevisto() {
 		Rubrica mae = new Rubrica(null, "mae", 0, CategoriaRubrica.DESPESA, null);
@@ -245,10 +261,9 @@ public class AgenteAnaliseComparativaTest {
 		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(0.0, valores[0], 0.0000000001);
 	}
-	// Domínio: método somaValoresRealizadosSubrubricas() do
-	// AgenteAnáliseComparativa, jutamente com todas rúbricas
-
-	/*
+	/**
+	 * Domínio:  Todas possíveis saídas do método somaValoresRealizadosSubrubricas() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
 	 * Partição: Soma retorna resultado correto quando nao tem subricas e valor
 	 * realizado? Opções de resposta: Sim Não
 	 */
@@ -264,9 +279,11 @@ public class AgenteAnaliseComparativaTest {
 		assertEquals(0.0, valores[1], 0.0000000001);
 	}
 
-	/*
-	 * Partição: Soma retorna resultado correto quando nao tem subricas, mas tem
-	 * valor realizado? Opções de resposta: Sim Não
+	/**
+	 * Domínio:  Todas possíveis saídas do método somaValoresRealizadosSubrubricas() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 * Partição: Soma retorna resultado correto quando nao tem subricas e tem valor
+	 * realizado? Opções de resposta: Sim Não
 	 */
 	@Test
 	public void somaValoresRealizadosSubrubricasSemSubrubricasComValorPrevisto() {
@@ -281,8 +298,10 @@ public class AgenteAnaliseComparativaTest {
 	
 	}
 
-	/*
-	 * Partição: Soma retorna resultado correto quando tem subricas e valor
+	/**
+	 * Domínio:  Todas possíveis saídas do método somaValoresRealizadosSubrubricas() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 * Partição: Soma retorna resultado correto quando tem subricas e tem valor
 	 * realizado? Opções de resposta: Sim Não
 	 */
 	@Test
@@ -296,8 +315,10 @@ public class AgenteAnaliseComparativaTest {
 		assertEquals(400.0, valores[1], 0.0000000001);
 	}
 
-	/*
-	 * Partição: Soma retorna resultado correto quando tem subricas e não tem valor
+	/**
+	 * Domínio:  Todas possíveis saídas do método somaValoresRealizadosSubrubricas() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 * Partição: Soma retorna resultado correto quando  tem subricas e não tem valor
 	 * realizado? Opções de resposta: Sim Não
 	 */
 	@Test
@@ -308,10 +329,14 @@ public class AgenteAnaliseComparativaTest {
 		Double[] valores = AgenteAnaliseComparativa.iteraESomaValoresRubricas(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
 		assertEquals(0.0, valores[1], 0.0000000001);
 	}
-	// Domínio: método geraAvaliacao() do AgenteAnáliseComparativa, jutamente com
-	// todas rúbricas e valores ja estimados da comparação
 
+	/**
+	 * Domínio:  Todas possíveis saídas do método geraAvaliacao() do AgenteAnáliseComparativa, jutamente com todas rúbricas e valores ja estimados da comparação
+	 * na empresa.
+	 */
+	
 	// CATEGORIA DESPESA
+	
 	/*
 	 * Partição: Cara negativa é correta para despesas com variação negativa? Opções
 	 * de resposta: Sim Não
@@ -321,7 +346,6 @@ public class AgenteAnaliseComparativaTest {
 		String resultado = analiseComp.geraAvaliacao(CategoriaRubrica.DESPESA, -10.0);
 		assertEquals(":(", resultado);
 	}
-
 	/*
 	 * Partição: Cara positiva é correta para despesas com variação positiva? Opções
 	 * de resposta: Sim Não
@@ -342,14 +366,12 @@ public class AgenteAnaliseComparativaTest {
 		String resultado = analiseComp.geraAvaliacao(CategoriaRubrica.DESPESA, 0.0);
 		assertEquals(":)", resultado);
 	}
-
 	// teste no valor limite para cara negativa!
 	@Test
 	public void geraAvaliacaoDespesaVaricaoNegativaBoundaryValues() {
 		String resultado = analiseComp.geraAvaliacao(CategoriaRubrica.DESPESA, -0.000000001);
 		assertEquals(":(", resultado);
 	}
-
 	// CATEGORIA RECEITA
 	/*
 	 * Partição: Cara positiva é correta para receitas com variação negativa? Opções
@@ -360,7 +382,6 @@ public class AgenteAnaliseComparativaTest {
 		String resultado = analiseComp.geraAvaliacao(CategoriaRubrica.RECEITA, -10.0);
 		assertEquals(":)", resultado);
 	}
-
 	/*
 	 * Partição: Cara negativa é correta para receitas com variação positiva? Opções
 	 * de resposta: Sim Não
@@ -381,20 +402,18 @@ public class AgenteAnaliseComparativaTest {
 		String resultado = analiseComp.geraAvaliacao(CategoriaRubrica.RECEITA, 0.00000001);
 		assertEquals(":(", resultado);
 	}
-
 	// teste no valor limite para cara positiva!
 	@Test
 	public void geraAvaliacaoReceitaVaricaoNegativaBoundaryValues() {
 		String resultado = analiseComp.geraAvaliacao(CategoriaRubrica.RECEITA, -0.000000001);
 		assertEquals(":)", resultado);
-	}
-	// ERRO/DUVIDA: QUANDO QUE VAI ROLAR CARINHA :/???, como n exitse outros tipos
-	// de despesa na nossa cetagoriarubrica, ela iria retornar
-	// erro direto por isso, to meio confusa dai como q isso funciona(ver com o
-	// lucas essa daqui eu acho, ja q ele fez categoria rubrica)
-
-	// Domínio: método calculaVariacao() do AgenteAnáliseComparativa, jutamente com
-	// todas rúbricas e valores ja estimados da comparação
+	}	
+	/**
+	 * Domínio:  Todas possíveis saídas do método calculaVariacao() do AgenteAnáliseComparativa, jutamente com todas rúbricas
+	 * na empresa.
+	 * Partição: Valor para prever ser nulo no código da rubrica, gera erro(rubrica
+	 * filha como dominio)? Opções de resposta: Sim Não
+	 */
 	@Test
 	public void calculaVariacaoComValorPrevistoEComRealizado() {
 		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);

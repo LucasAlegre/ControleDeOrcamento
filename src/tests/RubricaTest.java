@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import dominio.PlanoContas;
@@ -30,13 +31,13 @@ public class RubricaTest {
 	}
 	
 	//===================functionality-based tests:	===================//
-	
-		/*Partição: Subrúbricas estão corretas? 
-		 * Opções de resposta: 
-		 * Sim
-		 * Não
-		 */
-	//=NAO SEI COMO FAZER FUNCIONAR ESSA PORRA, (será que precisa desse teste? é só um getter)
+	/**
+	 * Partição:  Subrúbricas estão sendo setadas corretas? 
+	 * Opções de resposta: 
+	 * Sim
+	 * Não
+	 */
+	//=NAO SEI COMO FAZER FUNCIONAR ESSA PORRA, (será que precisa desse teste? é só um getter -> eu acho q precisa sim pq n to testando o get mas sim a logica tlg, de se a subrubricas tao salvando direitinho)
 	@Test
 	public void getSubRubricas() {
 		String correctAnswer = "[Devoluções  105  169199.0"+
@@ -58,11 +59,13 @@ public class RubricaTest {
 		assertEquals(subrubricasDa2396, correctAnswer);
 	}
 	
-	/*Partição: Adicionar uma subrúbrica está correto? 
+	/**
+	 * Partição: Adicionar uma subrúbrica funciona corretamente? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
 	 */
+
 	@Test
 	public void addSubRubricas() {
 		Map<Integer, Rubrica> rubricas =  planoContas.getRubricas();

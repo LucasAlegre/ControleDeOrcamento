@@ -25,7 +25,8 @@ public class GerenciadorArquivosTest {
 	}
 	//===================interface-based tests:	===================//
 
-	/*Partição: Filename ser nulo? 
+	/**
+	 * Partição: Filename ser nulo? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
@@ -47,8 +48,9 @@ public class GerenciadorArquivosTest {
 		expectedEx1.expectMessage("Expected exception:  java.lang.NullPointerException");
 	}
 
-	
-	/*Partição: Filename ser do tipo errado? 
+
+	/**
+	 * Partição: Filename ser do tipo errado? 
 	 * Opções de resposta: 
 	 * Sim
 	 * Não
@@ -63,21 +65,5 @@ public class GerenciadorArquivosTest {
 	}
 
 	
-	//===================functionality-based tests:	===================//
-	//temos de pensar como vamos ver se foi corretamente gerado, tipo, vai ter de ter um outro arquivo que vai ser lido com a resposta certa.
-//	dai comparamos e vemos se foi sucesso
-	
-	
-	/*Partição: Arquivo corretamente gerado? 
-	 * Opções de resposta: 
-	 * Sim
-	 * Não
-	 */
-	
-	/*Partição: Arquivo corretamente lido? 
-	 * Opções de resposta: 
-	 * Sim
-	 * Não
-	 */
 
 }
