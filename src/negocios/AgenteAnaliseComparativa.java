@@ -7,6 +7,7 @@ import dominio.PlanoContas;
 import dominio.Rubrica;
 import util.CategoriaMes;
 import util.CategoriaRubrica;
+import static org.junit.Assert.*;
 
 /**
  *  Classe respons�vel por gerenciar a gera��o de an�lise comparativa do
@@ -38,7 +39,20 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		
 		gerenciadorArquivo.finalizaArquivoAnaliseComparativa();
 	}
-	
+	/**
+	 * gera um array de 7 caracteristicas de uma rubrica
+	 * 1- codigo
+	 * 2- nome
+	 * 3- valor previsto em um intervalo de tempo
+	 * 4- valor realizado em um intervalo de tempo
+	 * 5- variacao (3-4)
+	 * 6- porcentagem (5*100/3)
+	 * 7- :) ou :(
+	 * @param rubrica
+	 * @param mesInicial
+	 * @param mesFinal
+	 * @return
+	 */
 	public ArrayList<String> geraValoresRubrica(Rubrica rubrica, CategoriaMes mesInicial, CategoriaMes mesFinal) {
 		
 		ArrayList<String> valores = new ArrayList<String>();
@@ -46,14 +60,12 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		Double realizados = 0.0;
 		Double[] previstosERealizados = {0.0, 0.0};
 		
+		assertNotNull(rubrica.getCodigo());
+		assertNotNull(rubrica.getNome());
+
 		valores.add(String.valueOf(rubrica.getCodigo()));
-		
-		if (rubrica.getNome() == null) {
-			valores.add("SEM NOME");
-		}
-		else {
-			valores.add(String.valueOf(rubrica.getNome()));
-		}
+		valores.add(String.valueOf(rubrica.getNome()));
+	
 		if (PlanoContas.getInstance().getRubricasEspeciais().containsKey(rubrica.getCodigo())) {
 			previstosERealizados = getValoresPrevistosRealizadosRubricaEspecial(rubrica.getCodigo(), mesInicial, mesFinal);
 			
@@ -73,7 +85,14 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		return valores;
 		
 	}
-	
+	/**
+	 *  gera um array de 2 valores, o primeiro o valor previsto e o segundo o valor realizado
+	 *  ambos referentes a um intervalo de tempo dado pelos paramentros
+	 * @param rubrica
+	 * @param mesInicial
+	 * @param mesFinal
+	 * @return
+	 */
 	public static Double[] iteraESomaValoresRubricas(Rubrica rubrica, CategoriaMes mesInicial, CategoriaMes mesFinal) {
 		
 		Double somaValoresPrevistos = 0.0;
@@ -86,7 +105,18 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		return new Double[] {somaValoresPrevistos, somaValoresRealizados};
 
 	}
-	
+	/**
+	 * gera um array de 2 valores, o primeiro o valor previsto e o segundo o valor realizado
+	 * ambos referentes a uma rubrica especial
+	 * faz um parser da fórmula da rubrica especial
+	 * caso 1: a rubrica depende de apenas uma outra
+	 * caso 2: a rubrica depende do inverso de outra
+	 * caso 3: a rubrica depende da soma de varias outras ou depende da subtracao de varias outras
+	 * @param RubricaCode
+	 * @param mesInicial
+	 * @param mesFinal
+	 * @return
+	 */
 	
 	public static Double[] getValoresPrevistosRealizadosRubricaEspecial(int RubricaCode, CategoriaMes mesInicial, CategoriaMes mesFinal) {
 		String formula = PlanoContas.getInstance().getRubricasEspeciais().get(RubricaCode);
@@ -148,9 +178,14 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 			
 		}
 	}
+	/**
+	 * dada a categoria que uma rubrica pertence, avaliar a variacao obtida em um intervalo de tempo 
+	 * atribui carinha feliz ou triste
+	 * @param categoriaRubrica
+	 * @param valorVariacao
+	 * @return
+	 */
 
-	
-	
 	public static String geraAvaliacao (CategoriaRubrica categoriaRubrica, Double valorVariacao) {
 		switch (categoriaRubrica) {
 		case DESPESA:
@@ -171,22 +206,14 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		return ":/";
 	}
 	
-	public static Double calculaVariacao (Rubrica rubrica, int mes) {
-		Double variacao = 0.0;
-		try {
-				variacao = rubrica.getValorPrevisto(mes) - rubrica.getValorRealizado(mes);
-				return variacao;	
-		
-		}
-		catch (NullPointerException exc){
-			return 0.0;
-		}
-		
-		
-	}
+	/**
+	 * calcula a porcentagem a partir de um valor previto e da variacao
+	 * @param valorPrevisto
+	 * @param variacao
+	 * @return
+	 */
 	
 	private static Double calculaPorcentagem (Double valorPrevisto, Double variacao) {
-		//Double variacao = calculaVariacao(rubrica, mes);
 		try {
 			if (valorPrevisto != 0.0) {
 				Double porcentagem = variacao * 100 / valorPrevisto;

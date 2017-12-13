@@ -73,12 +73,5 @@ public class AgentePrevisao extends AgenteAbstract {
 		return super.getPlanoContas().getRubricas().get(codigo).getValorPrevisto(mes, codigo) + " mes: " + mes;
 	}
 	
-	/**
-	 *  Gera o arquivo com as previsões feitas.
-	 */
-	public void geraArquivoPrevisao() {
-		GerenciadorArquivos orcamentoMensal = new GerenciadorArquivos();
-		orcamentoMensal.geraArquivoPrevisoes(getPlanoContas(), "Previsoes.xls");
-	}
 
 }

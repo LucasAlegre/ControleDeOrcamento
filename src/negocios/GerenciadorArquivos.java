@@ -269,98 +269,22 @@ public class GerenciadorArquivos {
 	            System.out.println(ex);
 	        }    
 	}
-
-	/**
-	 * Gera um arquivo com todas as previsões feitas para visualização
-	 * @param planoContas
-	 * @param filename Nome do arquivo a ser gerado
-	 */
-	public void geraArquivoPrevisoes(PlanoContas planoContas, String filename) {
-		 
-		 
-		 try {
-	           
-	            HSSFWorkbook workbook = new HSSFWorkbook();
-	            HSSFSheet sheet = workbook.createSheet("FirstSheet");
-	            sheet.setColumnWidth(0, 10000);
-	            
-	            HSSFCellStyle cellStyle = workbook.createCellStyle();
-	            cellStyle.setFillForegroundColor(IndexedColors.AQUA.getIndex());
-	            cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-	            
-	            HSSFCellStyle cellHeaderStyle = workbook.createCellStyle();
-	            cellHeaderStyle.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
-	            cellHeaderStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-	            
-	            HSSFRow rowhead = sheet.createRow((short)0);          
-	            
-	            HSSFCell newcell = rowhead.createCell(0);
-	            newcell.setCellStyle(cellHeaderStyle);
-	            newcell.setCellValue("Rubrica");
-	            newcell = rowhead.createCell(1);
-	            newcell.setCellStyle(cellHeaderStyle);
-	            newcell.setCellValue("Codigo");
-    
-	            for (int mesIndex = 0; mesIndex < 12; mesIndex ++) {
-            		newcell = rowhead.createCell(mesIndex + 2);
-            		newcell.setCellStyle(cellHeaderStyle);
-            		newcell.setCellValue(CategoriaMes.values()[mesIndex].toString());	
-	            }
-    
-	            int cont = 0;
-	            for (Integer key : planoContas.getRubricas().keySet()) {
-	            		HSSFRow newRubricaRow = sheet.createRow((short)cont+1);
-	            		
-	            		HSSFCell rubricaNameCell = newRubricaRow.createCell(0);
-	            		rubricaNameCell.setCellValue(planoContas.getRubricas().get(key).getNome());
-	            		rubricaNameCell.setCellStyle(cellStyle);
-            			newRubricaRow.createCell(1).setCellValue(key);
-		            this.fillRubricasMonths(planoContas.getRubricas().get(key), newRubricaRow);
-		            cont ++;
-	            }
-	            
-	            
-	            FileOutputStream fileOut = new FileOutputStream(filename);
-	            workbook.write(fileOut);
-	            fileOut.close();
-	            System.out.println("Arquivo " + filename +  " gerado!");
-	            workbook.close();
-	        } catch ( Exception ex ) {
-	            System.out.println(ex);
-	        }    
-	}
-	
-	private void fillRubricasMonths (Rubrica rubrica, HSSFRow rubricaRow) {
-		for (int cont = 0; cont < 12; cont ++) {
-			try {
-			//if (rubrica.getValorPrevisto(cont) != null) {
-	            rubricaRow.createCell(cont + 2).setCellValue(rubrica.getValorPrevisto(cont));	
-			}
-			catch (NullPointerException exc) {
-	            rubricaRow.createCell(cont + 2).setCellValue("-");	
-			}
-        }
-		
-	}
 	
 	private void criaHeaderAnaliseComparativa(HSSFSheet sheet, HSSFWorkbook workbook) { 
 		EnumSet<CategoriaAnaliseComparativa> categorias = EnumSet.allOf(CategoriaAnaliseComparativa.class);
-		try {
-	        HSSFCellStyle cellHeaderStyle = workbook.createCellStyle();
-	        cellHeaderStyle.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
-	        cellHeaderStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-	        HSSFRow rowhead = sheet.createRow((short)0);  
+	    	HSSFCellStyle cellHeaderStyle = workbook.createCellStyle();
+	    cellHeaderStyle.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
+	    cellHeaderStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+	    HSSFRow rowhead = sheet.createRow((short)0);  
 	        
-	        for (CategoriaAnaliseComparativa categoria : categorias) {
-	        		HSSFCell newcell = rowhead.createCell(categoria.toInt());
-	            newcell.setCellStyle(cellHeaderStyle);
-	            newcell.setCellValue(categoria.toString());
-	            sheet.setColumnWidth(categoria.toInt(), 10000);
+	    for (CategoriaAnaliseComparativa categoria : categorias) {
+	        	HSSFCell newcell = rowhead.createCell(categoria.toInt());
+	        newcell.setCellStyle(cellHeaderStyle);
+	        newcell.setCellValue(categoria.toString());
+	        sheet.setColumnWidth(categoria.toInt(), 10000);
 	       
-	        }
-		}
-		catch (Exception ex) {
-		}
+	    }
+		
 	}
 	
 	public void geraArquivoAnaliseComparativa() {
@@ -377,11 +301,12 @@ public class GerenciadorArquivos {
 	
 	public void finalizaArquivoAnaliseComparativa () {
 		try {
-	        FileOutputStream fileOut = new FileOutputStream("teste.xls");
+	        FileOutputStream fileOut = new FileOutputStream("analiseComparativa.xls");
 	        this.analisaComparativaWorkbook.write(fileOut);
 	        fileOut.close();
-		} catch (Exception ex) {
-				
+	        System.out.println("Arquivo analiseComparativa.xls gerado com sucesso");
+		} catch (IOException ex) {
+	        System.out.println("Arquivo analiseComparativa.xls nao pode ser gerado");
 		}
 	}
 	

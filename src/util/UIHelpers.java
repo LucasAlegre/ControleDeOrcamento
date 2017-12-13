@@ -68,20 +68,6 @@ public class UIHelpers {
 		facade.geraPrevisao(predicitionOp, rubricaCode, predictionValue, predictionMonth);
 	}
 	
-	public void stubFunction() {
-		PlanoContas planoContas = PlanoContas.getInstance();
-		GerenciadorFacade facade = new GerenciadorFacade(planoContas);
-		try {
-			facade.lerOrcamentoInicial("Modelo_Controle_Orcamentario_Completo.csv");
-		}
-		catch (Exception ex) {
-			
-		}
-		facade.geraTemplateRealizadoMensal(CategoriaMes.JANEIRO);
-		facade.geraPrevisao(1,106, 90000, 0); //-------------> NAÕ ENTENDI ISSO, ALGUEM REVISA pQ DIABOS ISSO TA AQ
-		facade.geraArquivoPrevisao();
-		facade.geraAnalise(CategoriaMes.JANEIRO, CategoriaMes.JANEIRO);
 	
-	}
 	
 }
