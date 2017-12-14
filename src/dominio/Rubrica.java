@@ -1,4 +1,6 @@
 package dominio;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.*;
 
 import util.CategoriaRubrica;
@@ -64,11 +66,12 @@ public class Rubrica {
 	}
 	
 	public String getValorPrevisto(int mes, int codigo) {
-		String out = this.nome + "  " +  String.valueOf(this.codigo) +" "+this.valoresPrevistos[mes];
+		String out = this.nome + "  " +  String.valueOf(this.codigo) + " " + this.valoresPrevistos[mes - 1];
 		return out;
 	}
 	
 	public Double getValorPrevisto(int mes) {
+		
 		return this.valoresPrevistos[mes - 1];
 	}
 	
@@ -88,7 +91,11 @@ public class Rubrica {
 		return this.valoresRealizados[mes - 1];
 	}
 
-	
+	/**
+	 * Dado um mes retorna a soma das previões de todas as suas subrúbricas, não incluindo ela mesma. 
+	 * @param mes Mês da previsão
+	 * @return Somatório das pŕevisões das subrubricas
+	 */
 	public Double somaValoresPrevistosSubrubricas(int mes)  {
 		if(this.getSubRubricas().isEmpty() ) {
 			if(this.getValorPrevisto(mes) == null) {
@@ -107,7 +114,12 @@ public class Rubrica {
 		
 		return count;
 	}
-	
+
+	/**
+	 * Dado um mes retorna a soma dos valores realizados de todas as suas subrúbricas, não incluindo ela mesma. 
+	 * @param mes Mês do Realizado Mensal
+	 * @return Somatório dos valores realizados das subrubricas
+	 */
 	public Double somaValoresRealizadosSubrubricas(int mes)  {
 		if (this.getSubRubricas().isEmpty() ) {
 			try { 
@@ -132,6 +144,9 @@ public class Rubrica {
 	
 	
 	public String toString() {
+		
+		assertNotNull(this.nome);
+		
 		String out = this.nome + "  " +  String.valueOf(this.codigo);
 		double total = 0;
 		for(int i = 0; i < 12; i++) {

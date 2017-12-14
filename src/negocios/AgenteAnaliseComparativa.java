@@ -1,7 +1,6 @@
 package negocios;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import dominio.PlanoContas;
 import dominio.Rubrica;
@@ -10,14 +9,13 @@ import util.CategoriaRubrica;
 import static org.junit.Assert.*;
 
 /**
- *  Classe respons�vel por gerenciar a gera��o de an�lise comparativa do
- *  planejando de or�amento e do que foi efetivamente realizada durante um
- *  determinado per�odo em uma empresa.
+ *  Classe responsável por gerenciar a geração de análise comparativa do
+ *  planejando de orçamento e do que foi efetivamente realizada durante um
+ *  determinado período em uma empresa.
  * 
  */
 public class AgenteAnaliseComparativa extends AgenteAbstract{
 
-	HashMap<Integer, Double> hardcodedResults = new HashMap<>(); 
 	
 	public AgenteAnaliseComparativa(PlanoContas plano) {
 		super(plano);
@@ -39,6 +37,7 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 		
 		gerenciadorArquivo.finalizaArquivoAnaliseComparativa();
 	}
+	
 	/**
 	 * gera um array de 7 caracteristicas de uma rubrica
 	 * 1- codigo
@@ -212,23 +211,17 @@ public class AgenteAnaliseComparativa extends AgenteAbstract{
 	 * @param variacao
 	 * @return
 	 */
-	
 	private static Double calculaPorcentagem (Double valorPrevisto, Double variacao) {
-		try {
-			if (valorPrevisto != 0.0) {
-				Double porcentagem = variacao * 100 / valorPrevisto;
-				return porcentagem;
-			}
-			else {
-				return 0.0;
-			}
-			
+	
+		if (valorPrevisto != 0.0) {
+			Double porcentagem = variacao * 100 / valorPrevisto;
+			return porcentagem;
 		}
-		catch (NullPointerException exc) {
+		else {
 			return 0.0;
 		}
+			
 	}
-	
 	
 	
 }

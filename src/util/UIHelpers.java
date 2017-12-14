@@ -32,7 +32,7 @@ public class UIHelpers {
 		Calendar calendar = Calendar.getInstance();
 		boolean monthIsValid = month <= 12 && month >= 1;
 		
-		int yearLowerLimit = calendar.get(calendar.YEAR);
+		int yearLowerLimit = calendar.get(Calendar.YEAR);
 		boolean yearIsValid = year > yearLowerLimit;
 		boolean yearIsLeapYear = year % 400 == 0 || (year % 100 != 0 && year % 4 == 0);
 		

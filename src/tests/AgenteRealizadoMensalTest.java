@@ -1,20 +1,14 @@
 package tests;
 
-import static org.junit.Assert.*;
-
 import java.io.FileNotFoundException;
-import java.util.LinkedHashMap;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import dominio.PlanoContas;
-import dominio.Rubrica;
 import facade.GerenciadorFacade;
-import negocios.GerenciadorArquivos;
 import util.CategoriaMes;
 
 public class AgenteRealizadoMensalTest {

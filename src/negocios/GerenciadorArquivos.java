@@ -206,9 +206,14 @@ public class GerenciadorArquivos {
 				
 				Row linha = sheet.getRow(row);
 				int codigo = (int) linha.getCell(1).getNumericCellValue();
-				double debito = linha.getCell(2).getNumericCellValue();
-				double credito = linha.getCell(3).getNumericCellValue();
-				
+				double debito, credito;
+				try {
+					debito = linha.getCell(2).getNumericCellValue();
+					credito = linha.getCell(3).getNumericCellValue();
+				}catch(NullPointerException e) {
+					debito = 0;
+					credito = 0; 
+				}
 				realizados.put(codigo, credito - debito);
 				
 				row++;
@@ -238,41 +243,42 @@ public class GerenciadorArquivos {
 	            HSSFRow mesRelizado = sheet.createRow((short)0);
 	            mesRelizado.createCell(0).setCellValue(mes.toString());
 	            
-	            
 	            HSSFRow rowhead = sheet.createRow((short)1);
 	            rowhead.createCell(0).setCellValue("Descrição da conta");
 	            rowhead.createCell(1).setCellValue("Código");
 	            rowhead.createCell(2).setCellValue("Débito");
 	            rowhead.createCell(3).setCellValue("Crédito");
-	            
-	            int cont = 2;
+	           
+	            int lineNum = 2;
 	            for (Integer key : planoContas.getRubricas().keySet()) {
 	            	
-            		HSSFRow newRubricaRow = sheet.createRow((short)cont);
+            		HSSFRow newRubricaRow = sheet.createRow((short)lineNum);
             
             		HSSFCell rubricaNameCell = newRubricaRow.createCell(0);
             		rubricaNameCell.setCellValue(planoContas.getRubricas().get(key).getNome());
            
         			newRubricaRow.createCell(1).setCellValue(key);
         			
-		            cont++;
+		            lineNum++;
 	            }
 
 	            String outputFileName = "Template" + mes.toString() + ".xls";
 	            FileOutputStream fileOut = new FileOutputStream(outputFileName);
 	            workbook.write(fileOut);
 	            fileOut.close();
-	            System.out.println("Arquivo " + outputFileName + " gerado!");
 	            workbook.close();
+	            
+	            System.out.println("Arquivo " + outputFileName + " gerado!");
 
-	        } catch ( Exception ex ) {
+	        } catch( IOException ex ) {
 	            System.out.println(ex);
+	            System.out.println("Erro na criação do Template!");
 	        }    
 	}
 	
 	private void criaHeaderAnaliseComparativa(HSSFSheet sheet, HSSFWorkbook workbook) { 
 		EnumSet<CategoriaAnaliseComparativa> categorias = EnumSet.allOf(CategoriaAnaliseComparativa.class);
-	    	HSSFCellStyle cellHeaderStyle = workbook.createCellStyle();
+	    HSSFCellStyle cellHeaderStyle = workbook.createCellStyle();
 	    cellHeaderStyle.setFillForegroundColor(IndexedColors.GREY_40_PERCENT.getIndex());
 	    cellHeaderStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 	    HSSFRow rowhead = sheet.createRow((short)0);  

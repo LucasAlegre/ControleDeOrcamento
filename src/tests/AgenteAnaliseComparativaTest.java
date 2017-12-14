@@ -2,7 +2,6 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.awt.List;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -39,28 +38,6 @@ public class AgenteAnaliseComparativaTest {
 	}
 	
 	// ============================================interface-based tests:==============================================
-	/**
-	 * Domínio: Todas possíveis sáidas do método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente com todas rúbricas
-	 * na empresa.
-	 *Partição: Valor para prever ser nulo no nome da rubrica, avisa o usuário? Opções de resposta: Sim Não
-	 */
-	/*
-	@Test
-	public void geraValoresRubricaSemNome() {
-		ArrayList<String> correctAnswer = new ArrayList<String>(
-				Arrays.asList("0", "SEM NOME", "200.0", "400.0", "-200.0", "-100.0%", ":("));
-		Rubrica mae = new Rubrica(null, null, 0, CategoriaRubrica.DESPESA, null);
-		Rubrica filha = new Rubrica(null, null, 1, CategoriaRubrica.DESPESA, null);
-		mae.addSubRubrica(filha);
-		filha.setValorPrevisto(1, 100);
-		filha.setValorRealizado(1, 200);
-		filha.setValorPrevisto(2, 100);
-		filha.setValorRealizado(2, 200);
-		ArrayList<String> valores = analiseComp.geraValoresRubrica(mae, CategoriaMes.JANEIRO, CategoriaMes.FEVEREIRO);
-		assertEquals(correctAnswer, valores);
-
-	}
-	*/
 
 	/**
 	 * Domínio:Todas possíveis sáidas do método geraValoresRubrica() do AgenteAnáliseComparativa, jutamente com todas rúbricas
@@ -410,43 +387,6 @@ public class AgenteAnaliseComparativaTest {
 		String resultado = analiseComp.geraAvaliacao(CategoriaRubrica.RECEITA, -0.000000001);
 		assertEquals(":)", resultado);
 	}
-	/*
-	/**
-	 * Domínio:  Todas possíveis saídas do método calculaVariacao() do AgenteAnáliseComparativa, jutamente com todas rúbricas
-	 * na empresa.
-	 * Partição: Valor para prever ser nulo no código da rubrica, gera erro(rubrica
-	 * filha como dominio)? Opções de resposta: Sim Não
-	 
-	 /*
-	@Test
-	public void calculaVariacaoComValorPrevistoEComRealizado() {
-		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
-		filha.setValorPrevisto(1, 100);
-		filha.setValorRealizado(1, 200);
-		Double resultado = analiseComp.calculaVariacao(filha, 1);
-		assertEquals(-100.0, resultado, 0.000000001);
-	}
-	@Test
-	public void calculaVariacaoComValorPrevistoESemRealizado() {
-		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
-		filha.setValorPrevisto(0, 100);
-		Double resultado = analiseComp.calculaVariacao(filha, 01);
-		assertEquals(0.0, resultado, 0.000000001);
-	}
-	@Test
-	public void calculaVariacaoSemValorPrevistoEComRealizado() {
-		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
-		filha.setValorRealizado(1, 200);
-		Double resultado = analiseComp.calculaVariacao(filha, 01);
-		assertEquals(0.0, resultado, 0.000000001);
-	}
-	@Test
-	public void calculaVariacaoSemValorPrevistoSemRealizado() {
-		Rubrica filha = new Rubrica(null, "filha", 1, CategoriaRubrica.DESPESA, null);
-		Double resultado = analiseComp.calculaVariacao(filha, 01);
-		assertEquals(0.0, resultado, 0.000000001);
-	}
-	*/
 	
 	/**
 	 * metodo que testa o metodo 'geraValoresRubrica' para a rubrica 17, que é especial

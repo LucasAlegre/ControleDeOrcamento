@@ -1,4 +1,6 @@
 package negocios;
+import static org.junit.Assert.assertNotNull;
+
 import java.util.LinkedHashMap;
 
 import dominio.PlanoContas;
@@ -37,6 +39,8 @@ public class AgenteRealizadoMensal extends AgenteAbstract {
 		
 		// Codigo para Valor realizado de cada rubrica
 		LinkedHashMap<Integer, Double> realizado = leitor.lerRealizadoMensal(filename);
+		
+		assertNotNull(realizado);
 		
 		if(getPlanoContas().getRubricas().keySet().size() != realizado.keySet().size()) {
 			System.out.println("Falta rúbrica no realizado mensal!");
